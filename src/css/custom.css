@@ -4,8 +4,9 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
-:root {
+/* Default Blue Theme */
+:root,
+[data-color='blue'] {
   --ifm-color-primary: #2563eb;
   --ifm-color-primary-dark: #1d4ed8;
   --ifm-color-primary-darker: #1e40af;
@@ -17,8 +18,8 @@
   --docusaurus-highlighted-code-line-bg: rgba(37, 99, 235, 0.15);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme='dark'],
+[data-theme='dark'][data-color='blue'] {
   --ifm-color-primary: #3b82f6;
   --ifm-color-primary-dark: #2563eb;
   --ifm-color-primary-darker: #1d4ed8;
@@ -27,6 +28,75 @@
   --ifm-color-primary-lighter: #93c5fd;
   --ifm-color-primary-lightest: #bfdbfe;
   --docusaurus-highlighted-code-line-bg: rgba(59, 130, 246, 0.3);
+}
+
+/* Orange Theme */
+[data-color='orange'] {
+  --ifm-color-primary: #f97316;
+  --ifm-color-primary-dark: #ea580c;
+  --ifm-color-primary-darker: #c2410c;
+  --ifm-color-primary-darkest: #9a3412;
+  --ifm-color-primary-light: #fb923c;
+  --ifm-color-primary-lighter: #fdba74;
+  --ifm-color-primary-lightest: #fed7aa;
+  --docusaurus-highlighted-code-line-bg: rgba(249, 115, 22, 0.15);
+}
+
+[data-theme='dark'][data-color='orange'] {
+  --ifm-color-primary: #fb923c;
+  --ifm-color-primary-dark: #f97316;
+  --ifm-color-primary-darker: #ea580c;
+  --ifm-color-primary-darkest: #c2410c;
+  --ifm-color-primary-light: #fdba74;
+  --ifm-color-primary-lighter: #fed7aa;
+  --ifm-color-primary-lightest: #ffedd5;
+  --docusaurus-highlighted-code-line-bg: rgba(251, 146, 60, 0.3);
+}
+
+/* Cyan Theme */
+[data-color='cyan'] {
+  --ifm-color-primary: #06b6d4;
+  --ifm-color-primary-dark: #0891b2;
+  --ifm-color-primary-darker: #0e7490;
+  --ifm-color-primary-darkest: #155e75;
+  --ifm-color-primary-light: #22d3ee;
+  --ifm-color-primary-lighter: #67e8f9;
+  --ifm-color-primary-lightest: #a5f3fc;
+  --docusaurus-highlighted-code-line-bg: rgba(6, 182, 212, 0.15);
+}
+
+[data-theme='dark'][data-color='cyan'] {
+  --ifm-color-primary: #22d3ee;
+  --ifm-color-primary-dark: #06b6d4;
+  --ifm-color-primary-darker: #0891b2;
+  --ifm-color-primary-darkest: #0e7490;
+  --ifm-color-primary-light: #67e8f9;
+  --ifm-color-primary-lighter: #a5f3fc;
+  --ifm-color-primary-lightest: #cffafe;
+  --docusaurus-highlighted-code-line-bg: rgba(34, 211, 238, 0.3);
+}
+
+/* Violet Theme */
+[data-color='violet'] {
+  --ifm-color-primary: #8b5cf6;
+  --ifm-color-primary-dark: #7c3aed;
+  --ifm-color-primary-darker: #6d28d9;
+  --ifm-color-primary-darkest: #5b21b6;
+  --ifm-color-primary-light: #a78bfa;
+  --ifm-color-primary-lighter: #c4b5fd;
+  --ifm-color-primary-lightest: #ddd6fe;
+  --docusaurus-highlighted-code-line-bg: rgba(139, 92, 246, 0.15);
+}
+
+[data-theme='dark'][data-color='violet'] {
+  --ifm-color-primary: #a78bfa;
+  --ifm-color-primary-dark: #8b5cf6;
+  --ifm-color-primary-darker: #7c3aed;
+  --ifm-color-primary-darkest: #6d28d9;
+  --ifm-color-primary-light: #c4b5fd;
+  --ifm-color-primary-lighter: #ddd6fe;
+  --ifm-color-primary-lightest: #ede9fe;
+  --docusaurus-highlighted-code-line-bg: rgba(167, 139, 250, 0.3);
 }
 
 /* Make navbar logo smaller */
@@ -57,4 +127,95 @@
   border-radius: 4px;
   font-size: 0.75rem;
   margin-left: 8px;
+}
+
+/* Color Picker Dropdown Styles */
+.color-picker-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.color-picker-dropdown__toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.color-picker-dropdown__toggle:hover {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+.color-picker-dropdown__toggle img {
+  width: 24px;
+  height: 24px;
+}
+
+.color-picker-dropdown__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 200;
+  min-width: 140px;
+}
+
+[data-theme='dark'] .color-picker-dropdown__menu {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.color-picker-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1f2937;
+  transition: background-color 0.2s;
+}
+
+[data-theme='dark'] .color-picker-dropdown__item {
+  color: #f3f4f6;
+}
+
+.color-picker-dropdown__item:hover {
+  background-color: #f3f4f6;
+}
+
+[data-theme='dark'] .color-picker-dropdown__item:hover {
+  background-color: #374151;
+}
+
+.color-picker-dropdown__item--active {
+  background-color: #e5e7eb;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .color-picker-dropdown__item--active {
+  background-color: #4b5563;
+}
+
+.color-picker-dropdown__color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
