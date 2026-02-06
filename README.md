@@ -1,18 +1,27 @@
 # VSAY Terminal Documentation
 
-Official documentation for VSAY Terminal - A powerful SSH access management portal.
+Official documentation for **VSAY Terminal** — A full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution.
 
 [![Built with Docusaurus](https://img.shields.io/badge/Built%20with-Docusaurus-green.svg)](https://docusaurus.io/)
 [![License](https://img.shields.io/badge/License-Proprietary-blue.svg)](LICENSE)
 
 ## Overview
 
-This repository contains the documentation for VSAY Terminal, available in two editions:
+VSAY Terminal is a modern PAM solution that brings privileged access management directly into your workflow. Unlike traditional solutions, we offer **multi-channel accessibility** — access your servers from Web, CLI, VSCode, or Agents.
 
 | Edition | Version | Description |
 |:--------|:--------|:------------|
-| **Community** | 1.0.0 | Free edition with core SSH management features |
-| **Enterprise** | 1.1.0 | Full-featured edition with OIDC/SSO and Multi-tenancy |
+| **Community** | 1.0.0 | Free edition with core PAM & RBAC features |
+| **Enterprise** | 1.1.0 | Full-featured with OIDC/SSO (Keycloak), MTLS, and Multi-tenancy |
+
+## What Makes Us Different?
+
+| Access Method | Description |
+|:--------------|:------------|
+| **Web Terminal** | Browser-based SSH access with full terminal capabilities |
+| **VSAY VSCode Extension** | Manage and connect to servers directly from your IDE |
+| **VSAY Shell CLI** | Command-line tool for automation and scripting |
+| **Agent-Based Access** | Deploy agents for seamless, secure connections |
 
 ## Feature Comparison
 
@@ -20,7 +29,7 @@ This repository contains the documentation for VSAY Terminal, available in two e
 |:--------|:---------:|:----------:|
 | Secure SSH Access | ✅ | ✅ |
 | Web Terminal | ✅ | ✅ |
-| Team Collaboration | ✅ | ✅ |
+| Team Collaboration (RBAC) | ✅ | ✅ |
 | Real-time Monitoring | ✅ | ✅ |
 | Audit Logs | ✅ | ✅ |
 | TLS Encryption | ✅ | ✅ |
@@ -28,10 +37,31 @@ This repository contains the documentation for VSAY Terminal, available in two e
 | VSAY VSCode Extension | ✅ | ✅ |
 | API Access | ✅ | ✅ |
 | MTLS (Mutual TLS) | ❌ | ✅ |
-| OIDC/SSO Integration | ❌ | ✅ |
+| OIDC/SSO (Keycloak) | ❌ | ✅ |
 | Multi-tenancy (Organizations) | ❌ | ✅ |
+| Session Recording | ❌ | ✅ |
 | Organization API | ❌ | ✅ |
 | Priority Support | ❌ | ✅ |
+
+## PAM & RBAC Capabilities
+
+### Privileged Access Management (PAM)
+- Centralized control over all SSH connections
+- Session recording and playback (Enterprise)
+- Just-in-time access provisioning
+- Credential vaulting and rotation
+
+### Role-Based Access Control (RBAC)
+- Granular permission management
+- Custom role definitions
+- Team and organization hierarchy
+- Machine-level access policies
+
+### Security
+- **TLS Encryption** — All connections secured with TLS
+- **MTLS (Enterprise)** — Mutual TLS for certificate-based authentication
+- **OIDC/SSO (Enterprise)** — External authentication via Keycloak
+- **Audit Trail** — Complete logging of all activities
 
 ## Documentation Structure
 
@@ -67,16 +97,15 @@ docs-terminal/
 │   ├── features/
 │   └── products/
 │
+├── blog/                              # Blog posts
+│   ├── authors.yml                    # Author profiles
+│   └── tags.yml                       # Blog tags
+│
 ├── src/
-│   ├── components/
-│   ├── css/
-│   │   └── custom.css                 # Custom styling (blue theme)
-│   └── pages/
-│       └── index.tsx                  # Landing page
+│   ├── css/custom.css                 # Custom styling (blue theme)
+│   └── pages/index.tsx                # Landing page
 │
-├── static/
-│   └── img/                           # Images and assets
-│
+├── static/img/                        # Images and assets
 ├── docusaurus.config.ts               # Main configuration
 ├── sidebars.ts                        # Sidebar configuration
 ├── Dockerfile                         # Docker deployment
@@ -139,6 +168,27 @@ docker build -t vsay-terminal-docs .
 docker run -d -p 80:80 vsay-terminal-docs
 ```
 
+## Products
+
+### VSAY Shell CLI
+
+Command-line interface for PAM.
+
+```bash
+npm install -g @vsay/shell-cli
+vsay login
+vsay machines list
+vsay connect <machine-name>
+```
+
+### VSAY VSCode Extension
+
+Integrated PAM in Visual Studio Code.
+
+```bash
+code --install-extension vsay.vsay-terminal
+```
+
 ## Configuration
 
 ### Version Management
@@ -161,44 +211,16 @@ versions: {
 ### Creating a New Version
 
 ```bash
-# Create a new version snapshot
 npm run docusaurus docs:version 1.2.0
 ```
 
-### Customization
+## Team
 
-- **Theme colors**: Edit `src/css/custom.css`
-- **Navbar/Footer**: Edit `docusaurus.config.ts`
-- **Sidebar**: Edit `sidebars.ts`
+VSAY Terminal is dreamed, designed, and developed by:
 
-## Products
-
-### VSAY Shell CLI
-
-Command-line interface for SSH management.
-
-```bash
-npm install -g @vsay/shell-cli
-vsay login
-vsay machines list
-vsay connect <machine-name>
-```
-
-### VSAY VSCode Extension
-
-Integrated SSH management in Visual Studio Code.
-
-```bash
-code --install-extension vsay.vsay-terminal
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- **Amitesh Singh** — Software Engineer
+- **Yesveer Singh** — Software Engineer
+- **Rishabh Aggarwal** — Software Engineer
 
 ## Links
 

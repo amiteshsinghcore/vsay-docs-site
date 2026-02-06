@@ -1,25 +1,39 @@
-yangshun:
-  name: Yangshun Tay
-  title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
-  url: https://linkedin.com/in/yangshun
-  image_url: https://github.com/yangshun.png
+amiteshsingh:
+  name: Amitesh Singh
+  title: Software Engineer
+  url: https://www.linkedin.com/in/amitesh-singh-7bba04204 
+  image_url: https://github.com/amiteshsinghcore.png
   page: true
   socials:
-    x: yangshunz
-    linkedin: yangshun
-    github: yangshun
-    newsletter: https://www.greatfrontend.com
+    x: amiteshhsingh
+    linkedin: amitesh-singh-7bba04204
+    github: amiteshsinghcore
+    # newsletter: https://www.greatfrontend.com
 
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
-  page:
-    # customize the url of the author page at /blog/authors/<permalink>
-    permalink: '/all-sebastien-lorber-articles'
-  socials:
-    x: sebastienlorber
-    linkedin: sebastienlorber
-    github: slorber
-    newsletter: https://thisweekinreact.com
+yesveer:
+  name: Yesveer Singh
+  title: Software Engineer
+  url: https://www.linkedin.com/in/kaal-bhairav/
+  image_url: https://github.com/yesveersingh.png
+  # page:
+  #   # customize the url of the author page at /blog/authors/<permalink>
+  #   permalink: '/all-yesveer-singh-articles'
+  # socials:
+  #   x: yesveersingh
+  #   linkedin: sebastienlorber
+  #   github: slorber
+  #   newsletter: https://thisweekinreact.com
+
+rishabh:
+  name: Rishabh Aggarwal
+  title: Software Engineer
+  # url: https://www.linkedin.com/in/kaal-bhairav/
+  image_url: https://github.com/rishi97.png
+  # page:
+  #   # customize the url of the author page at /blog/authors/<permalink>
+  #   permalink: '/all-yesveer-singh-articles'
+  # socials:
+  #   x: yesveersingh
+  #   linkedin: sebastienlorber
+  #   github: slorber
+  #   newsletter: https://thisweekinreact.com

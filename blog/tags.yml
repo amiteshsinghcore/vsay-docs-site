@@ -1,19 +1,39 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+announcement:
+  label: Announcement
+  permalink: /announcement
+  description: Official announcements from VSAY Terminal team
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+launch:
+  label: Launch
+  permalink: /launch
+  description: Product launch and release updates
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+feature:
+  label: Feature
+  permalink: /feature
+  description: New feature announcements and highlights
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+tutorial:
+  label: Tutorial
+  permalink: /tutorial
+  description: Step-by-step guides and tutorials
+
+security:
+  label: Security
+  permalink: /security
+  description: Security updates and best practices
+
+enterprise:
+  label: Enterprise
+  permalink: /enterprise
+  description: Enterprise edition features and updates
+
+community:
+  label: Community
+  permalink: /community
+  description: Community edition updates and news
+
+engineering:
+  label: Engineering
+  permalink: /engineering
+  description: Behind-the-scenes engineering insights
