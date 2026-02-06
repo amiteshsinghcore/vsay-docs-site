@@ -1,0 +1,9 @@
+{
+  "label": "API Reference",
+  "position": 6,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Complete API documentation for VSAY Terminal. All endpoints are RESTful and return JSON responses."
+  }
+}
