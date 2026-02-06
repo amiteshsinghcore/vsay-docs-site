@@ -3,6 +3,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Build argument for site URL
+ARG SITE_URL=https://docs.vsayterminal.com
+ENV SITE_URL=$SITE_URL
+
 # Copy package files
 COPY package*.json ./
 

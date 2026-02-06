@@ -4,6 +4,9 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+// Site URL from environment variable (for Docker builds)
+const siteUrl = process.env.SITE_URL || 'https://docs.vsayterminal.com';
+
 const config: Config = {
   title: 'VSAY Terminal',
   tagline: 'Secure SSH Access Management Portal',
@@ -15,7 +18,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://docs.vsayterminal.com',
+  url: siteUrl,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',

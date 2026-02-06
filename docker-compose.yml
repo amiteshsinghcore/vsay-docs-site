@@ -1,10 +1,10 @@
-version: '3.8'
-
 services:
   vsay-docs:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        SITE_URL: ${SITE_URL:-https://docs.vsayterminal.com}
     image: vsay-docs:latest
     container_name: vsay-docs
     ports:
