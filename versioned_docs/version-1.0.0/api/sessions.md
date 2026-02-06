@@ -2,267 +2,168 @@
 sidebar_position: 5
 ---
 
-# Sessions API
+# Sessions & Dashboard API
 
-Endpoints for managing SSH sessions and terminal connections.
+Endpoints for terminal sessions and dashboard statistics.
 
-## List Sessions
+## List Active Sessions
 
-### GET /sessions
+### GET /api/terminal/sessions
 
-Get all active SSH sessions.
+Get all active terminal sessions.
 
 **Headers:**
 
 ```
-Authorization: Bearer YOUR_API_TOKEN
-```
-
-**Query Parameters:**
-
-| Parameter | Type | Required | Description |
-|:----------|:-----|:--------:|:------------|
-| status | string | No | Filter by status (active, ended) |
-| machine_id | string | No | Filter by machine |
-| user_id | string | No | Filter by user |
-| from | string | No | Start date (ISO 8601) |
-| to | string | No | End date (ISO 8601) |
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "sessions": [
-      {
-        "id": "sess_123456",
-        "user": {
-          "id": "usr_123",
-          "name": "John Doe"
-        },
-        "machine": {
-          "id": "mch_456",
-          "name": "Production Server"
-        },
-        "status": "active",
-        "started_at": "2024-01-01T12:00:00Z",
-        "last_activity": "2024-01-01T12:30:00Z",
-        "ip_address": "192.168.1.50"
-      }
-    ]
-  }
-}
-```
-
----
-
-## Get Session
-
-### GET /sessions/:id
-
-Get details of a specific session.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "id": "sess_123456",
-    "user": {
-      "id": "usr_123",
-      "name": "John Doe",
-      "email": "john@example.com"
-    },
-    "machine": {
-      "id": "mch_456",
-      "name": "Production Server",
-      "host": "192.168.1.100"
-    },
-    "status": "active",
-    "started_at": "2024-01-01T12:00:00Z",
-    "last_activity": "2024-01-01T12:30:00Z",
-    "ip_address": "192.168.1.50",
-    "user_agent": "Mozilla/5.0...",
-    "commands_count": 42
-  }
-}
-```
-
----
-
-## Create Session
-
-### POST /sessions
-
-Create a new SSH session (connect to a machine).
-
-**Request Body:**
-
-```json
-{
-  "machine_id": "mch_456",
-  "terminal_size": {
-    "cols": 120,
-    "rows": 40
-  }
-}
+Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "data": {
-    "session_id": "sess_123456",
-    "websocket_url": "wss://api.vsayterminal.com/v1/sessions/sess_123456/ws",
-    "token": "session_token_for_ws_auth",
-    "expires_at": "2024-01-01T13:00:00Z"
-  }
+  "sessions": [
+    {
+      "session_id": "sess_123456",
+      "agent_id": "abc123",
+      "machine_name": "production-server",
+      "user_id": "user_456",
+      "username": "johndoe",
+      "source": "ui",
+      "status": "active",
+      "started_at": "2026-02-06T12:00:00Z",
+      "browser": "Chrome",
+      "os": "macOS"
+    }
+  ]
 }
 ```
 
----
+**Session Sources:**
 
-## WebSocket Connection
-
-### WSS /sessions/:id/ws
-
-Connect to an active session via WebSocket for real-time terminal interaction.
-
-**Connection:**
-
-```javascript
-const ws = new WebSocket('wss://api.vsayterminal.com/v1/sessions/sess_123456/ws');
-
-ws.onopen = () => {
-  // Authenticate
-  ws.send(JSON.stringify({
-    type: 'auth',
-    token: 'session_token_for_ws_auth'
-  }));
-};
-
-ws.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  if (data.type === 'output') {
-    // Display terminal output
-    terminal.write(data.data);
-  }
-};
-
-// Send input
-ws.send(JSON.stringify({
-  type: 'input',
-  data: 'ls -la\n'
-}));
-
-// Resize terminal
-ws.send(JSON.stringify({
-  type: 'resize',
-  cols: 120,
-  rows: 40
-}));
-```
-
-**Message Types:**
-
-| Type | Direction | Description |
-|:-----|:----------|:------------|
-| auth | Client → Server | Authenticate session |
-| input | Client → Server | Send terminal input |
-| resize | Client → Server | Resize terminal |
-| output | Server → Client | Terminal output |
-| error | Server → Client | Error message |
-| disconnect | Server → Client | Session ended |
+| Source | Description |
+|:-------|:------------|
+| ui | Web Terminal (Browser) |
+| cli | VSAY Shell CLI |
+| vscode | VSCode Extension |
 
 ---
 
-## Terminate Session
+## Close Session
 
-### DELETE /sessions/:id
+### DELETE /api/terminal/sessions/:session_id
 
-Terminate an active SSH session.
+Terminate an active terminal session.
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "message": "Session terminated successfully"
+  "message": "Session closed"
 }
+```
+
+**Example:**
+
+```bash
+curl -X DELETE \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  https://your-vsay-instance.com/api/terminal/sessions/sess_123456
 ```
 
 ---
 
-## Get Session Logs
+## Dashboard Statistics
 
-### GET /sessions/:id/logs
+### GET /api/dashboard/stats
 
-Get command history and output logs for a session.
-
-**Query Parameters:**
-
-| Parameter | Type | Required | Description |
-|:----------|:-----|:--------:|:------------|
-| format | string | No | Output format (json, text) |
+Get overview statistics for your machines.
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "data": {
-    "session_id": "sess_123456",
-    "logs": [
-      {
-        "timestamp": "2024-01-01T12:00:00Z",
-        "type": "command",
-        "content": "ls -la"
-      },
-      {
-        "timestamp": "2024-01-01T12:00:01Z",
-        "type": "output",
-        "content": "total 42\ndrwxr-xr-x 5 user user 4096 Jan 1 12:00 .\n..."
-      }
-    ]
-  }
+  "online_count": 5,
+  "offline_count": 2,
+  "avg_cpu": 35.5,
+  "avg_memory": 62.3,
+  "avg_disk": 48.0
 }
 ```
 
+| Field | Description |
+|:------|:------------|
+| online_count | Number of online machines |
+| offline_count | Number of offline machines |
+| avg_cpu | Average CPU usage across online machines |
+| avg_memory | Average memory usage across online machines |
+| avg_disk | Average disk usage across online machines |
+
 ---
 
-## Session Statistics
+## Recent Activity
 
-### GET /sessions/stats
+### GET /api/dashboard/recent-activity
 
-Get session statistics.
-
-**Query Parameters:**
-
-| Parameter | Type | Required | Description |
-|:----------|:-----|:--------:|:------------|
-| period | string | No | Time period (day, week, month) |
+Get recent command activity across all machines (last 10 activities).
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "data": {
-    "total_sessions": 1250,
-    "active_sessions": 15,
-    "total_duration_hours": 4500,
-    "unique_users": 25,
-    "top_machines": [
-      {
-        "machine_id": "mch_456",
-        "name": "Production Server",
-        "sessions_count": 350
-      }
-    ]
-  }
+  "activities": [
+    {
+      "id": "log_123",
+      "command": "systemctl status nginx",
+      "machine_name": "production-server",
+      "agent_id": "abc123",
+      "username": "johndoe",
+      "source": "ui",
+      "timestamp": "2026-02-06T12:00:00Z"
+    }
+  ]
 }
 ```
+
+---
+
+## Recent Machines
+
+### GET /api/dashboard/recent-machines
+
+Get recently active machines (last 5 machines).
+
+**Response:**
+
+```json
+{
+  "machines": [
+    {
+      "agent_id": "abc123",
+      "name": "production-server",
+      "status": "online",
+      "cpu_percent": 25.5,
+      "memory_percent": 60.2,
+      "last_active": "2026-02-06T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## Health Check
+
+### GET /health
+
+Check if the VSAY Terminal backend is running.
+
+**Response:**
+
+```json
+{
+  "status": "ok"
+}
+```
+
+This endpoint does not require authentication.

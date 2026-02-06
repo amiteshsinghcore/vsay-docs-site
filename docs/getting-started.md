@@ -108,13 +108,17 @@ You have access to all VSAY Terminal features:
 |:--------|:------:|:------------|
 | Secure SSH Access | ✅ | Connect through encrypted tunnels |
 | Web Terminal | ✅ | Browser-based terminal access |
-| Team Collaboration | ✅ | Role-based access management |
+| Team Collaboration (RBAC) | ✅ | Role-based access management |
 | Real-time Monitoring | ✅ | Track server health and performance |
 | Audit Logs | ✅ | Complete activity logging |
+| TLS Encryption | ✅ | Secure data in transit |
 | VSAY Shell CLI | ✅ | Command-line interface tool |
 | VSAY VSCode Extension | ✅ | IDE integration |
-| OIDC/SSO Integration | ✅ | Single Sign-On with your identity provider |
-| Multi-tenancy | ✅ | Organization-based access control |
+| API Access | ✅ | REST API for integrations |
+| MTLS (Mutual TLS) | ✅ | Certificate-based authentication |
+| OIDC/SSO (Keycloak) | ✅ | Single Sign-On with your identity provider |
+| Multi-tenancy (Organizations) | ✅ | Organization-based access control |
+| Organization API | ✅ | Multi-tenancy API endpoints |
 | Priority Support | ✅ | Dedicated enterprise support |
 
 :::tip All Features Unlocked

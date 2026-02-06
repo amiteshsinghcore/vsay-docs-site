@@ -84,7 +84,6 @@ Unlike traditional PAM solutions, VSAY Terminal brings privileged access managem
 
 ### API Reference
 - [API Overview](/docs/next/api/overview) - Complete API documentation
-- [Organizations API](/docs/next/api/organizations) - Multi-tenancy API (Enterprise)
 
 ## Products
 

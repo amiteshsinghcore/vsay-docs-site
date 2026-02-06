@@ -2,147 +2,107 @@
 sidebar_position: 4
 ---
 
-# Users API
+# Profile API
 
-Endpoints for user management and role assignments.
+Endpoints for managing your user profile and API keys.
 
-## List Users
+## Get Profile
 
-### GET /users
+### GET /api/profile
 
-Get all users in the organization.
+Get your user profile information.
 
 **Headers:**
 
 ```
-Authorization: Bearer YOUR_API_TOKEN
+Authorization: Bearer YOUR_JWT_TOKEN
 ```
-
-**Query Parameters:**
-
-| Parameter | Type | Required | Description |
-|:----------|:-----|:--------:|:------------|
-| page | integer | No | Page number (default: 1) |
-| limit | integer | No | Items per page (default: 20) |
-| role | string | No | Filter by role (admin, member, viewer) |
-| search | string | No | Search by name or email |
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "data": {
-    "users": [
-      {
-        "id": "usr_123456",
-        "email": "john@example.com",
-        "name": "John Doe",
-        "role": "admin",
-        "status": "active",
-        "last_login": "2024-01-01T12:00:00Z",
-        "created_at": "2024-01-01T00:00:00Z"
-      }
-    ],
-    "pagination": {
-      "page": 1,
-      "limit": 20,
-      "total": 15
-    }
-  }
-}
-```
-
----
-
-## Get User
-
-### GET /users/:id
-
-Get details of a specific user.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "id": "usr_123456",
+  "user": {
+    "id": "user_123",
+    "username": "johndoe",
     "email": "john@example.com",
-    "name": "John Doe",
-    "role": "admin",
-    "status": "active",
-    "permissions": {
-      "machines": ["read", "write", "delete"],
-      "users": ["read", "write"],
-      "sessions": ["read", "write"]
-    },
-    "machine_access": [
-      {
-        "machine_id": "mch_123",
-        "access_level": "full"
-      }
-    ],
-    "last_login": "2024-01-01T12:00:00Z",
-    "created_at": "2024-01-01T00:00:00Z"
+    "api_key": "vsay_ak_xxxxxxxxxxxxx",
+    "avatar_url": "https://example.com/avatar.png",
+    "created_at": "2026-01-01T00:00:00Z"
   }
 }
 ```
 
 ---
 
-## Invite User
+## Regenerate API Key
 
-### POST /users/invite
+### POST /api/profile/regenerate-api-key
 
-Invite a new user to the organization.
+Generate a new API key. The old key will be invalidated immediately.
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+**Response:**
+
+```json
+{
+  "message": "API key regenerated",
+  "api_key": "vsay_ak_newkeyhere"
+}
+```
+
+:::warning Important
+Regenerating your API key will disconnect all agents using the old key. You'll need to re-register your agents with the new key.
+:::
+
+---
+
+## Reset Password
+
+### POST /api/profile/reset-password
+
+Change your account password.
 
 **Request Body:**
 
 ```json
 {
-  "email": "newuser@example.com",
-  "name": "New User",
-  "role": "member",
-  "machine_ids": ["mch_123", "mch_456"]
+  "current_password": "oldpassword",
+  "new_password": "newpassword"
 }
 ```
 
 | Field | Type | Required | Description |
 |:------|:-----|:--------:|:------------|
-| email | string | Yes | User's email address |
-| name | string | No | User's display name |
-| role | string | Yes | Role (admin, member, viewer) |
-| machine_ids | array | No | IDs of machines to grant access |
+| current_password | string | Yes | Your current password |
+| new_password | string | Yes | New password (min 6 chars) |
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "data": {
-    "invitation_id": "inv_789012",
-    "email": "newuser@example.com",
-    "expires_at": "2024-01-08T00:00:00Z"
-  },
-  "message": "Invitation sent successfully"
+  "message": "Password updated successfully"
 }
 ```
 
 ---
 
-## Update User
+## Update Avatar
 
-### PUT /users/:id
+### POST /api/profile/upload-avatar
 
-Update user details or role.
+Update your profile avatar URL.
 
 **Request Body:**
 
 ```json
 {
-  "name": "John Smith",
-  "role": "admin"
+  "avatar_url": "https://example.com/new-avatar.png"
 }
 ```
 
@@ -150,87 +110,20 @@ Update user details or role.
 
 ```json
 {
-  "success": true,
-  "data": {
-    "id": "usr_123456",
-    "name": "John Smith",
-    "role": "admin",
-    "updated_at": "2024-01-01T12:00:00Z"
-  },
-  "message": "User updated successfully"
+  "message": "Avatar updated",
+  "avatar_url": "https://example.com/new-avatar.png"
 }
 ```
 
 ---
 
-## Update User Permissions
+## API Key Usage
 
-### PUT /users/:id/permissions
+Your API key is used when registering the VSAY Agent on your machines:
 
-Update machine access permissions for a user.
-
-**Request Body:**
-
-```json
-{
-  "machine_access": [
-    {
-      "machine_id": "mch_123",
-      "access_level": "full"
-    },
-    {
-      "machine_id": "mch_456",
-      "access_level": "read_only"
-    }
-  ]
-}
+```bash
+# Register agent with your API key
+vsay-agent --token YOUR_API_KEY --host your-vsay-instance.com
 ```
 
-| Access Level | Description |
-|:-------------|:------------|
-| full | Can connect, execute commands, transfer files |
-| read_only | Can view machine details only |
-| connect_only | Can connect but cannot transfer files |
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "message": "Permissions updated successfully"
-}
-```
-
----
-
-## Remove User
-
-### DELETE /users/:id
-
-Remove a user from the organization.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "message": "User removed successfully"
-}
-```
-
----
-
-## Resend Invitation
-
-### POST /users/invitations/:id/resend
-
-Resend a pending invitation.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "message": "Invitation resent successfully"
-}
-```
+The API key authenticates the agent to connect and register with your account. Keep it secure and regenerate it if compromised.

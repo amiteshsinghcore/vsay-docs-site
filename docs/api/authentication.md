@@ -4,20 +4,65 @@ sidebar_position: 2
 
 # Authentication API
 
-Endpoints for user authentication, token management, and OIDC integration.
+Endpoints for user authentication and token management.
+
+## Signup
+
+### POST /api/signup
+
+Create a new user account.
+
+**Request Body:**
+
+```json
+{
+  "username": "johndoe",
+  "email": "john@example.com",
+  "password": "yourpassword"
+}
+```
+
+| Field | Type | Required | Description |
+|:------|:-----|:--------:|:------------|
+| username | string | Yes | Unique username |
+| email | string | Yes | Valid email address |
+| password | string | Yes | Minimum 6 characters |
+
+**Response:**
+
+```json
+{
+  "message": "User registered successfully",
+  "user": {
+    "id": "user_id",
+    "username": "johndoe",
+    "email": "john@example.com"
+  }
+}
+```
+
+**Example:**
+
+```bash
+curl -X POST https://your-vsay-instance.com/api/signup \
+  -H "Content-Type: application/json" \
+  -d '{"username": "johndoe", "email": "john@example.com", "password": "yourpassword"}'
+```
+
+---
 
 ## Login
 
-### POST /auth/login
+### POST /api/login
 
-Authenticate user with email and password.
+Authenticate and receive a JWT token.
 
 **Request Body:**
 
 ```json
 {
-  "email": "user@example.com",
-  "password": "your_password"
+  "email": "john@example.com",
+  "password": "yourpassword"
 }
 ```
 
@@ -25,17 +70,13 @@ Authenticate user with email and password.
 
 ```json
 {
-  "success": true,
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIs...",
-    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
-    "expires_at": "2024-01-01T12:00:00Z",
-    "user": {
-      "id": "usr_123456",
-      "email": "user@example.com",
-      "name": "John Doe",
-      "role": "admin"
-    }
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "user_id",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "api_key": "your_api_key_for_agents"
   }
 }
 ```
@@ -43,147 +84,69 @@ Authenticate user with email and password.
 **Example:**
 
 ```bash
-curl -X POST https://api.vsayterminal.com/v1/auth/login \
+curl -X POST https://your-vsay-instance.com/api/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "user@example.com", "password": "your_password"}'
+  -d '{"email": "john@example.com", "password": "yourpassword"}'
 ```
 
----
-
-## OIDC Login (Enterprise)
-
-### GET /auth/oidc/authorize
-
-Initiate OIDC authentication flow.
-
-**Query Parameters:**
-
-| Parameter | Type | Required | Description |
-|:----------|:-----|:--------:|:------------|
-| provider | string | Yes | OIDC provider (okta, azure, google) |
-| redirect_uri | string | Yes | Callback URL after authentication |
-| state | string | Yes | CSRF protection token |
-
-**Example:**
-
-```bash
-curl "https://api.vsayterminal.com/v1/auth/oidc/authorize?provider=okta&redirect_uri=https://app.example.com/callback&state=abc123"
-```
-
----
-
-### POST /auth/oidc/callback
-
-Handle OIDC callback and exchange code for tokens.
-
-**Request Body:**
-
-```json
-{
-  "code": "authorization_code_from_provider",
-  "state": "abc123",
-  "provider": "okta"
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIs...",
-    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
-    "user": {
-      "id": "usr_123456",
-      "email": "user@example.com",
-      "name": "John Doe",
-      "organization_id": "org_789"
-    }
-  }
-}
-```
+:::note Token Expiration
+JWT tokens expire after 24 hours. Use the refresh endpoint to get a new token.
+:::
 
 ---
 
 ## Refresh Token
 
-### POST /auth/refresh
+### POST /api/auth/refresh
 
-Refresh an expired access token.
-
-**Request Body:**
-
-```json
-{
-  "refresh_token": "eyJhbGciOiJIUzI1NiIs..."
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIs...",
-    "expires_at": "2024-01-01T12:00:00Z"
-  }
-}
-```
-
----
-
-## Logout
-
-### POST /auth/logout
-
-Invalidate current session and tokens.
+Get a new JWT token using your current valid token.
 
 **Headers:**
 
 ```
-Authorization: Bearer YOUR_API_TOKEN
+Authorization: Bearer YOUR_CURRENT_TOKEN
 ```
 
 **Response:**
 
 ```json
 {
-  "success": true,
-  "message": "Logged out successfully"
+  "token": "eyJhbGciOiJIUzI1NiIs..."
 }
+```
+
+**Example:**
+
+```bash
+curl -X POST https://your-vsay-instance.com/api/auth/refresh \
+  -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
 ---
 
-## Get Current User
+## Using Authentication
 
-### GET /auth/me
+### HTTP Requests
 
-Get the currently authenticated user's profile.
+Include the JWT token in Authorization header:
 
-**Headers:**
+```bash
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  https://your-vsay-instance.com/api/machines
+```
+
+### WebSocket Connections
+
+Pass the token as a query parameter:
 
 ```
-Authorization: Bearer YOUR_API_TOKEN
+wss://your-vsay-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 ```
 
-**Response:**
+### Agent Registration
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": "usr_123456",
-    "email": "user@example.com",
-    "name": "John Doe",
-    "role": "admin",
-    "organization": {
-      "id": "org_789",
-      "name": "Acme Corp"
-    },
-    "created_at": "2024-01-01T00:00:00Z"
-  }
-}
+Use your API key (from login response) when registering agents:
+
+```bash
+vsay-agent --token YOUR_API_KEY --host your-vsay-instance.com
 ```

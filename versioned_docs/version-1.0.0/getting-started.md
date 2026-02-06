@@ -81,13 +81,17 @@ See what's included in your Community Edition and what's available with Enterpri
 |:--------|:---------:|:----------:|
 | Secure SSH Access | ✅ | ✅ |
 | Web Terminal | ✅ | ✅ |
-| Team Collaboration | ✅ | ✅ |
+| Team Collaboration (RBAC) | ✅ | ✅ |
 | Real-time Monitoring | ✅ | ✅ |
 | Audit Logs | ✅ | ✅ |
+| TLS Encryption | ✅ | ✅ |
 | VSAY Shell CLI | ✅ | ✅ |
 | VSAY VSCode Extension | ✅ | ✅ |
-| OIDC/SSO Integration | ❌ | ✅ |
+| API Access | ✅ | ✅ |
+| MTLS (Mutual TLS) | ❌ | ✅ |
+| OIDC/SSO (Keycloak) | ❌ | ✅ |
 | Multi-tenancy (Organizations) | ❌ | ✅ |
+| Organization API | ❌ | ✅ |
 | Priority Support | ❌ | ✅ |
 
 :::info Upgrade to Enterprise
