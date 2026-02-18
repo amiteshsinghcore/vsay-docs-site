@@ -17,10 +17,9 @@ function ColorPickerInner(): React.ReactElement {
 
   useEffect(() => {
     const savedColor = localStorage.getItem(STORAGE_KEY);
-    if (savedColor && COLORS.some(c => c.name === savedColor)) {
-      setColor(savedColor);
-      document.documentElement.setAttribute('data-color', savedColor);
-    }
+    const active = (savedColor && COLORS.some(c => c.name === savedColor)) ? savedColor : 'blue';
+    setColor(active);
+    document.documentElement.setAttribute('data-color', active);
   }, []);
 
   useEffect(() => {
