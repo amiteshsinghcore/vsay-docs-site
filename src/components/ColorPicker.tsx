@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const COLORS = [
   { name: 'blue', label: 'Blue', color: '#2563eb' },
@@ -15,7 +14,6 @@ function ColorPickerInner(): React.ReactElement {
   const [color, setColor] = useState('blue');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const iconUrl = useBaseUrl('/img/color-picker.png');
 
   useEffect(() => {
     const savedColor = localStorage.getItem(STORAGE_KEY);
@@ -50,7 +48,7 @@ function ColorPickerInner(): React.ReactElement {
         title="Change theme color"
         aria-label="Change theme color"
       >
-        <img src={iconUrl} alt="Color picker" />
+        <span aria-hidden="true">🎨</span>
       </button>
       {isOpen && (
         <div className="color-picker-dropdown__menu">
