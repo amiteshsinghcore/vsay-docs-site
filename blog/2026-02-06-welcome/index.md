@@ -11,7 +11,7 @@ We are thrilled to introduce **VSAY Terminal** — a full-fledged **Privileged A
 
 ## Our Story
 
-VSAY Terminal started as one of a idea of Amitesh that why now we make the thing simple and secure in today's world where everything is simply accessible — Then we formed a team with Yesveer, Rishabh and Amitesh where the vision was to simplify how teams manage privileged access to their servers. What began as an idea during countless hours of juggling SSH keys, remembering IP addresses, and managing team permissions, eventually became a mission. Then, together they designed and developed what VSAY Terminal is today. The three engineers shared a common frustration: managing SSH connections and privileged access across multiple servers shouldn't be this complicated. There had to be a better way.
+VSAY Terminal started as one of a idea of Amitesh that why now we make the thing simple and secure in today's world where everything is simply accessible — Then we formed a team with Yesveer and Amitesh where the vision was to simplify how teams manage privileged access to their servers. What began as an idea during countless hours of juggling SSH keys, remembering IP addresses, and managing team permissions, eventually became a mission. Then, together they designed and developed what VSAY Terminal is today. The three engineers shared a common frustration: managing SSH connections and privileged access across multiple servers shouldn't be this complicated. There had to be a better way.
 
 The three engineers shared a common frustration: managing SSH connections and privileged access across multiple servers shouldn't be this complicated. There had to be a better way.
 
@@ -84,6 +84,6 @@ This is just the beginning. We have an exciting roadmap ahead with new features,
 
 Thank you for believing in our vision. Here's to secure, simple, and seamless privileged access management!
 
-— Amitesh, Yesveer & Rishabh
+— Amitesh, Yesveer  
 
 *The VSAY Terminal Team*

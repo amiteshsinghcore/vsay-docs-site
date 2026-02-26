@@ -24,11 +24,11 @@ yesveer:
   #   github: slorber
   #   newsletter: https://thisweekinreact.com
 
-rishabh:
-  name: Rishabh Aggarwal
-  title: Software Engineer
-  # url: https://www.linkedin.com/in/kaal-bhairav/
-  image_url: https://github.com/rishi97.png
+# rishabh:
+#   name: Rishabh Aggarwal
+#   title: Software Engineer
+#   # url: https://www.linkedin.com/in/kaal-bhairav/
+#   image_url: https://github.com/rishi97.png
   # page:
   #   # customize the url of the author page at /blog/authors/<permalink>
   #   permalink: '/all-yesveer-singh-articles'

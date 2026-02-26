@@ -124,7 +124,7 @@ Dreamed, designed, and developed by:
 
 - **Amitesh Singh** — Software Engineer
 - **Yesveer Singh** — Software Engineer
-- **Rishabh Aggarwal** — Software Engineer
+<!-- - **Rishabh Aggarwal** — Software Engineer -->
 
 ## Links
 
