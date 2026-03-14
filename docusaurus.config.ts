@@ -5,10 +5,10 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 // Site URL from environment variable (for Docker builds)
-const siteUrl = process.env.SITE_URL || 'https://docs.vsayterminal.com';
+const siteUrl = process.env.SITE_URL || 'https://docs.webxterm.me';
 
 const config: Config = {
-  title: 'VSAY Terminal',
+  title: 'WebXTerm',
   tagline: 'Secure Remote Access & PAM Solution',
   favicon: 'img/icon.ico',
 
@@ -93,9 +93,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'VSAY Terminal',
+      title: 'WebXTerm',
       logo: {
-        alt: 'VSAY Terminal Logo',
+        alt: 'WebXTerm Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -111,15 +111,15 @@ const config: Config = {
           position: 'left',
           items: [
             {
-              label: 'VSAY Terminal (Web)',
+              label: 'WebXTerm (Web)',
               href: '/docs/products/vsay-terminal',
             },
             {
-              label: 'VSAY Shell CLI',
+              label: 'WebXTerm Shell CLI',
               href: '/docs/products/vsay-shell-cli',
             },
             {
-              label: 'VSAY VSCode Extension',
+              label: 'WebXTerm VSCode Extension',
               href: '/docs/products/vsay-vscode-extension',
             },
           ],
@@ -171,15 +171,15 @@ const config: Config = {
           title: 'Products',
           items: [
             {
-              label: 'VSAY Terminal (Web)',
+              label: 'WebXTerm (Web)',
               to: '/docs/products/vsay-terminal',
             },
             {
-              label: 'VSAY Shell CLI',
+              label: 'WebXTerm Shell CLI',
               to: '/docs/products/vsay-shell-cli',
             },
             {
-              label: 'VSAY VSCode Extension',
+              label: 'WebXTerm VSCode Extension',
               to: '/docs/products/vsay-vscode-extension',
             },
           ],
@@ -211,7 +211,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} VSAY Terminal. All rights reserved.`,
+      copyright: `Copyright © ${new Date().getFullYear()} WebXTerm. All rights reserved.`,
     },
     prism: {
       theme: prismThemes.github,

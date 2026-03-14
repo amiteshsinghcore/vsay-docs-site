@@ -46,7 +46,7 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/machines
+  https://your-webxterm-instance.com/api/machines
 ```
 
 ---
@@ -144,7 +144,7 @@ Get command execution history for a machine.
 | Source | Description |
 |:-------|:------------|
 | ui | Command from Web Terminal |
-| cli | Command from VSAY Shell CLI |
+| cli | Command from WebXTerm Shell CLI |
 | vscode | Command from VSCode Extension |
 
 ---
@@ -168,7 +168,7 @@ Remove a machine from your account.
 ```bash
 curl -X DELETE \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/machines/abc123def456
+  https://your-webxterm-instance.com/api/machines/abc123def456
 ```
 
 ---
@@ -182,7 +182,7 @@ Open a WebSocket connection for real-time terminal access.
 **Connection URL:**
 
 ```
-wss://your-vsay-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
+wss://your-webxterm-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 ```
 
 **JavaScript Example:**
@@ -192,7 +192,7 @@ const agentId = 'abc123def456';
 const token = 'your_jwt_token';
 
 const ws = new WebSocket(
-  `wss://your-vsay-instance.com/api/terminal/${agentId}/ws?token=${token}`
+  `wss://your-webxterm-instance.com/api/terminal/${agentId}/ws?token=${token}`
 );
 
 ws.onopen = () => {

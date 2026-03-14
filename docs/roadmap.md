@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Roadmap
 
-This page lists features that are planned or in progress for VSAY Terminal. Items marked as **In Progress** are actively being built. Items marked as **Planned** are on the roadmap but not yet started.
+This page lists features that are planned or in progress for WebXTerm. Items marked as **In Progress** are actively being built. Items marked as **Planned** are on the roadmap but not yet started.
 
 :::info
 Current implemented features are documented throughout the rest of this documentation. This page covers what's coming next.
@@ -62,7 +62,7 @@ Current implemented features are documented throughout the rest of this document
 |:--------|:------:|:------------|
 | Organization Admin Console | 🟡 In Progress | Full organization management UI — create orgs, manage members, view org-level audit logs |
 | Cross-Organization Switching | 🔵 Planned | Users with access to multiple organizations can switch between them without re-logging in |
-| Billing & Subscription Management | 🔵 Planned | Manage plan, seats, and payment from within the VSAY dashboard |
+| Billing & Subscription Management | 🔵 Planned | Manage plan, seats, and payment from within the WebXTerm dashboard |
 
 ---
 

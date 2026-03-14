@@ -4,13 +4,13 @@ sidebar_position: 2
 
 # Getting Started
 
-This guide will help you set up VSAY Terminal and connect to your first machine.
+This guide will help you set up WebXTerm and connect to your first machine.
 
 ## Prerequisites
 
 Before you begin, ensure you have:
 
-- An active VSAY Terminal account
+- An active WebXTerm account
 - At least one server/machine you want to connect to
 - Admin access to your organization (for initial setup)
 
@@ -22,7 +22,7 @@ Before you begin, ensure you have:
 
 If your organization has configured an external identity provider (Okta, Microsoft, GitHub, Azure AD):
 
-1. Navigate to the VSAY Terminal login page
+1. Navigate to the WebXTerm login page
 2. Click **"Sign in with [Provider]"**
 3. Complete the authentication flow with your identity provider
 4. You'll be redirected to your dashboard
@@ -41,7 +41,7 @@ Email/password login is managed by Keycloak and works in all editions (v1.0.0, v
 
 ## Step 2: Get Your API Key
 
-After signing in, navigate to your **Profile** page to find your **API Key**. You'll need this to register the VSAY Agent on your machines.
+After signing in, navigate to your **Profile** page to find your **API Key**. You'll need this to register the WebXTerm Agent on your machines.
 
 ![Profile Page](/img/create-account/create-page.png)
 
@@ -54,7 +54,7 @@ If your API key is ever compromised, you can regenerate it from the Profile page
 
 ## Step 3: Install & Register the Agent on Your Machine
 
-VSAY Terminal works by installing a lightweight agent (`vsay-agent`) on the Linux machine you want to access. The agent connects back to the VSAY backend over gRPC — no inbound firewall rules required.
+WebXTerm works by installing a lightweight agent (`vsay-agent`) on the Linux machine you want to access. The agent connects back to the WebXTerm backend over gRPC — no inbound firewall rules required.
 
 ![Machines Page](/img/mechines/machines.jpeg)
 
@@ -77,19 +77,19 @@ sudo dpkg -i vsay-agent_amd64.deb
 
 ### Configure the Agent
 
-Run the configure command with your API key and the VSAY backend URL:
+Run the configure command with your API key and the WebXTerm backend URL:
 
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-vsay-instance.com:8080 \
+  --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu
 ```
 
 | Flag | Description |
 |:-----|:------------|
 | `--token` | Your API key from the Profile page |
-| `--host` | URL of your VSAY backend |
+| `--host` | URL of your WebXTerm backend |
 | `--linux-user` | The Linux user that terminal sessions will run as |
 | `--allow-sudo` | (Optional) Allow sudo commands in terminal sessions |
 
@@ -126,7 +126,7 @@ Now that you're connected, explore more features:
 
 ## Your Enterprise Features
 
-You have access to all VSAY Terminal features:
+You have access to all WebXTerm features:
 
 | Feature | Status | Description |
 |:--------|:------:|:------------|
@@ -138,8 +138,8 @@ You have access to all VSAY Terminal features:
 | Audit Logs | ✅ | Complete command and activity history |
 | Community (Issue Tracker) | ✅ | Collaborative issue tracking for your team |
 | TLS Encryption | ✅ | Secure data in transit |
-| VSAY Shell CLI | ✅ | Command-line tool for terminal access |
-| VSAY VSCode Extension | ✅ | IDE integration |
+| WebXTerm Shell CLI | ✅ | Command-line tool for terminal access |
+| WebXTerm VSCode Extension | ✅ | IDE integration |
 | API Access | ✅ | REST API for integrations |
 | Keycloak Authentication | ✅ | All auth (email/password and SSO) goes through Keycloak |
 | MTLS (Mutual TLS) | ✅ | Certificate-based authentication |
@@ -149,5 +149,5 @@ You have access to all VSAY Terminal features:
 | Priority Support | ✅ | Dedicated enterprise support |
 
 :::tip All Features Unlocked
-As an Enterprise user, you have access to all VSAY Terminal features including OIDC integration and multi-tenancy support.
+As an Enterprise user, you have access to all WebXTerm features including OIDC integration and multi-tenancy support.
 :::

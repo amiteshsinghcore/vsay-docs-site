@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Real-time Monitoring
 
-VSAY Terminal provides comprehensive real-time monitoring capabilities to track server health, performance, and user activity across all your machines.
+WebXTerm provides comprehensive real-time monitoring capabilities to track server health, performance, and user activity across all your machines.
 
 ## Overview Dashboard
 
@@ -117,7 +117,7 @@ Configure alerts for important events:
 
 ### Notification Channels
 
-VSAY Terminal can send alerts through:
+WebXTerm can send alerts through:
 
 - **Email**: Direct to inbox
 - **Slack**: Post to a channel or DM

@@ -44,7 +44,7 @@ Create a new user account.
 **Example:**
 
 ```bash
-curl -X POST https://your-vsay-instance.com/api/signup \
+curl -X POST https://your-webxterm-instance.com/api/signup \
   -H "Content-Type: application/json" \
   -d '{"username": "johndoe", "email": "john@example.com", "password": "yourpassword"}'
 ```
@@ -84,7 +84,7 @@ Authenticate and receive a JWT token.
 **Example:**
 
 ```bash
-curl -X POST https://your-vsay-instance.com/api/login \
+curl -X POST https://your-webxterm-instance.com/api/login \
   -H "Content-Type: application/json" \
   -d '{"email": "john@example.com", "password": "yourpassword"}'
 ```
@@ -118,7 +118,7 @@ Authorization: Bearer YOUR_CURRENT_TOKEN
 **Example:**
 
 ```bash
-curl -X POST https://your-vsay-instance.com/api/auth/refresh \
+curl -X POST https://your-webxterm-instance.com/api/auth/refresh \
   -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
@@ -132,7 +132,7 @@ Include the JWT token in Authorization header:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/machines
+  https://your-webxterm-instance.com/api/machines
 ```
 
 ### WebSocket Connections
@@ -140,7 +140,7 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 Pass the token as a query parameter:
 
 ```
-wss://your-vsay-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
+wss://your-webxterm-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 ```
 
 ### Agent Registration
@@ -150,7 +150,7 @@ Use your API key (from the Profile page) when configuring the agent on your mach
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-vsay-instance.com:8080 \
+  --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu
 ```
 

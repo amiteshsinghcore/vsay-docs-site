@@ -5,14 +5,14 @@ sidebar_position: 1
 # Authentication & OIDC Integration
 
 :::note Keycloak is used in ALL versions
-**Keycloak is the authentication layer in every edition** — v1.0.0 Community, v1.1.0 Enterprise, and v1.2.0 Enterprise. The VSAY backend only ever validates **Keycloak-issued tokens**, regardless of how the user logged in.
+**Keycloak is the authentication layer in every edition** — v1.0.0 Community, v1.1.0 Enterprise, and v1.2.0 Enterprise. The WebXTerm backend only ever validates **Keycloak-issued tokens**, regardless of how the user logged in.
 
-**What's new in v1.2.0:** Keycloak can now be configured as an **identity broker** — so users can sign in with Microsoft, GitHub, Okta, or Azure AD. Even then, the login data flows **through Keycloak** before reaching VSAY. The backend never talks to Microsoft or Okta directly.
+**What's new in v1.2.0:** Keycloak can now be configured as an **identity broker** — so users can sign in with Microsoft, GitHub, Okta, or Azure AD. Even then, the login data flows **through Keycloak** before reaching WebXTerm. The backend never talks to Microsoft or Okta directly.
 :::
 
 ## Keycloak Is the Auth Layer in All Versions
 
-VSAY Terminal uses **Keycloak** as its authentication platform in **every edition**. The version determines what Keycloak authenticates *against*, not whether Keycloak is used.
+WebXTerm uses **Keycloak** as its authentication platform in **every edition**. The version determines what Keycloak authenticates *against*, not whether Keycloak is used.
 
 | Version | Keycloak Used? | What Keycloak Authenticates |
 |:--------|:--------------:|:----------------------------|
@@ -20,7 +20,7 @@ VSAY Terminal uses **Keycloak** as its authentication platform in **every editio
 | v1.1.0 Enterprise | ✅ | Email + password (Keycloak manages users directly) |
 | v1.2.0 Enterprise | ✅ | Email + password **AND** external providers (Microsoft, GitHub, Okta, Azure AD) via Keycloak broker |
 
-**The rule:** No matter how a user signs in, the token VSAY validates is **always issued by Keycloak**. The backend only ever talks to Keycloak.
+**The rule:** No matter how a user signs in, the token WebXTerm validates is **always issued by Keycloak**. The backend only ever talks to Keycloak.
 
 ## How Authentication Flows — All Versions
 
@@ -32,7 +32,7 @@ ALL VERSIONS (v1.0.0 / v1.1.0 / v1.2.0)
       │
       ▼
   Keycloak Realm
-  (VSAY's identity layer)
+  (WebXTerm's identity layer)
       │
       ├── Email/Password? → Keycloak verifies directly
       │
@@ -50,11 +50,11 @@ ALL VERSIONS (v1.0.0 / v1.1.0 / v1.2.0)
   Keycloak OIDC Token issued
       │
       ▼
-  VSAY Machine Backend
+  WebXTerm Machine Backend
   (validates Keycloak token — always the same validation logic)
 ```
 
-**Key point for v1.2.0 OIDC:** When a user clicks "Sign in with GitHub", GitHub authenticates the user and sends their identity back to **Keycloak**. Keycloak then issues its own OIDC token to VSAY. The VSAY backend never sees the GitHub token — it only sees the Keycloak token, identical in format to an email/password login token.
+**Key point for v1.2.0 OIDC:** When a user clicks "Sign in with GitHub", GitHub authenticates the user and sends their identity back to **Keycloak**. Keycloak then issues its own OIDC token to WebXTerm. The WebXTerm backend never sees the GitHub token — it only sees the Keycloak token, identical in format to an email/password login token.
 
 ---
 
@@ -65,9 +65,9 @@ In Community (v1.0.0) and Enterprise v1.1.0, Keycloak stores and manages users d
 1. User submits email + password to Keycloak
 2. Keycloak verifies credentials against its own user store
 3. Keycloak issues an OIDC access token
-4. VSAY uses that token for all API calls (Web Terminal, Shell CLI, VSCode Extension)
+4. WebXTerm uses that token for all API calls (Web Terminal, Shell CLI, VSCode Extension)
 
-Users and passwords live in the **Keycloak realm** — not in the VSAY application database. Password policies, hashing, and account management are all handled by Keycloak.
+Users and passwords live in the **Keycloak realm** — not in the WebXTerm application database. Password policies, hashing, and account management are all handled by Keycloak.
 
 ---
 
@@ -75,15 +75,15 @@ Users and passwords live in the **Keycloak realm** — not in the VSAY applicati
 
 In Enterprise v1.2.0, Keycloak is configured as an **identity broker**. When a user clicks "Sign in with Microsoft" (or GitHub, Okta, etc.):
 
-1. VSAY Terminal redirects to Keycloak
+1. WebXTerm redirects to Keycloak
 2. Keycloak redirects to the configured external provider (e.g., Microsoft Azure AD)
 3. User authenticates with their external provider account
-4. The external provider sends the user's identity back to **Keycloak** (not to VSAY)
+4. The external provider sends the user's identity back to **Keycloak** (not to WebXTerm)
 5. Keycloak creates or links the local user account in the Keycloak realm
 6. **Keycloak issues its own OIDC token** — containing the user's name, email, and groups from the external provider
-7. VSAY Terminal receives the **Keycloak token** — same format as email/password login
+7. WebXTerm receives the **Keycloak token** — same format as email/password login
 
-The VSAY backend **never communicates with Microsoft, GitHub, or Okta directly**. It only validates Keycloak-issued tokens. This is what makes Keycloak the universal auth layer across all editions.
+The WebXTerm backend **never communicates with Microsoft, GitHub, or Okta directly**. It only validates Keycloak-issued tokens. This is what makes Keycloak the universal auth layer across all editions.
 
 ---
 
@@ -106,7 +106,7 @@ The VSAY backend **never communicates with Microsoft, GitHub, or Okta directly**
 
 ### Prerequisites
 
-- A running Keycloak instance connected to your VSAY Terminal deployment
+- A running Keycloak instance connected to your WebXTerm deployment
 - Admin access to the Keycloak admin console
 - Admin access to your external identity provider
 
@@ -117,7 +117,7 @@ The VSAY backend **never communicates with Microsoft, GitHub, or Okta directly**
 1. Go to **Azure Portal → Azure Active Directory → App registrations**
 2. Click **New registration**
 3. Set:
-   - **Name**: VSAY Terminal
+   - **Name**: WebXTerm
    - **Redirect URI**: `https://your-keycloak.com/realms/vsay/broker/microsoft/endpoint`
 4. After creation, go to **Certificates & secrets → New client secret**
 5. Note the **Application (client) ID** and **Client secret**
@@ -128,8 +128,8 @@ The VSAY backend **never communicates with Microsoft, GitHub, or Okta directly**
 1. Go to **GitHub → Settings → Developer settings → OAuth Apps**
 2. Click **New OAuth App**
 3. Set:
-   - **Application name**: VSAY Terminal
-   - **Homepage URL**: `https://your-vsay-instance.com`
+   - **Application name**: WebXTerm
+   - **Homepage URL**: `https://your-webxterm-instance.com`
    - **Authorization callback URL**: `https://your-keycloak.com/realms/vsay/broker/github/endpoint`
 4. Note the **Client ID** and **Client Secret**
 
@@ -140,7 +140,7 @@ The VSAY backend **never communicates with Microsoft, GitHub, or Okta directly**
 3. Select **OIDC - OpenID Connect → Web Application**
 4. Set:
    - **Sign-in redirect URI**: `https://your-keycloak.com/realms/vsay/broker/okta/endpoint`
-   - **Sign-out redirect URI**: `https://your-vsay-instance.com`
+   - **Sign-out redirect URI**: `https://your-webxterm-instance.com`
 5. Note the **Client ID** and **Client Secret**
 6. Note your **Okta domain** (e.g., `your-org.okta.com`)
 
@@ -158,7 +158,7 @@ The VSAY backend **never communicates with Microsoft, GitHub, or Okta directly**
 ### Step 2: Configure the Identity Provider in Keycloak
 
 1. Log into your **Keycloak Admin Console**
-2. Select your VSAY realm
+2. Select your WebXTerm realm
 3. Go to **Identity Providers → Add provider**
 4. Select the provider type (Microsoft, GitHub, OIDC, etc.)
 5. Enter the credentials from Step 1:
@@ -186,11 +186,11 @@ Display Name:  Sign in with Microsoft   (or GitHub, Okta, etc.)
 
 ---
 
-### Step 3: Enable the Provider on the VSAY Login Page
+### Step 3: Enable the Provider on the WebXTerm Login Page
 
 1. In Keycloak Admin Console → **Realm Settings → Login**
 2. The configured identity providers automatically appear as login buttons
-3. Users will see **"Sign in with Microsoft"** (or GitHub, Okta) on the VSAY login page
+3. Users will see **"Sign in with Microsoft"** (or GitHub, Okta) on the WebXTerm login page
 
 :::warning
 Before disabling email/password login, make sure all users can authenticate via the external provider. Keep password login enabled as a fallback during initial rollout.
@@ -212,13 +212,13 @@ When a user logs in via an external provider for the first time:
 
 ### Group-Based Role Mapping
 
-Map groups from your identity provider to VSAY Terminal roles:
+Map groups from your identity provider to WebXTerm roles:
 
 1. In Keycloak → **Identity Providers → [Your Provider] → Mappers**
 2. Add a **Role Importer** or **Hardcoded Role** mapper
 3. Example mappings:
 
-| Provider Group | VSAY Role |
+| Provider Group | WebXTerm Role |
 |:--------------|:----------|
 | `vsay-admins` | `admin` |
 | `engineering` | `user` |
@@ -230,7 +230,7 @@ Users will automatically receive roles based on their group membership in the ex
 
 ## Keycloak Realm Configuration Reference
 
-When deploying VSAY Terminal, your Keycloak realm should be configured with:
+When deploying WebXTerm, your Keycloak realm should be configured with:
 
 | Setting | Recommended Value |
 |:--------|:-----------------|

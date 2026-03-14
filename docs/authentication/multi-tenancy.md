@@ -4,13 +4,13 @@ sidebar_position: 2
 
 # Organization Management
 
-VSAY Terminal is built on a multi-tenant architecture where each organization operates independently with its own users, machines, and configurations.
+WebXTerm is built on a multi-tenant architecture where each organization operates independently with its own users, machines, and configurations.
 
 ## Multi-Tenancy Overview
 
 ### What is an Organization?
 
-An organization in VSAY Terminal is an isolated workspace that contains:
+An organization in WebXTerm is an isolated workspace that contains:
 
 - **Users**: Team members with their roles and permissions
 - **Machines**: Servers and infrastructure registered to the organization
@@ -52,7 +52,7 @@ Organization
 
 ### Creating an Organization
 
-1. Sign up for VSAY Terminal
+1. Sign up for WebXTerm
 2. Click **"Create Organization"**
 3. Enter organization details:
    - **Name**: Your organization's name

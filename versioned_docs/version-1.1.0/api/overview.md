@@ -4,12 +4,12 @@ sidebar_position: 1
 
 # API Overview
 
-VSAY Terminal provides a RESTful API for integrating with your applications and automating machine management.
+WebXTerm provides a RESTful API for integrating with your applications and automating machine management.
 
 ## Base URL
 
 ```
-https://your-vsay-instance.com/api
+https://your-webxterm-instance.com/api
 ```
 
 ## Authentication
@@ -18,7 +18,7 @@ All API requests (except signup/login) require a JWT Bearer token:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/machines
+  https://your-webxterm-instance.com/api/machines
 ```
 
 ### Getting a Token
@@ -102,7 +102,7 @@ Error responses:
 For real-time terminal access:
 
 ```
-wss://your-vsay-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
+wss://your-webxterm-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 ```
 
 ## API Sections

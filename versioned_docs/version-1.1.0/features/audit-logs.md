@@ -4,11 +4,11 @@ sidebar_position: 5
 
 # Audit Logs
 
-VSAY Terminal maintains comprehensive audit logs of all activities, helping you meet compliance requirements and maintain security visibility.
+WebXTerm maintains comprehensive audit logs of all activities, helping you meet compliance requirements and maintain security visibility.
 
 ## What's Logged
 
-VSAY Terminal logs all significant activities across your organization:
+WebXTerm logs all significant activities across your organization:
 
 ### Session & Command Events
 
@@ -89,7 +89,7 @@ Each command log entry contains:
 ```bash
 # Get command logs for a machine (last 100)
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/machines/{agent_id}/logs
+  https://your-webxterm-instance.com/api/machines/{agent_id}/logs
 ```
 
 See the [Machines API](/docs/next/api/machines) for the full response format.
@@ -113,7 +113,7 @@ Check your industry's compliance requirements before setting retention periods. 
 
 ### Immutability
 
-Audit logs in VSAY Terminal are:
+Audit logs in WebXTerm are:
 
 - **Append-only**: Logs cannot be modified or deleted
 - **Tamper-evident**: Any tampering attempts are detected
@@ -121,7 +121,7 @@ Audit logs in VSAY Terminal are:
 
 ### Compliance Standards
 
-VSAY Terminal audit logs help you comply with:
+WebXTerm audit logs help you comply with:
 
 - **SOC 2 Type II**: Comprehensive activity logging
 - **HIPAA**: Protected health information access tracking
@@ -153,7 +153,7 @@ Set up automated log exports:
 
 ### SIEM Integration
 
-VSAY Terminal integrates with popular SIEM solutions:
+WebXTerm integrates with popular SIEM solutions:
 
 - **Splunk**: Direct integration or via HEC
 - **Datadog**: Log forwarding integration

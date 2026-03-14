@@ -2,13 +2,13 @@
 sidebar_position: 2
 ---
 
-# VSAY Shell CLI
+# WebXTerm Shell CLI
 
-VSAY Shell CLI is a Go-based command-line tool that lets you list your machines and connect to them with a full interactive terminal — directly from your terminal, without opening a browser.
+WebXTerm Shell CLI is a Go-based command-line tool that lets you list your machines and connect to them with a full interactive terminal — directly from your terminal, without opening a browser.
 
 ## Overview
 
-VSAY Shell CLI provides:
+WebXTerm Shell CLI provides:
 
 - **Interactive terminal sessions** — full PTY terminal via WebSocket, just like the web terminal
 - **Machine listing** — see all your registered machines and their online/offline status
@@ -17,7 +17,7 @@ VSAY Shell CLI provides:
 
 ## Installation
 
-VSAY Shell CLI is distributed as a pre-compiled binary.
+WebXTerm Shell CLI is distributed as a pre-compiled binary.
 
 ### Download Binary (Linux / macOS)
 
@@ -44,10 +44,10 @@ sudo rpm -i vsay-shell-cli_amd64.rpm
 
 ### 1. Login
 
-Authenticate with your VSAY backend URL:
+Authenticate with your WebXTerm backend URL:
 
 ```bash
-vsay-shell-cli login https://your-vsay-instance.com
+vsay-shell-cli login https://your-webxterm-instance.com
 ```
 
 You'll be prompted for your email and password. Credentials are saved to `~/.vsay-shell-cli/config.json`.
@@ -82,7 +82,7 @@ vsay-shell-cli delete <machine-name>
 
 | Command | Description |
 |:--------|:------------|
-| `vsay-shell-cli login <URL>` | Authenticate with your VSAY backend |
+| `vsay-shell-cli login <URL>` | Authenticate with your WebXTerm backend |
 | `vsay-shell-cli logout` | Clear saved credentials |
 | `vsay-shell-cli list` / `ls` | List all registered machines |
 | `vsay-shell-cli connect <name>` | Open an interactive terminal session |
@@ -100,7 +100,7 @@ Credentials and API URL are stored in:
 
 ```json
 {
-  "api_url": "https://your-vsay-instance.com",
+  "api_url": "https://your-webxterm-instance.com",
   "token": "eyJhbGciOiJIUzI1NiIs..."
 }
 ```
@@ -113,7 +113,7 @@ When you run `vsay-shell-cli connect <name>`, the CLI:
 2. Generates a unique session ID: `cli-{timestamp}`
 3. Opens a WebSocket to:
    ```
-   ws://your-vsay-instance.com/api/terminal/{agent_id}/ws?session_id=...&token=JWT&source=cli
+   ws://your-webxterm-instance.com/api/terminal/{agent_id}/ws?session_id=...&token=JWT&source=cli
    ```
 4. Connects your local terminal (TTY) to the WebSocket stream
 5. Keystrokes are forwarded to the agent on the remote machine, output streams back in real time

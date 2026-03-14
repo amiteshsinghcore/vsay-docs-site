@@ -44,7 +44,7 @@ Authorization: Bearer YOUR_JWT_TOKEN
 | Source | Description |
 |:-------|:------------|
 | ui | Web Terminal (Browser) |
-| cli | VSAY Shell CLI |
+| cli | WebXTerm Shell CLI |
 | vscode | VSCode Extension |
 
 ---
@@ -68,7 +68,7 @@ Terminate an active terminal session.
 ```bash
 curl -X DELETE \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/terminal/sessions/sess_123456
+  https://your-webxterm-instance.com/api/terminal/sessions/sess_123456
 ```
 
 ---
@@ -156,7 +156,7 @@ Get recently active machines (last 5 machines).
 
 ### GET /health
 
-Check if the VSAY Terminal backend is running.
+Check if the WebXTerm backend is running.
 
 **Response:**
 

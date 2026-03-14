@@ -8,16 +8,16 @@ Endpoints for user authentication and token management.
 
 ## How Authentication Works
 
-VSAY Terminal uses **Keycloak** as its central identity platform in both Community and Enterprise editions:
+WebXTerm uses **Keycloak** as its central identity platform in both Community and Enterprise editions:
 
 - **Community Edition**: Keycloak manages users directly (email + password stored in Keycloak)
 - **Enterprise Edition**: Keycloak acts as an identity broker — it connects to external providers (Microsoft, GitHub, Okta, etc.) and issues its own tokens regardless of which provider the user authenticated with
 
-In both cases, the token that VSAY Terminal uses to call the machine backend API is **always issued by Keycloak**. The backend validates Keycloak tokens.
+In both cases, the token that WebXTerm uses to call the machine backend API is **always issued by Keycloak**. The backend validates Keycloak tokens.
 
 ```
-Community:   User (email/password) → Keycloak → OIDC token → VSAY Backend
-Enterprise:  User (Microsoft/GitHub/Okta) → External IdP → Keycloak → OIDC token → VSAY Backend
+Community:   User (email/password) → Keycloak → OIDC token → WebXTerm Backend
+Enterprise:  User (Microsoft/GitHub/Okta) → External IdP → Keycloak → OIDC token → WebXTerm Backend
 ```
 
 See [Authentication & OIDC Integration](/docs/next/authentication/oidc-integration) for full setup details.
@@ -62,7 +62,7 @@ Create a new user account.
 **Example:**
 
 ```bash
-curl -X POST https://your-vsay-instance.com/api/signup \
+curl -X POST https://your-webxterm-instance.com/api/signup \
   -H "Content-Type: application/json" \
   -d '{"username": "johndoe", "email": "john@example.com", "password": "yourpassword"}'
 ```
@@ -102,7 +102,7 @@ Authenticate and receive a JWT token.
 **Example:**
 
 ```bash
-curl -X POST https://your-vsay-instance.com/api/login \
+curl -X POST https://your-webxterm-instance.com/api/login \
   -H "Content-Type: application/json" \
   -d '{"email": "john@example.com", "password": "yourpassword"}'
 ```
@@ -136,7 +136,7 @@ Authorization: Bearer YOUR_CURRENT_TOKEN
 **Example:**
 
 ```bash
-curl -X POST https://your-vsay-instance.com/api/auth/refresh \
+curl -X POST https://your-webxterm-instance.com/api/auth/refresh \
   -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
 ```
 
@@ -150,7 +150,7 @@ Include the JWT token in Authorization header:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://your-vsay-instance.com/api/machines
+  https://your-webxterm-instance.com/api/machines
 ```
 
 ### WebSocket Connections
@@ -158,7 +158,7 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 Pass the token as a query parameter:
 
 ```
-wss://your-vsay-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
+wss://your-webxterm-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 ```
 
 ### Agent Registration
@@ -168,7 +168,7 @@ Use your API key (from the Profile page) when configuring the agent on your mach
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-vsay-instance.com:8080 \
+  --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu
 ```
 

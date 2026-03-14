@@ -2,9 +2,9 @@
 sidebar_position: 3
 ---
 
-# VSAY VSCode Extension
+# WebXTerm VSCode Extension
 
-VSAY VSCode Extension brings VSAY Terminal directly into Visual Studio Code — browse your machines in the sidebar, open integrated terminal sessions, browse remote files, and forward ports without leaving your IDE.
+WebXTerm VSCode Extension brings WebXTerm directly into Visual Studio Code — browse your machines in the sidebar, open integrated terminal sessions, browse remote files, and forward ports without leaving your IDE.
 
 ## Overview
 
@@ -22,7 +22,7 @@ The VSCode extension provides:
 
 1. Open VSCode
 2. Go to Extensions (`Ctrl+Shift+X`)
-3. Search for **"VSAY Terminal"**
+3. Search for **"WebXTerm"**
 4. Click **Install**
 
 ### From Command Line
@@ -36,8 +36,8 @@ code --install-extension vsay.vsay-terminal
 ### 1. Sign In
 
 1. Open Command Palette (`Ctrl+Shift+P`)
-2. Type **"VSAY: Login"**
-3. Enter your VSAY backend API URL (e.g. `https://your-vsay-instance.com`)
+2. Type **"WebXTerm: Login"**
+3. Enter your WebXTerm backend API URL (e.g. `https://your-webxterm-instance.com`)
 4. Enter your email and password
 
 :::note Token storage
@@ -46,7 +46,7 @@ Your JWT token is kept **in memory only** for the current VS Code session. You w
 
 ### 2. View Your Machines
 
-After signing in, click the **VSAY Terminal** icon in the Activity Bar. The sidebar shows all your machines with their current status (Online / Offline).
+After signing in, click the **WebXTerm** icon in the Activity Bar. The sidebar shows all your machines with their current status (Online / Offline).
 
 ### 3. Connect to a Machine
 
@@ -56,12 +56,12 @@ Click the **📡 WebSocket** icon next to a machine name to open a terminal sess
 
 ### WebSocket Mode (Recommended)
 
-The extension connects to the VSAY backend over WebSocket and tunnels your terminal through the backend to the `vsay-agent` running on the machine — identical to the Web Terminal.
+The extension connects to the WebXTerm backend over WebSocket and tunnels your terminal through the backend to the `vsay-agent` running on the machine — identical to the Web Terminal.
 
 **How it works:**
 1. Extension opens a WebSocket to:
    ```
-   ws://your-vsay-instance.com/api/terminal/{agent_id}/ws?session_id=...&token=JWT&source=vscode
+   ws://your-webxterm-instance.com/api/terminal/{agent_id}/ws?session_id=...&token=JWT&source=vscode
    ```
 2. A VS Code integrated terminal opens, wired to the WebSocket stream
 3. A remote filesystem provider is registered (`vsay-remote-{agentId}://`) for file browsing
@@ -102,7 +102,7 @@ When connected via WebSocket mode, a VS Code terminal opens with full interactiv
 - Full color and Unicode support
 - Copy/paste works natively
 - Multiple terminal sessions in tabs
-- All commands are logged to the VSAY audit log
+- All commands are logged to the WebXTerm audit log
 
 ### Remote File Explorer
 
@@ -122,25 +122,25 @@ Forward a port from the remote machine to your local machine within an active We
 
 ## Configuration
 
-Open VS Code Settings (`Ctrl+,`) and search for **"VSAY"**:
+Open VS Code Settings (`Ctrl+,`) and search for **"WebXTerm"**:
 
 ```json
 {
-  "vsay.apiUrl": "https://your-vsay-instance.com"
+  "vsay.apiUrl": "https://your-webxterm-instance.com"
 }
 ```
 
 ## Commands
 
-Open Command Palette (`Ctrl+Shift+P`) and type **"VSAY"**:
+Open Command Palette (`Ctrl+Shift+P`) and type **"WebXTerm"**:
 
 | Command | Description |
 |:--------|:------------|
-| VSAY: Login | Authenticate with your VSAY backend |
-| VSAY: Logout | Clear credentials |
-| VSAY: Refresh Machines | Reload machine list |
-| VSAY: Connect (WebSocket) | Open WebSocket terminal session |
-| VSAY: Connect (SSH) | Open via Remote-SSH extension |
+| WebXTerm: Login | Authenticate with your WebXTerm backend |
+| WebXTerm: Logout | Clear credentials |
+| WebXTerm: Refresh Machines | Reload machine list |
+| WebXTerm: Connect (WebSocket) | Open WebSocket terminal session |
+| WebXTerm: Connect (SSH) | Open via Remote-SSH extension |
 
 ## Troubleshooting
 
@@ -148,7 +148,7 @@ Open Command Palette (`Ctrl+Shift+P`) and type **"VSAY"**:
 
 1. Check that the machine shows **Online** in the web dashboard
 2. Verify your API URL is correct in settings
-3. Try **VSAY: Refresh Machines** from the Command Palette
+3. Try **WebXTerm: Refresh Machines** from the Command Palette
 4. Check that the `vsay-agent` service is running on the remote machine:
    ```bash
    systemctl status vsay-agent

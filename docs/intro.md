@@ -2,26 +2,26 @@
 sidebar_position: 1
 ---
 
-# VSAY Terminal Documentation
+# Webxterm Documentation
 
 :::info You are viewing Enterprise Edition - Version 1.2.0
-This documentation covers all VSAY Terminal features including **OIDC/SSO Integration** (Keycloak) and **Multi-tenancy**.
+This documentation covers all WebXTerm features including **OIDC/SSO Integration** (Keycloak) and **Multi-tenancy**.
 For the free Community Edition, [switch to version 1.0.0](/docs/intro).
 :::
 
-VSAY Terminal is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your Linux machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
+WebXTerm is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your Linux machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
 
-![VSAY Terminal Dashboard](/img/dashboards/dashboards.jpeg)
+![WebXTerm Dashboard](/img/dashboards/dashboards.jpeg)
 
 ## What Makes Us Different?
 
-Unlike traditional PAM solutions, VSAY Terminal uses an **agent-based architecture** — install a lightweight agent on any Linux machine and it connects outbound to the backend. No open ports, no SSH key management, no bastion hosts. Access your machines from anywhere through:
+Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** — install a lightweight agent on any Linux machine and it connects outbound to the backend. No open ports, no SSH key management, no bastion hosts. Access your machines from anywhere through:
 
 | Access Method | Description |
 |:--------------|:------------|
 | **Web Terminal** | Browser-based terminal access with full terminal capabilities |
-| **VSAY VSCode Extension** | Manage and connect to machines directly from your IDE |
-| **VSAY Shell CLI** | Command-line tool for terminal access and machine management |
+| **WebXTerm VSCode Extension** | Manage and connect to machines directly from your IDE |
+| **WebXTerm Shell CLI** | Command-line tool for terminal access and machine management |
 
 ## Feature Comparison
 
@@ -35,8 +35,8 @@ Unlike traditional PAM solutions, VSAY Terminal uses an **agent-based architectu
 | Audit Logs | ✅ | ✅ |
 | Community (Issue Tracker) | ✅ | ✅ |
 | TLS Encryption | ✅ | ✅ |
-| VSAY Shell CLI | ✅ | ✅ |
-| VSAY VSCode Extension | ✅ | ✅ |
+| WebXTerm Shell CLI | ✅ | ✅ |
+| WebXTerm VSCode Extension | ✅ | ✅ |
 | API Access | ✅ | ✅ |
 | Keycloak Authentication | ✅ | ✅ |
 | MTLS (Mutual TLS) | ❌ | ✅ |
@@ -73,12 +73,12 @@ Unlike traditional PAM solutions, VSAY Terminal uses an **agent-based architectu
 
 ### Authentication — Keycloak in Both Editions
 
-VSAY Terminal uses **Keycloak** as its identity platform in **both editions**:
+WebXTerm uses **Keycloak** as its identity platform in **both editions**:
 
 - **Community**: Keycloak manages email/password users directly — all signups and logins go through Keycloak
-- **Enterprise**: Keycloak additionally acts as an **identity broker** — users can sign in with Microsoft, GitHub, Okta, Azure AD, and any OIDC provider, and Keycloak issues the final token to VSAY regardless of which provider was used
+- **Enterprise**: Keycloak additionally acts as an **identity broker** — users can sign in with Microsoft, GitHub, Okta, Azure AD, and any OIDC provider, and Keycloak issues the final token to WebXTerm regardless of which provider was used
 
-The VSAY backend always validates **Keycloak-issued tokens** — the auth flow is the same whether a user logged in with a password or with their Microsoft account.
+The WebXTerm backend always validates **Keycloak-issued tokens** — the auth flow is the same whether a user logged in with a password or with their Microsoft account.
 
 ### Enterprise-Only Features
 - **External Identity Providers:** Sign in with Microsoft, GitHub, Okta, Azure AD, Google Workspace, Auth0 — all federated through Keycloak as an identity broker.
@@ -108,13 +108,13 @@ The VSAY backend always validates **Keycloak-issued tokens** — the auth flow i
 
 | Product | Description |
 |:--------|:------------|
-| [VSAY Shell CLI](/docs/next/products/vsay-shell-cli) | Go CLI tool — `vsay-shell-cli connect <machine>` |
-| [VSAY VSCode Extension](/docs/next/products/vsay-vscode-extension) | Integrated IDE terminal, file browser, and port forwarding |
-| [VSAY Agent](/docs/next/getting-started) | Lightweight daemon installed on Linux machines — the core of the system |
+| [WebXTerm Shell CLI](/docs/next/products/vsay-shell-cli) | Go CLI tool — `vsay-shell-cli connect <machine>` |
+| [WebXTerm VSCode Extension](/docs/next/products/vsay-vscode-extension) | Integrated IDE terminal, file browser, and port forwarding |
+| [WebXTerm Agent](/docs/next/getting-started) | Lightweight daemon installed on Linux machines — the core of the system |
 
-## Why VSAY Terminal Enterprise?
+## Why Webxterm Terminal Enterprise?
 
-VSAY Terminal Enterprise is designed for organizations that need:
+WebXTerm Enterprise is designed for organizations that need:
 
 1. **Full PAM Solution** - Complete privileged access management with agent-based access control
 2. **Enterprise RBAC** - Granular role-based access control for teams

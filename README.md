@@ -1,6 +1,6 @@
-# VSAY Terminal Documentation
+# WebXTerm Documentation
 
-Official documentation site for **VSAY Terminal** — a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution built on agent-based WebSocket tunneling.
+Official documentation site for **WebXTerm** — a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution built on agent-based WebSocket tunneling.
 
 Built with [Docusaurus 3.9.2](https://docusaurus.io/)
 
@@ -137,4 +137,4 @@ docs-terminal/
 
 - **Amitesh Singh** — Software Engineer
 - **Yesveer Singh** — Software Engineer
-- **Rishabh Aggarwal** — Software Engineer
+<!-- - **Rishabh Aggarwal** — Software Engineer -->

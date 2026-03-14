@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Web Terminal
 
-The VSAY Terminal Web Terminal lets you connect to your machines directly from your browser - no local SSH client required.
+The WebXTerm Web Terminal lets you connect to your machines directly from your browser - no local SSH client required.
 
 ## Features
 
@@ -13,7 +13,7 @@ The VSAY Terminal Web Terminal lets you connect to your machines directly from y
 Access your servers from anywhere with just a web browser:
 - **No installation required** - Works on any device with a modern browser
 - **Cross-platform** - Windows, macOS, Linux, even tablets
-- **Secure** - All traffic encrypted through VSAY Terminal gateway
+- **Secure** - All traffic encrypted through WebXTerm gateway
 
 ### Full Terminal Emulation
 

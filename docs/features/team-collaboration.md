@@ -4,11 +4,11 @@ sidebar_position: 3
 
 # Team Collaboration
 
-VSAY Terminal makes it easy to share access with team members safely through Role-Based Access Control (RBAC). Define exactly what permissions each team member should have when accessing machines.
+WebXTerm makes it easy to share access with team members safely through Role-Based Access Control (RBAC). Define exactly what permissions each team member should have when accessing machines.
 
 ## Role-Based Access Control
 
-Every user in VSAY Terminal is assigned a role that determines what they can do across the platform.
+Every user in WebXTerm is assigned a role that determines what they can do across the platform.
 
 ### Built-in Roles
 
@@ -82,7 +82,7 @@ When installing the `vsay-agent` on a machine, you can restrict what commands ar
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-vsay-instance.com:8080 \
+  --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu \
   --allow-sudo    # Grant sudo access in sessions
 ```

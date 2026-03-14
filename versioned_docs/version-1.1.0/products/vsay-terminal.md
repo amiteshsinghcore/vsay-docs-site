@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-# VSAY Terminal (Web Dashboard)
+# WebXTerm (Web Dashboard)
 
-VSAY Terminal is the **web-based dashboard** — the primary interface for managing your machines, connecting via browser terminal, monitoring server health, and collaborating with your team.
+WebXTerm is the **web-based dashboard** — the primary interface for managing your machines, connecting via browser terminal, monitoring server health, and collaborating with your team.
 
 ## Overview
 
@@ -19,15 +19,15 @@ The web dashboard provides:
 
 ## Accessing the Dashboard
 
-Navigate to your VSAY Terminal instance in any modern browser:
+Navigate to your WebXTerm instance in any modern browser:
 
 ```
-http://your-vsay-instance.com
+http://your-webxterm-instance.com
 ```
 
 ### Login
 
-Enter your email and password on the login page. Your credentials are authenticated via **Keycloak** — the same identity layer used across all VSAY Terminal editions.
+Enter your email and password on the login page. Your credentials are authenticated via **Keycloak** — the same identity layer used across all WebXTerm editions.
 
 :::info Enterprise v1.2.0
 In Enterprise v1.2.0, you can also sign in with external providers (Microsoft, GitHub, Okta, Azure AD) configured through Keycloak. [See OIDC setup →](/docs/next/authentication/oidc-integration)
@@ -53,7 +53,7 @@ Click **"Connect"** on any online machine to open a full terminal session in the
 The browser terminal is powered by **xterm.js** and connects over WebSocket to the `vsay-agent` running on the machine:
 
 ```
-Browser  →  WebSocket (wss://)  →  VSAY Backend  →  gRPC stream  →  vsay-agent  →  PTY shell
+Browser  →  WebSocket (wss://)  →  WebXTerm Backend  →  gRPC stream  →  vsay-agent  →  PTY shell
 ```
 
 - Full color and Unicode support

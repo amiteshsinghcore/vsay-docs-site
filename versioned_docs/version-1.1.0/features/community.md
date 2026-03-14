@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # Community (Issue Tracker)
 
-VSAY Terminal includes a built-in **Community** feature — a collaborative issue tracker for your infrastructure team. Think of it as an internal knowledge base and ticketing system where team members can report problems, share solutions, and track infrastructure issues without leaving the platform.
+WebXTerm includes a built-in **Community** feature — a collaborative issue tracker for your infrastructure team. Think of it as an internal knowledge base and ticketing system where team members can report problems, share solutions, and track infrastructure issues without leaving the platform.
 
 ## Overview
 
@@ -18,9 +18,9 @@ The Community feature runs as a separate backend service and provides:
 
 ## Accessing Community
 
-The Community section is available from the main VSAY Terminal dashboard:
+The Community section is available from the main WebXTerm dashboard:
 
-1. Log in to your VSAY Terminal dashboard
+1. Log in to your WebXTerm dashboard
 2. Click **"Community"** in the navigation menu
 3. View open issues or click **"New Issue"** to report a problem
 

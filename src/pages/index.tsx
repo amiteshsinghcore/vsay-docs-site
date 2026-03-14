@@ -33,7 +33,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Documentation"
-      description="VSAY Terminal - Secure SSH access management portal documentation">
+      description="WebXTerm - Secure SSH access management portal documentation">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

@@ -4,18 +4,18 @@ sidebar_position: 1
 
 # Secure SSH Access
 
-VSAY Terminal provides secure remote terminal access to your Linux machines through an **agent-based WebSocket tunneling** architecture — no open inbound ports, no SSH key management, no bastion hosts required.
+WebXTerm provides secure remote terminal access to your Linux machines through an **agent-based WebSocket tunneling** architecture — no open inbound ports, no SSH key management, no bastion hosts required.
 
 ## How It Works
 
-VSAY Terminal uses a lightweight agent (`vsay-agent`) installed on each machine. The agent establishes an outbound gRPC connection to the VSAY backend. When you open a terminal session, the backend bridges your WebSocket connection to the agent's gRPC stream, which runs a PTY shell on the machine.
+WebXTerm uses a lightweight agent (`vsay-agent`) installed on each machine. The agent establishes an outbound gRPC connection to the WebXTerm backend. When you open a terminal session, the backend bridges your WebSocket connection to the agent's gRPC stream, which runs a PTY shell on the machine.
 
 ```
 You (Browser / CLI / VSCode)
         │
         │  WebSocket (wss://)
         ▼
-  VSAY Backend
+  WebXTerm Backend
   (HTTP :8080 / HTTPS :8443)
         │
         │  gRPC bidirectional stream (:50051)
@@ -39,7 +39,7 @@ All connections are:
 1. You click **"Connect"** on a machine (or run `vsay-shell-cli connect <name>`, or click the connect icon in VSCode)
 2. The client opens a WebSocket to:
    ```
-   wss://your-vsay-instance.com/api/terminal/{agent_id}/ws?token=JWT_TOKEN
+   wss://your-webxterm-instance.com/api/terminal/{agent_id}/ws?token=JWT_TOKEN
    ```
 3. The backend validates your token, confirms you own the machine, and looks up the agent's live gRPC stream
 4. The backend forwards your keystrokes to the agent over gRPC
@@ -53,7 +53,7 @@ Machines are registered by installing `vsay-agent` on them and running:
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-vsay-instance.com:8080 \
+  --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu
 ```
 
@@ -113,7 +113,7 @@ When configuring the agent, you can control what commands are allowed in termina
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-vsay-instance.com:8080 \
+  --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu \
   --allow-sudo          # Allow sudo in terminal sessions
 ```
