@@ -1,136 +1,139 @@
 # VSAY Terminal Documentation
 
-Official documentation for **VSAY Terminal** — A full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution.
+Official documentation site for **VSAY Terminal** — a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution built on agent-based WebSocket tunneling.
 
-## Overview
+Built with [Docusaurus 3.9.2](https://docusaurus.io/)
 
-VSAY Terminal is a modern PAM solution that brings privileged access management directly into your workflow. Unlike traditional solutions, we offer **multi-channel accessibility** — access your servers from Web, CLI, VSCode, or Agents.
+---
 
-| Edition | Version | Description |
-|:--------|:--------|:------------|
-| **Community** | 1.0.0 | Free edition with core PAM & RBAC features |
-| **Enterprise** | 1.1.0 | Full-featured with OIDC/SSO (Keycloak), MTLS, and Multi-tenancy |
+## Versions
 
-## Quick Start
+| Version | Edition | URL | Description |
+|:--------|:--------|:----|:------------|
+| **1.2.0** | Enterprise | `/docs/next/` | Current — includes OIDC/SSO (Okta, GitHub, Microsoft, Azure AD) |
+| **1.1.0** | Enterprise | `/docs/1.1.0/` | MTLS + Multi-tenancy, no external SSO |
+| **1.0.0** | Community | `/docs/` (default) | Free edition — core PAM & RBAC features |
 
-### Prerequisites
+---
 
-- Node.js 18+
-- npm
-- Docker (optional)
+## Requirements
 
-### Installation
+- **Node.js** >= 20.0
+- **npm**
+
+---
+
+## Run Locally
 
 ```bash
-git clone https://github.com/vsay/vsay-terminal-docs.git
-cd docs-terminal
+# Install dependencies
 npm install
+
+# Start dev server at http://localhost:3000
+npm run start
 ```
 
-## Commands
+---
 
-### NPM Commands
-
-| Command | Description |
-|:--------|:------------|
-| `npm install` | Install dependencies |
-| `npm run start` | Start development server at http://localhost:3000 |
-| `npm run build` | Build for production |
-| `npm run serve` | Serve production build locally |
-
-### Make Commands
-
-| Command | Description |
-|:--------|:------------|
-| `make install` | Install dependencies |
-| `make start` | Start development server |
-| `make build` | Build for production |
-| `make serve` | Serve production build |
-| `make docker-build` | Build Docker image |
-| `make docker-up` | Start Docker container |
-| `make docker-down` | Stop Docker container |
-| `make clean` | Remove build and node_modules |
-| `make rebuild` | Clean and rebuild everything |
-
-### Docker Commands
+## Production Build
 
 ```bash
-# Build and start
+# Build static site into build/
+npm run build
+
+# Preview the production build locally
+npm run serve
+```
+
+---
+
+## Docker
+
+### Build Docker Image
+
+```bash
+docker build -t vsay-docs .
+```
+
+### Build with Custom Site URL
+
+```bash
+docker build --build-arg SITE_URL=https://docs.vsayterminal.com -t vsay-docs .
+```
+
+### Run with Docker Compose
+
+```bash
+# Start
 docker-compose up -d
 
 # Stop
 docker-compose down
 
 # Rebuild with custom site URL
-SITE_URL=https://your-domain.com docker-compose build
-docker-compose up -d
+SITE_URL=https://docs.vsayterminal.com docker-compose up -d --build
 ```
 
-## Configuration
+---
 
-### Environment Variables
+## Release a New Version
 
-Edit `.env` file to configure:
+When releasing a new version (e.g. `1.3.0`):
 
-```env
-SITE_URL=https://docs.vsayterminal.com
+```bash
+# 1. Snapshot current docs/ as a new archived version
+npm run docusaurus docs:version 1.3.0
+
+# 2. Update docusaurus.config.ts:
+#    - Add the new version to the versions object
+#    - Update the current version label
+
+# 3. Build and deploy
+npm run build
 ```
 
-### Version Management
-
-Versions are configured in `docusaurus.config.ts`:
-
-- **1.1.0** — Enterprise Edition (current)
-- **1.0.0** — Community Edition
-
-## Feature Comparison
-
-| Feature | Community | Enterprise |
-|:--------|:---------:|:----------:|
-| Secure SSH Access | ✅ | ✅ |
-| Web Terminal | ✅ | ✅ |
-| Team Collaboration (RBAC) | ✅ | ✅ |
-| Real-time Monitoring | ✅ | ✅ |
-| Audit Logs | ✅ | ✅ |
-| TLS Encryption | ✅ | ✅ |
-| VSAY Shell CLI | ✅ | ✅ |
-| VSAY VSCode Extension | ✅ | ✅ |
-| API Access | ✅ | ✅ |
-| MTLS (Mutual TLS) | ❌ | ✅ |
-| OIDC/SSO (Keycloak) | ❌ | ✅ |
-| Multi-tenancy (Organizations) | ❌ | ✅ |
-| Organization API | ❌ | ✅ |
-| Priority Support | ❌ | ✅ |
+---
 
 ## Project Structure
 
 ```
 docs-terminal/
-├── docs/                          # Enterprise Edition (v1.1.0)
-├── versioned_docs/version-1.0.0/  # Community Edition (v1.0.0)
-├── blog/                          # Blog posts
-├── src/                           # Custom components & CSS
-├── static/img/                    # Images and assets
-├── docusaurus.config.ts           # Main configuration
-├── Dockerfile                     # Docker build
-├── docker-compose.yml             # Docker Compose
-├── Makefile                       # Make commands
-└── .env                           # Environment variables
+├── docs/                           # Current version source (v1.2.0 Enterprise)
+├── versioned_docs/
+│   ├── version-1.1.0/             # Enterprise v1.1.0 archive
+│   └── version-1.0.0/             # Community v1.0.0 archive
+├── versioned_sidebars/             # Sidebar configs per version
+├── blog/                           # Blog posts
+├── src/                            # Custom React components & CSS
+├── static/img/                     # Images and static assets
+├── versions.json                   # List of archived versions
+├── docusaurus.config.ts            # Main Docusaurus configuration
+├── Dockerfile                      # Docker build
+└── docker-compose.yml              # Docker Compose
 ```
 
-## Team
+---
 
-Dreamed, designed, and developed by:
+## Useful Commands
 
-- **Amitesh Singh** — Software Engineer
-- **Yesveer Singh** — Software Engineer
-<!-- - **Rishabh Aggarwal** — Software Engineer -->
+| Command | Description |
+|:--------|:------------|
+| `npm run start` | Start dev server at localhost:3000 |
+| `npm run build` | Production build into `build/` |
+| `npm run serve` | Serve production build locally |
+| `npm run clear` | Clear Docusaurus cache and build output |
+| `npm run typecheck` | Run TypeScript type check |
+
+---
 
 ## Links
 
-- **Documentation**: https://docs.vsayterminal.com
+- **Live Docs**: https://docs.vsayterminal.com
 - **Main Product**: https://vsayterminal.com
 
 ---
 
-Built with [Docusaurus](https://docusaurus.io/)
+## Team
+
+- **Amitesh Singh** — Software Engineer
+- **Yesveer Singh** — Software Engineer
