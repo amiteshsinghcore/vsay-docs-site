@@ -90,7 +90,8 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/social-card.png',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'dark',
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'WebXTerm',

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 const COLORS = [
+  { name: 'green', label: 'Green', color: '#00cc6a' },
   { name: 'blue', label: 'Blue', color: '#2563eb' },
   { name: 'orange', label: 'Orange', color: '#f97316' },
   { name: 'cyan', label: 'Cyan', color: '#06b6d4' },
@@ -11,13 +12,13 @@ const COLORS = [
 const STORAGE_KEY = 'docusaurus.color';
 
 function ColorPickerInner(): React.ReactElement {
-  const [color, setColor] = useState('orange');
+  const [color, setColor] = useState('green');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const savedColor = localStorage.getItem(STORAGE_KEY);
-    const active = (savedColor && COLORS.some(c => c.name === savedColor)) ? savedColor : 'orange';
+    const active = (savedColor && COLORS.some(c => c.name === savedColor)) ? savedColor : 'green';
     setColor(active);
     document.documentElement.setAttribute('data-color', active);
   }, []);

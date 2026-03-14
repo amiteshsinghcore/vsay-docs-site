@@ -1,106 +1,149 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * WebXTerm Documentation — Global Styles
+ * Brand: green (#00cc6a light / #00e676 dark)
  */
 
-/* Default Orange Theme */
-:root,
-[data-color='orange'] {
-  --ifm-color-primary: #f97316;
-  --ifm-color-primary-dark: #ea580c;
-  --ifm-color-primary-darker: #c2410c;
-  --ifm-color-primary-darkest: #9a3412;
-  --ifm-color-primary-light: #fb923c;
-  --ifm-color-primary-lighter: #fdba74;
-  --ifm-color-primary-lightest: #fed7aa;
+/* ==============================================
+   BRAND COLOR — Green (WebXTerm)
+   ============================================== */
+:root {
+  --ifm-color-primary: #00cc6a;
+  --ifm-color-primary-dark: #00b35d;
+  --ifm-color-primary-darker: #009950;
+  --ifm-color-primary-darkest: #007a40;
+  --ifm-color-primary-light: #33d47e;
+  --ifm-color-primary-lighter: #66dc97;
+  --ifm-color-primary-lightest: #99e4b1;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(249, 115, 22, 0.15);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 204, 106, 0.15);
 }
 
-[data-theme='dark'],
-[data-theme='dark'][data-color='orange'] {
-  --ifm-color-primary: #fb923c;
-  --ifm-color-primary-dark: #f97316;
-  --ifm-color-primary-darker: #ea580c;
-  --ifm-color-primary-darkest: #c2410c;
-  --ifm-color-primary-light: #fdba74;
-  --ifm-color-primary-lighter: #fed7aa;
-  --ifm-color-primary-lightest: #ffedd5;
-  --docusaurus-highlighted-code-line-bg: rgba(251, 146, 60, 0.3);
+[data-theme='dark'] {
+  --ifm-color-primary: #00e676;
+  --ifm-color-primary-dark: #00cc6a;
+  --ifm-color-primary-darker: #00b35d;
+  --ifm-color-primary-darkest: #009950;
+  --ifm-color-primary-light: #33eb8f;
+  --ifm-color-primary-lighter: #66f0aa;
+  --ifm-color-primary-lightest: #99f4c4;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 230, 118, 0.2);
 }
 
-/* Blue Theme */
-[data-color='blue'] {
-  --ifm-color-primary: #2563eb;
-  --ifm-color-primary-dark: #1d4ed8;
-  --ifm-color-primary-darker: #1e40af;
-  --ifm-color-primary-darkest: #1e3a8a;
-  --ifm-color-primary-light: #3b82f6;
-  --ifm-color-primary-lighter: #60a5fa;
-  --ifm-color-primary-lightest: #93c5fd;
-  --docusaurus-highlighted-code-line-bg: rgba(37, 99, 235, 0.15);
+/* ::selection color is injected dynamically via
+   src/theme/Navbar/ColorModeToggle/index.tsx
+   using the useColorMode hook */
+
+/* ==============================================
+   DARK MODE — blue-tinted black background
+   ============================================== */
+[data-theme='dark'] {
+  --ifm-background-color: #090e13;
+  --ifm-background-surface-color: #0d1117;
+  --ifm-navbar-background-color: #090e13;
+  --ifm-footer-background-color: #070b0f;
+  --ifm-toc-border-color: #161e28;
+  --ifm-color-emphasis-300: #1e2a38;
+  --ifm-hr-border-color: #161e28;
+  --ifm-card-background-color: #0d1117;
+  --ifm-color-content: #e8e8e8;
+  --ifm-color-content-secondary: #a0a0a0;
+  --ifm-heading-color: #f0f0f0;
+  --ifm-menu-color: #c8c8c8;
+  --ifm-menu-color-active: var(--ifm-color-primary);
+  --ifm-sidebar-background-color: #090e13;
 }
 
-[data-theme='dark'][data-color='blue'] {
-  --ifm-color-primary: #3b82f6;
-  --ifm-color-primary-dark: #2563eb;
-  --ifm-color-primary-darker: #1d4ed8;
-  --ifm-color-primary-darkest: #1e40af;
-  --ifm-color-primary-light: #60a5fa;
-  --ifm-color-primary-lighter: #93c5fd;
-  --ifm-color-primary-lightest: #bfdbfe;
-  --docusaurus-highlighted-code-line-bg: rgba(59, 130, 246, 0.3);
+[data-theme='dark'] .theme-doc-sidebar-container {
+  background-color: #090e13;
+  border-right: 1px solid #161e28;
 }
 
-
-/* Cyan Theme */
-[data-color='cyan'] {
-  --ifm-color-primary: #06b6d4;
-  --ifm-color-primary-dark: #0891b2;
-  --ifm-color-primary-darker: #0e7490;
-  --ifm-color-primary-darkest: #155e75;
-  --ifm-color-primary-light: #22d3ee;
-  --ifm-color-primary-lighter: #67e8f9;
-  --ifm-color-primary-lightest: #a5f3fc;
-  --docusaurus-highlighted-code-line-bg: rgba(6, 182, 212, 0.15);
+[data-theme='dark'] .table-of-contents {
+  color: #a0a0a0;
 }
 
-[data-theme='dark'][data-color='cyan'] {
-  --ifm-color-primary: #22d3ee;
-  --ifm-color-primary-dark: #06b6d4;
-  --ifm-color-primary-darker: #0891b2;
-  --ifm-color-primary-darkest: #0e7490;
-  --ifm-color-primary-light: #67e8f9;
-  --ifm-color-primary-lighter: #a5f3fc;
-  --ifm-color-primary-lightest: #cffafe;
-  --docusaurus-highlighted-code-line-bg: rgba(34, 211, 238, 0.3);
+[data-theme='dark'] pre {
+  background-color: #0d1117 !important;
+  border: 1px solid #161e28;
 }
 
-/* Violet Theme */
-[data-color='violet'] {
-  --ifm-color-primary: #8b5cf6;
-  --ifm-color-primary-dark: #7c3aed;
-  --ifm-color-primary-darker: #6d28d9;
-  --ifm-color-primary-darkest: #5b21b6;
-  --ifm-color-primary-light: #a78bfa;
-  --ifm-color-primary-lighter: #c4b5fd;
-  --ifm-color-primary-lightest: #ddd6fe;
-  --docusaurus-highlighted-code-line-bg: rgba(139, 92, 246, 0.15);
+[data-theme='dark'] code {
+  background-color: #131a23;
 }
 
-[data-theme='dark'][data-color='violet'] {
-  --ifm-color-primary: #a78bfa;
-  --ifm-color-primary-dark: #8b5cf6;
-  --ifm-color-primary-darker: #7c3aed;
-  --ifm-color-primary-darkest: #6d28d9;
-  --ifm-color-primary-light: #c4b5fd;
-  --ifm-color-primary-lighter: #ddd6fe;
-  --ifm-color-primary-lightest: #ede9fe;
-  --docusaurus-highlighted-code-line-bg: rgba(167, 139, 250, 0.3);
+[data-theme='dark'] .alert {
+  border-left-color: var(--ifm-color-primary);
 }
 
-/* Make navbar logo smaller */
+/* ==============================================
+   LIGHT MODE — clean white
+   ============================================== */
+[data-theme='light'] {
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f8f8f8;
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-color-content: #1a1a1a;
+  --ifm-color-content-secondary: #555555;
+  --ifm-heading-color: #111111;
+}
+
+/* ==============================================
+   HOMEPAGE — hero & features
+   ============================================== */
+
+/* Hero title: green→cyan gradient in dark, blue in light */
+[data-theme='dark'] .hero__title {
+  background: linear-gradient(90deg, #00e676 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+[data-theme='light'] .hero__title {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+/* Feature headings */
+[data-theme='dark'] .features h3 {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+[data-theme='light'] .features h3 {
+  color: #111111;
+  font-weight: 700;
+}
+
+[data-theme='dark'] .features {
+  background-color: #090e13;
+}
+
+[data-theme='light'] .features {
+  background-color: #ffffff;
+}
+
+[data-theme='dark'] .features p {
+  color: #a0a8b4;
+}
+
+[data-theme='light'] .features p {
+  color: #444444;
+}
+
+[data-theme='light'] .heroBanner {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+[data-theme='light'] .hero__subtitle {
+  color: #555555;
+}
+
+/* ==============================================
+   NAVBAR LOGO
+   ============================================== */
 .navbar__logo {
   height: 28px;
   width: auto;
@@ -111,7 +154,9 @@
   width: 50px;
 }
 
-/* Edition badge styles */
+/* ==============================================
+   EDITION BADGES
+   ============================================== */
 .badge--community {
   background-color: #10b981;
   color: white;
@@ -128,101 +173,4 @@
   border-radius: 4px;
   font-size: 0.75rem;
   margin-left: 8px;
-}
-
-/* Color Picker Dropdown Styles */
-.color-picker-dropdown {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-right: 8px;
-}
-
-.color-picker-dropdown__toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.color-picker-dropdown__toggle:hover {
-  background-color: var(--ifm-color-emphasis-200);
-}
-
-.color-picker-dropdown__toggle img {
-  width: 24px;
-  height: 24px;
-}
-
-.color-picker-dropdown__toggle span {
-  font-size: 24px;
-  line-height: 2;
-}
-
-.color-picker-dropdown__menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 8px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  z-index: 200;
-  min-width: 140px;
-}
-
-[data-theme='dark'] .color-picker-dropdown__menu {
-  background: #1f2937;
-  border-color: #374151;
-}
-
-.color-picker-dropdown__item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border: none;
-  background: none;
-  width: 100%;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #1f2937;
-  transition: background-color 0.2s;
-}
-
-[data-theme='dark'] .color-picker-dropdown__item {
-  color: #f3f4f6;
-}
-
-.color-picker-dropdown__item:hover {
-  background-color: #f3f4f6;
-}
-
-[data-theme='dark'] .color-picker-dropdown__item:hover {
-  background-color: #374151;
-}
-
-.color-picker-dropdown__item--active {
-  background-color: #e5e7eb;
-  font-weight: 600;
-}
-
-[data-theme='dark'] .color-picker-dropdown__item--active {
-  background-color: #4b5563;
-}
-
-
-.color-picker-dropdown__color {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  flex-shrink: 0;
 }
