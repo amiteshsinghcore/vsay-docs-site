@@ -8,17 +8,14 @@ VSAY Terminal makes it easy to share access with team members safely through Rol
 
 ## Role-Based Access Control
 
-Every user in your organization is assigned one or more roles that determine what they can do.
+Every user in VSAY Terminal is assigned a role that determines what they can do across the platform.
 
 ### Built-in Roles
 
 | Role | Description | Permissions |
 |------|-------------|-------------|
-| **Organization Admin** | Full control over the organization | All permissions |
-| **Machine Admin** | Manage machines and connections | Add/edit/delete machines, connect to all machines |
-| **Team Lead** | Manage team members and moderate access | View users, assign roles to team members, connect to assigned machines |
-| **Developer** | Standard access to assigned machines | Connect to assigned machines, view own activity |
-| **Viewer** | Read-only access | View machine list, view own activity |
+| **Admin** | Full control — manage users, machines, and organization settings | All permissions |
+| **User** | Standard access to machines they are explicitly granted access to | Connect to allowed machines, view own activity |
 
 ### Custom Roles
 
@@ -68,29 +65,29 @@ The user will immediately lose access to all organization resources.
 
 ## Machine Access Control
 
-### Assigning Machine Access
+### Allowed Users per Machine
 
-Not all users need access to all machines. Control access at the machine level:
+Each machine has an `allowed_users` list that controls exactly which team members can connect to it. This gives you fine-grained control beyond role-level permissions.
 
 1. Go to **Machines → [Select Machine] → Access**
-2. Click **"Add User"** or **"Add Role"**
-3. Select users or roles to grant access
-4. Set the access level:
-   - **Full Access**: Can connect and run any command
-   - **Restricted**: Limited command execution (if configured)
-   - **View Only**: Can see machine status but cannot connect
+2. Click **"Add User"**
+3. Select the user to grant access
 
-### Access Groups
+To revoke access, remove the user from the machine's allowed list.
 
-Create access groups for easier management:
+### Command Restrictions
 
-1. Go to **Team → Access Groups**
-2. Click **"Create Group"**
-3. Name the group (e.g., "Production Servers Team")
-4. Add users to the group
-5. Assign machines to the group
+When installing the `vsay-agent` on a machine, you can restrict what commands are allowed in terminal sessions:
 
-Now you can manage access for multiple users at once by modifying group membership.
+```bash
+sudo vsay-agent configure \
+  --token YOUR_API_KEY \
+  --host http://your-vsay-instance.com:8080 \
+  --linux-user ubuntu \
+  --allow-sudo    # Grant sudo access in sessions
+```
+
+The backend can also push configuration updates to the agent to update allowed/blocked commands without restarting the agent.
 
 ## Permission Reference
 

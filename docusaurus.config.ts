@@ -9,7 +9,7 @@ const siteUrl = process.env.SITE_URL || 'https://docs.vsayterminal.com';
 
 const config: Config = {
   title: 'VSAY Terminal',
-  tagline: 'Secure SSH Access Management Portal',
+  tagline: 'Secure Remote Access & PAM Solution',
   favicon: 'img/icon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -44,11 +44,22 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Versioning - 1.0.0 Community, 1.1.0+ Enterprise
+          // Versioning strategy:
+          // - docs/                          → current (1.2.0 Enterprise) — served at /docs/next/
+          // - versioned_docs/version-1.1.0/  → archived Enterprise v1.1.0 — served at /docs/1.1.0/
+          // - versioned_docs/version-1.0.0/  → Community Edition (free) — served at /docs/ (default)
+          //
+          // To release a new version:
+          //   npm run docusaurus docs:version X.Y.Z
+          //   Then update the `current` label below to the next version.
           lastVersion: '1.0.0',
           includeCurrentVersion: true,
           versions: {
             current: {
+              label: '1.2.0',
+              banner: 'none',
+            },
+            '1.1.0': {
               label: '1.1.0',
               banner: 'none',
             },
@@ -100,6 +111,10 @@ const config: Config = {
           position: 'left',
           items: [
             {
+              label: 'VSAY Terminal (Web)',
+              href: '/docs/products/vsay-terminal',
+            },
+            {
               label: 'VSAY Shell CLI',
               href: '/docs/products/vsay-shell-cli',
             },
@@ -121,14 +136,16 @@ const config: Config = {
           position: 'right',
           items: [
             {
-              label: 'Community',
+              label: 'Community (v1.0.0)',
               href: '/docs/intro',
-              description: 'Free - Agents, UI Login, Basic Features',
             },
             {
-              label: 'Enterprise',
+              label: 'Enterprise (v1.2.0)',
               href: '/docs/next/intro',
-              description: 'Organization, Multi-tenancy, OIDC',
+            },
+            {
+              label: 'Enterprise (v1.1.0)',
+              href: '/docs/1.1.0/intro',
             },
           ],
         },
@@ -154,6 +171,10 @@ const config: Config = {
           title: 'Products',
           items: [
             {
+              label: 'VSAY Terminal (Web)',
+              to: '/docs/products/vsay-terminal',
+            },
+            {
               label: 'VSAY Shell CLI',
               to: '/docs/products/vsay-shell-cli',
             },
@@ -167,12 +188,16 @@ const config: Config = {
           title: 'Editions',
           items: [
             {
-              label: 'Community (Free)',
+              label: 'Community v1.0.0 (Free)',
               to: '/docs/intro',
             },
             {
-              label: 'Enterprise',
+              label: 'Enterprise v1.2.0',
               to: '/docs/next/intro',
+            },
+            {
+              label: 'Enterprise v1.1.0',
+              to: '/docs/1.1.0/intro',
             },
           ],
         },

@@ -5,40 +5,41 @@ sidebar_position: 1
 # VSAY Terminal Documentation
 
 :::info You are viewing Community Edition - Version 1.0.0
-This is the free Community Edition with core PAM & RBAC features.
-For **OIDC/SSO Integration** (Keycloak) and **Multi-tenancy**, [upgrade to Enterprise Edition (v1.1.0)](/docs/next/intro).
+This is the free Community Edition. For **OIDC/SSO**, **Mutual TLS**, and **Multi-tenancy**, [switch to the Enterprise Edition](/docs/next/intro).
 :::
 
-VSAY Terminal is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your servers and machines from anywhere. This documentation will guide you through all the features and help you get the most out of the platform.
+VSAY Terminal is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your Linux machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
 
 ![VSAY Terminal Dashboard](/img/dashboards/dashboards.jpeg)
 
 ## What Makes Us Different?
 
-Unlike traditional PAM solutions, VSAY Terminal brings privileged access management directly into your workflow with **multi-channel accessibility**:
+Unlike traditional PAM solutions, VSAY Terminal uses an **agent-based architecture** — install a lightweight agent on any Linux machine and it connects outbound to the backend. No open ports, no SSH key management, no bastion hosts. Access your machines from anywhere through:
 
 | Access Method | Description |
 |:--------------|:------------|
-| **Web Terminal** | Browser-based SSH access with full terminal capabilities |
-| **VSAY VSCode Extension** | Manage and connect to servers directly from your IDE |
-| **VSAY Shell CLI** | Command-line tool for automation and scripting |
-| **Agent-Based Access** | Deploy agents for seamless, secure connections |
+| **Web Terminal** | Browser-based terminal access with full terminal capabilities |
+| **VSAY VSCode Extension** | Manage and connect to machines directly from your IDE |
+| **VSAY Shell CLI** | Command-line tool for terminal access and machine management |
 
 ## Feature Comparison
 
 | Feature | Community | Enterprise |
 |:--------|:---------:|:----------:|
-| Secure SSH Access | ✅ | ✅ |
+| Secure Remote Access (Agent-Based) | ✅ | ✅ |
 | Web Terminal | ✅ | ✅ |
 | Team Collaboration (RBAC) | ✅ | ✅ |
 | Real-time Monitoring | ✅ | ✅ |
+| Session & Command Recording | ✅ | ✅ |
 | Audit Logs | ✅ | ✅ |
+| Community (Issue Tracker) | ✅ | ✅ |
 | TLS Encryption | ✅ | ✅ |
 | VSAY Shell CLI | ✅ | ✅ |
 | VSAY VSCode Extension | ✅ | ✅ |
 | API Access | ✅ | ✅ |
+| Keycloak Authentication | ✅ | ✅ |
 | MTLS (Mutual TLS) | ❌ | ✅ |
-| OIDC/SSO (Keycloak) | ❌ | ✅ |
+| External SSO (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
 | Multi-tenancy (Organizations) | ❌ | ✅ |
 | Organization API | ❌ | ✅ |
 | Priority Support | ❌ | ✅ |
@@ -46,52 +47,72 @@ Unlike traditional PAM solutions, VSAY Terminal brings privileged access managem
 ## PAM & RBAC Capabilities
 
 ### Privileged Access Management (PAM)
-- **Centralized Control** — Manage all SSH connections from a single dashboard
-- **Session Monitoring** — Track active sessions in real-time
-- **Credential Management** — Securely store SSH credentials
-- **Access Policies** — Define who can access which machines
+- **Centralized Control** — Manage all machine connections from a single dashboard
+- **Agent-Based Access** — Lightweight `vsay-agent` on each machine; outbound-only connection, no inbound firewall rules needed
+- **Session & Command Recording** — Every command executed in a terminal session is recorded with user, timestamp, and exit code
+- **Machine Monitoring** — Real-time CPU, memory, and disk stats reported via agent heartbeats every 30 seconds
+- **Offline Detection** — Machines are automatically marked offline if the agent stops heartbeating
 
 ### Role-Based Access Control (RBAC)
 - **Granular Permissions** — Define exactly who can access which machines
-- **Custom Roles** — Create roles tailored to your team's needs
-- **Team Management** — Organize users into teams with permissions
-- **Machine-Level Policies** — Set access policies per machine
+- **User Roles** — Assign roles (admin / user) to control what each team member can do
+- **Machine-Level Access Control** — Restrict which users are allowed to connect to a specific machine
+- **Machine-Level Policies** — Set command restrictions and sudo access per machine via agent config
 
-:::tip Upgrade to Enterprise
-Looking for **Session Recording**, **OIDC/SSO with Keycloak**, **MTLS**, and **Multi-tenancy**?
-[Upgrade to Enterprise Edition](/docs/next/intro) for advanced PAM features.
-:::
+## All Features Included
 
-## Community Features
+### Core Features
+- **Secure Remote Access:** Connect to your Linux machines through agent-based WebSocket tunneling — no inbound ports, no SSH key management.
+- **Web Terminal:** Full browser-based terminal access powered by xterm.js — connect from anywhere with no local tools required.
+- **Team Collaboration:** Share machine access with team members using role-based access control and per-machine allowed user lists.
+- **Real-time Monitoring:** Live CPU, memory, disk, and network stats from every agent — plus online/offline status tracking.
+- **Session & Command Recording:** Every command executed in a terminal session is logged with user, machine, timestamp, and exit code.
+- **Audit Logs:** Complete activity history across all machines — who ran what, when, and from which client.
+- **Community:** Built-in issue tracker for your team — create tickets, post solutions, and track infrastructure problems collaboratively.
 
-- **Secure SSH Access:** Connect to your machines through encrypted tunnels with TLS security.
-- **Web Terminal:** Connect to your machine from VSAY Terminal interface and run commands directly from your browser.
-- **Team Collaboration:** Share access with team members safely based on Role Management.
-- **Real-time Monitoring:** Track server health and performance with real-time updates.
-- **Audit Logs:** Maintain compliance and security with detailed logs of all activities.
+### Authentication — Powered by Keycloak
+
+VSAY Terminal Community Edition uses **Keycloak** to manage all user authentication. When you sign up or log in with email and password, those credentials are stored and verified by Keycloak. Keycloak then issues an OIDC token that VSAY uses for all API calls.
+
+This means your passwords, session policies, and user management are handled by Keycloak — a battle-tested, open-source identity platform.
+
+### Enterprise-Only Features
+- **External Identity Providers:** Sign in with Microsoft, GitHub, Okta, Azure AD, Google Workspace, and more — all federated through Keycloak (see [Enterprise Edition](/docs/next/intro)).
+- **MTLS Security:** Mutual TLS for certificate-based authentication between agents and backend.
+- **Multi-tenancy:** Organization-based access control with isolated workspaces per organization.
 
 ## Quick Links
 
-- [Getting Started](/docs/getting-started) - Set up your first connection
-- [SSH Access](/docs/features/ssh-access) - Learn about secure SSH connections
-- [Web Terminal](/docs/features/web-terminal) - Use the browser-based terminal
-- [Team Collaboration](/docs/features/team-collaboration) - Manage team access and roles
+- [Getting Started](/docs/next/getting-started) - Install the agent and connect to your first machine
+- [Secure Remote Access](/docs/next/features/ssh-access) - Learn how the agent-based architecture works
+- [Web Terminal](/docs/next/features/web-terminal) - Use the browser-based terminal
+- [Team Collaboration](/docs/next/features/team-collaboration) - Manage team access and roles
+- [Session & Command Recording](/docs/next/features/audit-logs) - Audit logs and command history
+- [Real-time Monitoring](/docs/next/features/monitoring) - Track machine health and activity
+
+### Enterprise Features
+- [OIDC Integration](/docs/next/authentication/oidc-integration) - Set up Single Sign-On with Keycloak
+- [Organization Management](/docs/next/authentication/multi-tenancy) - Configure multi-tenancy
 
 ### API Reference
-- [API Overview](/docs/api/overview) - Complete API documentation
+- [API Overview](/docs/next/api/overview) - Complete API documentation
 
-## Products
+## Products & Clients
 
-- [VSAY Shell CLI](/docs/products/vsay-shell-cli) - Command-line interface for SSH management
-- [VSAY VSCode Extension](/docs/products/vsay-vscode-extension) - Integrated IDE experience
+| Product | Description |
+|:--------|:------------|
+| [VSAY Shell CLI](/docs/next/products/vsay-shell-cli) | Go CLI tool — `vsay-shell-cli connect <machine>` |
+| [VSAY VSCode Extension](/docs/next/products/vsay-vscode-extension) | Integrated IDE terminal, file browser, and port forwarding |
+| [VSAY Agent](/docs/next/getting-started) | Lightweight daemon installed on Linux machines — the core of the system |
 
-## Why VSAY Terminal?
+## Why VSAY Terminal Enterprise?
 
-VSAY Terminal simplifies privileged access management for teams of all sizes:
+VSAY Terminal Enterprise is designed for organizations that need:
 
-1. **Full PAM Solution** - Centralized privileged access management
-2. **Built-in RBAC** - Role-based access control for teams
-3. **Zero-Trust Security** - Every connection verified with TLS encryption
-4. **Complete Visibility** - Know who accessed what and when
-5. **Easy Onboarding** - Add new team members in minutes
-6. **Multi-Channel Access** - Web, CLI, VSCode Extension, and Agents
+1. **Full PAM Solution** - Complete privileged access management with agent-based access control
+2. **Enterprise RBAC** - Granular role-based access control for teams
+3. **Zero-Trust Security** - Every connection verified with TLS/MTLS encryption
+4. **Complete Visibility** - Know who accessed what and when with audit logs
+5. **SSO/OIDC Support** - Integrate with Keycloak and your existing identity provider
+6. **Multi-Organization** - Manage multiple teams and projects with isolated access
+7. **Multi-Channel Access** - Web Terminal, Shell CLI, and VSCode Extension

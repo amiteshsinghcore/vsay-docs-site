@@ -119,11 +119,17 @@ Update your profile avatar URL.
 
 ## API Key Usage
 
-Your API key is used when registering the VSAY Agent on your machines:
+Your API key is used when configuring the VSAY Agent on your Linux machines:
 
 ```bash
-# Register agent with your API key
-vsay-agent --token YOUR_API_KEY --host your-vsay-instance.com
+sudo vsay-agent configure \
+  --token YOUR_API_KEY \
+  --host http://your-vsay-instance.com:8080 \
+  --linux-user ubuntu
 ```
 
-The API key authenticates the agent to connect and register with your account. Keep it secure and regenerate it if compromised.
+The agent uses this key to authenticate with the backend over gRPC and register the machine under your account. Keep it secure — regenerate it immediately if compromised.
+
+:::warning
+Regenerating your API key will disconnect all agents using the old key. You will need to reconfigure them with `vsay-agent configure` and the new key.
+:::

@@ -145,8 +145,13 @@ wss://your-vsay-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 
 ### Agent Registration
 
-Use your API key (from login response) when registering agents:
+Use your API key (from the Profile page) when configuring the agent on your machine:
 
 ```bash
-vsay-agent --token YOUR_API_KEY --host your-vsay-instance.com
+sudo vsay-agent configure \
+  --token YOUR_API_KEY \
+  --host http://your-vsay-instance.com:8080 \
+  --linux-user ubuntu
 ```
+
+The agent connects to the backend over gRPC (port 50051) and authenticates using your API key. See [Getting Started](/docs/next/getting-started) for full installation details.

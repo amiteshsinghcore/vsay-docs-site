@@ -10,6 +10,19 @@ VSAY Terminal maintains comprehensive audit logs of all activities, helping you 
 
 VSAY Terminal logs all significant activities across your organization:
 
+### Session & Command Events
+
+Every command typed in a terminal session is automatically captured and stored with full context:
+
+| Field | Description |
+|-------|-------------|
+| **Machine** | Which machine the command was run on |
+| **User** | Who executed the command |
+| **Command** | The full command text |
+| **Timestamp** | Exact time of execution |
+| **Success** | Whether the command exited successfully (exit code 0) |
+| **Source** | Which client was used — Web Terminal, Shell CLI, or VSCode Extension |
+
 ### Authentication Events
 
 | Event | Details Captured |
@@ -18,28 +31,15 @@ VSAY Terminal logs all significant activities across your organization:
 | **Login Failure** | User (if known), timestamp, IP address, failure reason |
 | **Logout** | User, timestamp, session duration |
 | **Password Change** | User, timestamp |
-| **MFA Events** | Enrollment, verification, recovery |
-
-### Session Events
-
-| Event | Details Captured |
-|-------|------------------|
-| **Session Start** | User, machine, timestamp, source IP |
-| **Session End** | User, machine, timestamp, duration, reason |
-| **Command Executed** | User, machine, command, timestamp, exit code |
-| **File Transfer** | User, machine, file path, direction, size |
 
 ### Administrative Events
 
 | Event | Details Captured |
 |-------|------------------|
-| **User Invited** | Admin, invited user, roles assigned |
-| **User Removed** | Admin, removed user |
+| **Machine Registered** | User, machine hostname, OS, IP address |
+| **Machine Deleted** | User, machine |
+| **API Key Regenerated** | User, timestamp |
 | **Role Changed** | Admin, user, old role, new role |
-| **Machine Added** | Admin, machine details |
-| **Machine Modified** | Admin, machine, changes made |
-| **Machine Deleted** | Admin, machine |
-| **Settings Changed** | Admin, setting, old value, new value |
 
 ## Viewing Audit Logs
 
@@ -69,35 +69,30 @@ Search through logs using:
 
 ## Log Details
 
-Click any log entry to see full details:
+Each command log entry contains:
 
 ```json
 {
-  "event_id": "evt_abc123",
-  "timestamp": "2024-01-15T14:30:22Z",
-  "event_type": "session.command",
-  "user": {
-    "id": "usr_xyz789",
-    "email": "developer@company.com",
-    "name": "John Developer"
-  },
-  "machine": {
-    "id": "mch_def456",
-    "name": "production-web-01",
-    "ip": "10.0.1.50"
-  },
-  "details": {
-    "command": "sudo systemctl restart nginx",
-    "exit_code": 0,
-    "duration_ms": 1523
-  },
-  "context": {
-    "session_id": "ses_ghi012",
-    "source_ip": "203.0.113.50",
-    "user_agent": "Mozilla/5.0..."
-  }
+  "id": "68abc123def456",
+  "machine_id": "68xyz789abc012",
+  "machine_name": "production-web-01",
+  "user_id": "68usr789abc012",
+  "username": "johndoe",
+  "command": "sudo systemctl restart nginx",
+  "timestamp": "2026-02-06T14:30:22Z",
+  "success": true
 }
 ```
+
+**Via the API:**
+
+```bash
+# Get command logs for a machine (last 100)
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  https://your-vsay-instance.com/api/machines/{agent_id}/logs
+```
+
+See the [Machines API](/docs/next/api/machines) for the full response format.
 
 ## Compliance Features
 

@@ -62,29 +62,14 @@ You can have multiple terminal sessions open simultaneously:
 
 ### Session Persistence
 
-VSAY Terminal supports session persistence:
-- Sessions survive brief network interruptions
-- Automatic reconnection when connectivity is restored
-- Background processes continue running during disconnections
+Terminal sessions are maintained as long as the WebSocket connection and the agent's gRPC stream remain active. If your browser tab disconnects or network drops:
+
+- The shell process on the machine **continues running** — your background processes are not interrupted
+- Reconnecting opens a **new terminal session** (the previous shell state is not restored)
 
 :::info
-For long-running processes, we recommend using `tmux` or `screen` on your server for additional session management.
+For long-running processes, use `tmux` or `screen` on your machine so you can reattach after reconnecting.
 :::
-
-### File Transfer
-
-Transfer files directly through the Web Terminal interface:
-
-**Upload to Server:**
-1. Click the **"Upload"** button in the terminal toolbar
-2. Select files from your local machine
-3. Choose the destination directory on the server
-4. Files are transferred securely
-
-**Download from Server:**
-1. Click the **"Download"** button
-2. Enter the file path on the server
-3. The file downloads to your browser
 
 ## Command History
 

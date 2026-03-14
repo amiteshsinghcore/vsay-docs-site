@@ -19,25 +19,21 @@ The monitoring dashboard gives you a bird's-eye view of your infrastructure:
 
 ### Health Metrics
 
-VSAY Terminal monitors key health indicators for each machine:
+The `vsay-agent` sends a heartbeat every 30 seconds containing live system statistics. These are displayed in real time on the machine detail page and the dashboard.
 
-| Metric | Description |
-|--------|-------------|
-| **Connection Status** | Whether the machine is reachable |
-| **Response Time** | Latency to the machine |
-| **CPU Usage** | Current processor utilization |
-| **Memory Usage** | RAM utilization |
-| **Disk Usage** | Storage utilization |
-| **Uptime** | How long the machine has been running |
+| Metric | Description | Source |
+|--------|-------------|--------|
+| **Connection Status** | Online / Offline — based on last heartbeat | Agent heartbeat |
+| **CPU Usage (%)** | Current processor utilization | Agent heartbeat |
+| **Memory Usage (%)** | RAM utilization | Agent heartbeat |
+| **Disk Usage (%)** | Storage utilization | Agent heartbeat |
+| **Network Inbound** | Inbound network throughput (MB/s) | Agent heartbeat |
+| **Network Outbound** | Outbound network throughput (MB/s) | Agent heartbeat |
+| **Uptime** | Seconds since the machine last booted | Agent heartbeat |
 
-### Health Checks
+### Offline Detection
 
-Configure automated health checks:
-
-1. Go to **Machines → [Select Machine] → Monitoring**
-2. Enable **Health Checks**
-3. Configure check interval (e.g., every 5 minutes)
-4. Set threshold alerts (e.g., alert when CPU > 90%)
+A background reconciler checks all machines every minute. If a machine has not sent a heartbeat within the **offline timeout** (default: 2 minutes), its status is automatically set to **Offline**. The machine returns to **Online** as soon as the agent reconnects and sends a heartbeat.
 
 ### Status Indicators
 
@@ -64,11 +60,11 @@ See commands as they're executed across your infrastructure:
 Each command log entry includes:
 
 - **Timestamp**: When the command was executed
-- **User**: Who ran the command
+- **User**: Who ran the command (username)
 - **Machine**: Which server it was run on
 - **Command**: The full command text
-- **Exit Code**: Success or failure indicator
-- **Duration**: How long the command took
+- **Success**: Whether the command exited successfully (exit code 0)
+- **Source**: Which client the session came from (`ui`, `cli`, or `vscode`)
 
 :::info
 Command logging respects your organization's privacy settings. Sensitive commands can be masked or excluded from logs.
@@ -92,9 +88,7 @@ Monitor who's currently connected:
 
 Organization admins can:
 
-- **View**: Watch the session in read-only mode
-- **Message**: Send a message to the user
-- **Terminate**: End the session immediately (emergency use only)
+- **Terminate**: End an active session immediately via the Sessions panel or the API (`DELETE /api/terminal/sessions/:session_id`)
 
 ## Alerts and Notifications
 

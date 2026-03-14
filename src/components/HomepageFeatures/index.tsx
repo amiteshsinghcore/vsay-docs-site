@@ -11,12 +11,13 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Secure SSH Access',
+    title: 'Secure Remote Access',
     icon: '🔐',
     description: (
       <>
-        Connect to your machines through encrypted tunnels with enterprise-grade
-        security. All connections are authenticated, authorized, and logged.
+        Install a lightweight agent on any Linux machine and connect instantly —
+        no open ports, no SSH keys, no bastion hosts. All connections are
+        authenticated, authorized, and logged.
       </>
     ),
   },

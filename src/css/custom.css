@@ -4,8 +4,33 @@
  * work well for content-centric websites.
  */
 
-/* Default Blue Theme */
+/* Default Orange Theme */
 :root,
+[data-color='orange'] {
+  --ifm-color-primary: #f97316;
+  --ifm-color-primary-dark: #ea580c;
+  --ifm-color-primary-darker: #c2410c;
+  --ifm-color-primary-darkest: #9a3412;
+  --ifm-color-primary-light: #fb923c;
+  --ifm-color-primary-lighter: #fdba74;
+  --ifm-color-primary-lightest: #fed7aa;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(249, 115, 22, 0.15);
+}
+
+[data-theme='dark'],
+[data-theme='dark'][data-color='orange'] {
+  --ifm-color-primary: #fb923c;
+  --ifm-color-primary-dark: #f97316;
+  --ifm-color-primary-darker: #ea580c;
+  --ifm-color-primary-darkest: #c2410c;
+  --ifm-color-primary-light: #fdba74;
+  --ifm-color-primary-lighter: #fed7aa;
+  --ifm-color-primary-lightest: #ffedd5;
+  --docusaurus-highlighted-code-line-bg: rgba(251, 146, 60, 0.3);
+}
+
+/* Blue Theme */
 [data-color='blue'] {
   --ifm-color-primary: #2563eb;
   --ifm-color-primary-dark: #1d4ed8;
@@ -14,11 +39,9 @@
   --ifm-color-primary-light: #3b82f6;
   --ifm-color-primary-lighter: #60a5fa;
   --ifm-color-primary-lightest: #93c5fd;
-  --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(37, 99, 235, 0.15);
 }
 
-[data-theme='dark'],
 [data-theme='dark'][data-color='blue'] {
   --ifm-color-primary: #3b82f6;
   --ifm-color-primary-dark: #2563eb;
@@ -30,28 +53,6 @@
   --docusaurus-highlighted-code-line-bg: rgba(59, 130, 246, 0.3);
 }
 
-/* Orange Theme */
-[data-color='orange'] {
-  --ifm-color-primary: #f97316;
-  --ifm-color-primary-dark: #ea580c;
-  --ifm-color-primary-darker: #c2410c;
-  --ifm-color-primary-darkest: #9a3412;
-  --ifm-color-primary-light: #fb923c;
-  --ifm-color-primary-lighter: #fdba74;
-  --ifm-color-primary-lightest: #fed7aa;
-  --docusaurus-highlighted-code-line-bg: rgba(249, 115, 22, 0.15);
-}
-
-[data-theme='dark'][data-color='orange'] {
-  --ifm-color-primary: #fb923c;
-  --ifm-color-primary-dark: #f97316;
-  --ifm-color-primary-darker: #ea580c;
-  --ifm-color-primary-darkest: #c2410c;
-  --ifm-color-primary-light: #fdba74;
-  --ifm-color-primary-lighter: #fed7aa;
-  --ifm-color-primary-lightest: #ffedd5;
-  --docusaurus-highlighted-code-line-bg: rgba(251, 146, 60, 0.3);
-}
 
 /* Cyan Theme */
 [data-color='cyan'] {

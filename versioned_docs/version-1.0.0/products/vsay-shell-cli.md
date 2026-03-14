@@ -1,131 +1,130 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # VSAY Shell CLI
 
-VSAY Shell CLI is a powerful command-line interface tool that allows you to manage your SSH connections and interact with VSAY Terminal directly from your terminal.
+VSAY Shell CLI is a Go-based command-line tool that lets you list your machines and connect to them with a full interactive terminal — directly from your terminal, without opening a browser.
 
 ## Overview
 
 VSAY Shell CLI provides:
 
-- **Command-line SSH management** - Connect to machines without leaving your terminal
-- **Script automation** - Automate repetitive tasks with shell scripts
-- **Lightweight** - Minimal footprint, fast execution
-- **Cross-platform** - Works on Linux, macOS, and Windows
+- **Interactive terminal sessions** — full PTY terminal via WebSocket, just like the web terminal
+- **Machine listing** — see all your registered machines and their online/offline status
+- **Lightweight** — single static binary, no runtime dependencies
+- **Cross-platform** — Linux, macOS, and Windows
 
 ## Installation
 
-### Using npm
+VSAY Shell CLI is distributed as a pre-compiled binary.
+
+### Download Binary (Linux / macOS)
 
 ```bash
-npm install -g @vsay/shell-cli
+# Download the latest release (replace with your platform)
+curl -LO https://releases.vsayterminal.com/vsay-shell-cli/latest/vsay-shell-cli-linux-amd64.tar.gz
+tar -xzf vsay-shell-cli-linux-amd64.tar.gz
+sudo mv vsay-shell-cli /usr/local/bin/
 ```
 
-### Using Homebrew (macOS)
+### Install via DEB Package (Debian/Ubuntu)
 
 ```bash
-brew install vsay-shell-cli
+sudo dpkg -i vsay-shell-cli_amd64.deb
 ```
 
-### Using apt (Debian/Ubuntu)
+### Install via RPM Package (RHEL/CentOS/Fedora)
 
 ```bash
-curl -fsSL https://packages.vsayterminal.com/gpg | sudo apt-key add -
-echo "deb https://packages.vsayterminal.com/apt stable main" | sudo tee /etc/apt/sources.list.d/vsay.list
-sudo apt update && sudo apt install vsay-shell-cli
+sudo rpm -i vsay-shell-cli_amd64.rpm
 ```
 
 ## Quick Start
 
-### Login
+### 1. Login
+
+Authenticate with your VSAY backend URL:
 
 ```bash
-vsay login
+vsay-shell-cli login https://your-vsay-instance.com
 ```
 
-### List Machines
+You'll be prompted for your email and password. Credentials are saved to `~/.vsay-shell-cli/config.json`.
+
+### 2. List Machines
 
 ```bash
-vsay machines list
+vsay-shell-cli list
 ```
 
-### Connect to a Machine
+or
 
 ```bash
-vsay connect <machine-name>
+vsay-shell-cli ls
 ```
 
-### Execute Command on Remote Machine
+### 3. Connect to a Machine
 
 ```bash
-vsay exec <machine-name> "ls -la"
+vsay-shell-cli connect <machine-name>
+```
+
+This opens a full interactive terminal session to the machine via WebSocket — the same connection used by the web terminal.
+
+### 4. Delete a Machine
+
+```bash
+vsay-shell-cli delete <machine-name>
 ```
 
 ## Commands Reference
 
 | Command | Description |
-|---------|-------------|
-| `vsay login` | Authenticate with VSAY Terminal |
-| `vsay logout` | Log out from VSAY Terminal |
-| `vsay machines list` | List all available machines |
-| `vsay machines add` | Add a new machine |
-| `vsay connect <name>` | Connect to a machine |
-| `vsay exec <name> <cmd>` | Execute command on machine |
-| `vsay config` | View/edit configuration |
-| `vsay version` | Show CLI version |
+|:--------|:------------|
+| `vsay-shell-cli login <URL>` | Authenticate with your VSAY backend |
+| `vsay-shell-cli logout` | Clear saved credentials |
+| `vsay-shell-cli list` / `ls` | List all registered machines |
+| `vsay-shell-cli connect <name>` | Open an interactive terminal session |
+| `vsay-shell-cli delete <name>` | Remove a machine from your account |
+| `vsay-shell-cli status` | Show current login status |
+| `vsay-shell-cli version` | Print CLI version |
 
 ## Configuration
 
-Configuration file location: `~/.vsay/config.json`
+Credentials and API URL are stored in:
+
+```
+~/.vsay-shell-cli/config.json
+```
 
 ```json
 {
-  "apiUrl": "https://api.vsayterminal.com",
-  "defaultOrg": "my-organization",
-  "theme": "dark",
-  "timeout": 30000
+  "api_url": "https://your-vsay-instance.com",
+  "token": "eyJhbGciOiJIUzI1NiIs..."
 }
 ```
 
-## Features
+## How the Terminal Connection Works
 
-### Session Management
+When you run `vsay-shell-cli connect <name>`, the CLI:
 
-```bash
-# List active sessions
-vsay sessions list
-
-# Kill a session
-vsay sessions kill <session-id>
-```
-
-### File Transfer
-
-```bash
-# Upload file
-vsay upload <machine-name> ./local-file.txt /remote/path/
-
-# Download file
-vsay download <machine-name> /remote/file.txt ./local-path/
-```
-
-### Batch Operations
-
-```bash
-# Execute on multiple machines
-vsay exec --tag production "sudo apt update"
-```
+1. Fetches your machine list from `/api/machines` to find the `agent_id`
+2. Generates a unique session ID: `cli-{timestamp}`
+3. Opens a WebSocket to:
+   ```
+   ws://your-vsay-instance.com/api/terminal/{agent_id}/ws?session_id=...&token=JWT&source=cli
+   ```
+4. Connects your local terminal (TTY) to the WebSocket stream
+5. Keystrokes are forwarded to the agent on the remote machine, output streams back in real time
 
 ## Community vs Enterprise
 
 | Feature | Community | Enterprise |
-|---------|-----------|------------|
-| Basic SSH connections | Yes | Yes |
-| Machine management | Yes | Yes |
-| File transfer | Yes | Yes |
-| Multi-org support | No | Yes |
-| OIDC authentication | No | Yes |
-| Audit logging | Basic | Advanced |
-| Priority support | No | Yes |
+|:--------|:---------:|:----------:|
+| Login and authentication | ✅ | ✅ |
+| List machines | ✅ | ✅ |
+| Interactive terminal sessions | ✅ | ✅ |
+| Delete machines | ✅ | ✅ |
+| OIDC/SSO authentication | ❌ | ✅ |
+| Multi-org support | ❌ | ✅ |

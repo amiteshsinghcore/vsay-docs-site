@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Getting Started
 
-This guide will help you set up VSAY Terminal Community Edition and connect to your first machine.
+This guide will help you set up VSAY Terminal and connect to your first machine.
 
 ## Prerequisites
 
@@ -12,88 +12,129 @@ Before you begin, ensure you have:
 
 - An active VSAY Terminal account
 - At least one server/machine you want to connect to
+- Admin access to your organization (for initial setup)
 
 ## Step 1: Sign Up or Login
 
 ![Login Page](/img/login/login-page.png)
 
-### Using Email/Password
-
-1. Navigate to the login page
+1. Navigate to the VSAY Terminal login page
 2. Enter your email and password
 3. Click **"Sign In"**
 
-### Create an Account
-
-If you don't have an account:
-
-1. Click **"Sign Up"**
-2. Enter your email and create a password
-3. Verify your email
-4. Log in to your dashboard
-
-:::tip Enterprise Feature
-Looking for **OIDC/SSO login**? [Upgrade to Enterprise Edition](/docs/next/intro) for Single Sign-On support.
+:::note Powered by Keycloak
+VSAY Terminal uses **Keycloak** as its identity platform. When you sign up or log in with email and password, your credentials are managed by Keycloak. This gives you enterprise-grade password security, session management, and account control — even in the Community Edition.
 :::
 
-## Step 2: Register Your First Machine
+:::info Enterprise Feature
+Signing in with **Microsoft, GitHub, Okta, Azure AD**, or any other external provider is available in the **Enterprise Edition** — also powered by Keycloak as an identity broker. [Learn more](/docs/next/authentication/oidc-integration).
+:::
+
+## Step 2: Get Your API Key
+
+After signing in, navigate to your **Profile** page to find your **API Key**. You'll need this to register the VSAY Agent on your machines.
+
+![Profile Page](/img/create-account/create-page.png)
+
+- Go to **Profile** in the top-right menu
+- Copy your **API Key** — this is what authenticates the agent with your account
+
+:::tip
+If your API key is ever compromised, you can regenerate it from the Profile page. Note that regenerating it will disconnect all agents using the old key.
+:::
+
+## Step 3: Install & Register the Agent on Your Machine
+
+VSAY Terminal works by installing a lightweight agent (`vsay-agent`) on the Linux machine you want to access. The agent connects back to the VSAY backend over gRPC — no inbound firewall rules required.
 
 ![Machines Page](/img/mechines/machines.jpeg)
 
-To connect to a machine through VSAY Terminal:
+### Install the Agent
 
-1. Navigate to **Machines** in your dashboard
-2. Click **"Add Machine"**
-3. Enter the machine details:
-   - **Name**: A friendly name for the machine
-   - **Host**: The IP address or hostname
-   - **Port**: SSH port (default: 22)
-   - **Description**: Optional description
+Download and install `vsay-agent` on your Linux machine:
 
-4. Configure authentication:
-   - Upload SSH key or use password authentication
-   - Set up any required jump hosts
+```bash
+# Download the latest release for your architecture (amd64 example)
+curl -LO https://releases.vsayterminal.com/vsay-agent/latest/vsay-agent-linux-amd64.tar.gz
+tar -xzf vsay-agent-linux-amd64.tar.gz
+sudo mv vsay-agent /usr/local/bin/
+```
 
-5. Click **"Save"**
+Or install via the DEB package (Debian/Ubuntu):
 
-## Step 3: Connect to Your Machine
+```bash
+sudo dpkg -i vsay-agent_amd64.deb
+```
 
-Once your machine is registered:
+### Configure the Agent
+
+Run the configure command with your API key and the VSAY backend URL:
+
+```bash
+sudo vsay-agent configure \
+  --token YOUR_API_KEY \
+  --host http://your-vsay-instance.com:8080 \
+  --linux-user ubuntu
+```
+
+| Flag | Description |
+|:-----|:------------|
+| `--token` | Your API key from the Profile page |
+| `--host` | URL of your VSAY backend |
+| `--linux-user` | The Linux user that terminal sessions will run as |
+| `--allow-sudo` | (Optional) Allow sudo commands in terminal sessions |
+
+This command will:
+1. Save the configuration to `/etc/vsay/agent.yaml`
+2. Install and start a **systemd service** (`vsay-agent.service`) that auto-starts on boot
+
+### Verify the Agent is Running
+
+```bash
+systemctl status vsay-agent
+```
+
+Once the agent starts, it registers itself with the backend and your machine will appear in the **Machines** dashboard within seconds.
+
+## Step 4: Connect to Your Machine
+
+Once your machine appears in the dashboard:
 
 1. Go to the **Machines** list
-2. Find your machine and click **"Connect"**
-3. The Web Terminal will open in a new tab
-4. You're now connected! Start running commands.
+2. Find your machine — it should show **Online** status
+3. Click **"Connect"**
+4. The Web Terminal opens and you're connected directly to your machine
 
 ## Next Steps
 
 Now that you're connected, explore more features:
 
-- [Set up team collaboration](/docs/features/team-collaboration) - Add team members and assign roles
-- [Configure monitoring](/docs/features/monitoring) - Track server health and command history
-- [Review audit logs](/docs/features/audit-logs) - Understand your compliance capabilities
+- [Team Collaboration](/docs/features/team-collaboration) - Add team members and assign roles, restrict machine access per user
+- [Real-time Monitoring](/docs/features/monitoring) - Track server health, CPU/memory/disk stats from agent heartbeats
+- [Audit Logs](/docs/features/audit-logs) - Review command history and session activity
+- [Community](/docs/features/community) - Use the built-in issue tracker to report and track infrastructure problems
 
-## Feature Comparison
+## Community Edition Features
 
-See what's included in your Community Edition and what's available with Enterprise:
+| Feature | Status | Description |
+|:--------|:------:|:------------|
+| Secure Remote Access (Agent-Based) | ✅ | Connect via vsay-agent — no inbound ports needed |
+| Web Terminal | ✅ | Browser-based terminal access |
+| Team Collaboration (RBAC) | ✅ | Role-based access management |
+| Real-time Monitoring | ✅ | CPU/memory/disk stats from agent heartbeats |
+| Session & Command Recording | ✅ | All commands logged with user, timestamp, and exit code |
+| Audit Logs | ✅ | Complete command and activity history |
+| Community (Issue Tracker) | ✅ | Collaborative issue tracking for your team |
+| TLS Encryption | ✅ | Secure data in transit |
+| VSAY Shell CLI | ✅ | Command-line tool for terminal access |
+| VSAY VSCode Extension | ✅ | IDE integration |
+| API Access | ✅ | REST API for integrations |
+| Keycloak Authentication | ✅ | Email/password login managed by Keycloak |
+| MTLS (Mutual TLS) | ❌ | Enterprise only |
+| External SSO (Microsoft, GitHub, Okta, Azure AD…) | ❌ | Enterprise only — federated via Keycloak |
+| Multi-tenancy (Organizations) | ❌ | Enterprise only |
+| Priority Support | ❌ | Enterprise only |
 
-| Feature | Community | Enterprise |
-|:--------|:---------:|:----------:|
-| Secure SSH Access | ✅ | ✅ |
-| Web Terminal | ✅ | ✅ |
-| Team Collaboration (RBAC) | ✅ | ✅ |
-| Real-time Monitoring | ✅ | ✅ |
-| Audit Logs | ✅ | ✅ |
-| TLS Encryption | ✅ | ✅ |
-| VSAY Shell CLI | ✅ | ✅ |
-| VSAY VSCode Extension | ✅ | ✅ |
-| API Access | ✅ | ✅ |
-| MTLS (Mutual TLS) | ❌ | ✅ |
-| OIDC/SSO (Keycloak) | ❌ | ✅ |
-| Multi-tenancy (Organizations) | ❌ | ✅ |
-| Organization API | ❌ | ✅ |
-| Priority Support | ❌ | ✅ |
-
-:::info Upgrade to Enterprise
-Unlock **OIDC/SSO Integration**, **Multi-tenancy**, and **Priority Support** with [Enterprise Edition](/docs/next/intro).
+:::tip Upgrade to Enterprise
+Need SSO with Keycloak, Okta, or Azure AD? Need Mutual TLS or multi-organization support? [See the Enterprise Edition](/docs/next/intro).
 :::

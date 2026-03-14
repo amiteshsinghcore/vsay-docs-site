@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkdocs_terminal=globalThis.webpackChunkdocs_terminal||[]).push([[7472],{5513(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome to VSAY Terminal","permalink":"/blog/welcome","unlisted":false,"date":"2026-02-06T00:00:00.000Z"}]}')}}]);
