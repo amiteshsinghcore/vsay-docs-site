@@ -77,5 +77,5 @@ Current implemented features are documented throughout the rest of this document
 ---
 
 :::tip Suggest a Feature
-Have a feature request? Use the [Community issue tracker](/community) to submit and vote on ideas.
+Have a feature request? Use the [Community issue tracker](/docs/next/features/community) to submit and vote on ideas.
 :::
