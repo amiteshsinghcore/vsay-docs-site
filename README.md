@@ -137,3 +137,4 @@ docs-terminal/
 
 - **Amitesh Singh** — Software Engineer
 - **Yesveer Singh** — Software Engineer
+- **Rishabh Aggarwal** — Software Engineer
