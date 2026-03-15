@@ -29,9 +29,11 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 230, 118, 0.2);
 }
 
-/* ::selection color is injected dynamically via
-   src/theme/Navbar/ColorModeToggle/index.tsx
-   using the useColorMode hook */
+/* Text selection highlight — green for both themes */
+::selection {
+  background-color: rgba(0, 204, 106, 0.35);
+  color: inherit;
+}
 
 /* ==============================================
    DARK MODE — blue-tinted black background
