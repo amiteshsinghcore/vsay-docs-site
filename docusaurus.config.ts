@@ -102,8 +102,8 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          type: 'doc',
+          docId: 'intro',
           position: 'left',
           label: 'Documentation',
         },
@@ -128,10 +128,27 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          type: 'docsVersionDropdown',
+          type: 'dropdown',
+          label: 'Edition',
           position: 'right',
-          dropdownActiveClassDisabled: true,
           className: 'navbar-version-dropdown',
+          items: [
+            {
+              label: 'Enterprise (1.2.0)',
+              to: '/docs/next/intro',
+              activeBaseRegex: '/docs/next/',
+            },
+            {
+              label: 'Enterprise (1.1.0)',
+              to: '/docs/1.1.0/intro',
+              activeBaseRegex: '/docs/1.1.0/',
+            },
+            {
+              label: 'Community (1.0.0)',
+              to: '/docs/intro',
+              activeBaseRegex: '^/docs/(?!next|1\\.1\\.0|1\\.2\\.0)',
+            },
+          ],
         },
       ],
     },
