@@ -12,7 +12,20 @@ function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero', styles.heroBanner)}>
-      <div className="container">
+      {/* Animated background blobs */}
+      <div className={styles.blobsContainer}>
+        <div className={clsx(styles.blob, styles.blob1)} />
+        <div className={clsx(styles.blob, styles.blob2)} />
+        <div className={clsx(styles.blob, styles.blob3)} />
+      </div>
+
+      <div className="container" style={{position: 'relative', zIndex: 1}}>
+        {/* Badge */}
+        <div className={styles.badge}>
+          <span className={styles.badgeDot} />
+          Machines Management Platform
+        </div>
+
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
@@ -25,8 +38,7 @@ function HomepageHeader() {
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro"
-            style={{marginLeft: '12px'}}>
+            to="/docs/intro">
             View Docs
           </Link>
         </div>

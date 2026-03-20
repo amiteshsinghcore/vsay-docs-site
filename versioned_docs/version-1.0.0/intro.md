@@ -9,13 +9,13 @@ sidebar_label: Documentation
 This is the free Community Edition. For **OIDC/OAuth2 Login** (Microsoft, GitHub), **Mutual TLS**, and **Multi-tenancy**, [switch to the Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
 :::
 
-WebXTerm is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your Linux machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
+WebXTerm is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
 
 ![WebXTerm Dashboard](/img/dashboards/dashboards.jpeg)
 
 ## What Makes Us Different?
 
-Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** — install a lightweight agent on any Linux machine and it connects outbound to the backend. No open ports, no SSH key management, no bastion hosts. Access your machines from anywhere through:
+Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** — install a lightweight agent on any machine and it connects outbound to the backend. No open ports, no SSH key management, no bastion hosts. Access your machines from anywhere through:
 
 | Access Method | Description |
 |:--------------|:------------|
@@ -58,7 +58,7 @@ Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** 
 ## All Features Included
 
 ### Core Features
-- **Secure Remote Access:** Connect to your Linux machines through agent-based WebSocket tunneling — no inbound ports, no SSH key management.
+- **Secure Remote Access:** Connect to your machines through agent-based WebSocket tunneling — no inbound ports, no SSH key management.
 - **Web Terminal:** Full browser-based terminal access powered by xterm.js — connect from anywhere with no local tools required.
 - **Team Collaboration:** Share machine access with team members using role-based access control and per-machine allowed user lists.
 - **Real-time Monitoring:** Live CPU, memory, disk, and network stats from every agent — plus online/offline status tracking.
@@ -106,7 +106,7 @@ WebXTerm Community Edition v1.0.0 uses its own **JWT-based authentication**. Whe
 |:--------|:------------|
 | [WebXTerm Shell CLI](/docs/next/products/vsay-shell-cli) | Go CLI tool — `vsay-shell-cli connect <machine>` |
 | [WebXTerm VSCode Extension](/docs/next/products/vsay-vscode-extension) | Integrated IDE terminal, file browser, and port forwarding |
-| [WebXTerm Agent](/docs/next/getting-started) | Lightweight daemon installed on Linux machines — the core of the system |
+| [WebXTerm Agent](/docs/next/getting-started) | Lightweight daemon installed on machines — the core of the system |
 
 ## Why Webxterm Terminal Enterprise?
 

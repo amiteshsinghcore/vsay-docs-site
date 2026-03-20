@@ -45,26 +45,69 @@ If your API key is ever compromised, you can regenerate it from the Profile page
 
 ## Step 3: Install & Register the Agent on Your Machine
 
-WebXTerm works by installing a lightweight agent (`vsay-agent`) on the Linux machine you want to access. The agent connects back to the WebXTerm backend over gRPC — no inbound firewall rules required.
+WebXTerm works by installing a lightweight agent (`vsay-agent`) on the machine you want to access. The agent connects back to the WebXTerm backend over gRPC — no inbound firewall rules required.
 
 ![Machines Page](/img/mechines/machines.jpeg)
 
 ### Install the Agent
 
-Download and install `vsay-agent` on your Linux machine:
+Download and install `vsay-agent` on your machine. Choose the package for your operating system and architecture:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="linux-amd64" label="Linux (amd64)" default>
 
 ```bash
-# Download the latest release for your architecture (amd64 example)
 curl -LO https://releases.vsayterminal.com/vsay-agent/latest/vsay-agent-linux-amd64.tar.gz
 tar -xzf vsay-agent-linux-amd64.tar.gz
 sudo mv vsay-agent /usr/local/bin/
 ```
 
-Or install via the DEB package (Debian/Ubuntu):
-
+Or via DEB package (Debian/Ubuntu):
 ```bash
 sudo dpkg -i vsay-agent_amd64.deb
 ```
+
+</TabItem>
+<TabItem value="linux-arm64" label="Linux (arm64)">
+
+```bash
+curl -LO https://releases.vsayterminal.com/vsay-agent/latest/vsay-agent-linux-arm64.tar.gz
+tar -xzf vsay-agent-linux-arm64.tar.gz
+sudo mv vsay-agent /usr/local/bin/
+```
+
+</TabItem>
+<TabItem value="macos-intel" label="macOS (Intel)">
+
+```bash
+curl -LO https://releases.vsayterminal.com/vsay-agent/latest/vsay-agent-darwin-amd64.tar.gz
+tar -xzf vsay-agent-darwin-amd64.tar.gz
+sudo mv vsay-agent /usr/local/bin/
+```
+
+</TabItem>
+<TabItem value="macos-arm" label="macOS (Apple Silicon)">
+
+```bash
+curl -LO https://releases.vsayterminal.com/vsay-agent/latest/vsay-agent-darwin-arm64.tar.gz
+tar -xzf vsay-agent-darwin-arm64.tar.gz
+sudo mv vsay-agent /usr/local/bin/
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+```powershell
+Invoke-WebRequest -Uri "https://releases.vsayterminal.com/vsay-agent/latest/vsay-agent-windows-amd64.zip" -OutFile "vsay-agent.zip"
+Expand-Archive vsay-agent.zip -DestinationPath "C:\Program Files\vsay-agent\"
+# Add C:\Program Files\vsay-agent\ to your PATH
+```
+
+</TabItem>
+</Tabs>
 
 ### Configure the Agent
 
@@ -81,7 +124,7 @@ sudo vsay-agent configure \
 |:-----|:------------|
 | `--token` | Your API key from the Profile page |
 | `--host` | URL of your WebXTerm backend |
-| `--linux-user` | The Linux user that terminal sessions will run as |
+| `--linux-user` | The system user that terminal sessions will run as |
 | `--allow-sudo` | (Optional) Allow sudo commands in terminal sessions |
 
 This command will:

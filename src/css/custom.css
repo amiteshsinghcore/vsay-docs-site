@@ -153,16 +153,34 @@
 }
 
 /* ==============================================
-   NAVBAR LOGO
+   NAVBAR LOGO + TITLE
    ============================================== */
 .navbar__logo {
-  height: 28px;
+  height: 32px;
   width: auto;
 }
 
 .navbar__logo img {
-  height: 28px;
-  width: 50px;
+  height: 32px;
+  width: 32px;
+}
+
+/* "WebXterm" gradient text — matches original site */
+.navbar__brand .navbar__title {
+  background: linear-gradient(90deg, #00e676 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+
+[data-theme='light'] .navbar__brand .navbar__title {
+  background: linear-gradient(90deg, #059669 0%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ==============================================

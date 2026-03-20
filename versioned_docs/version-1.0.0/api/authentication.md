@@ -162,7 +162,7 @@ wss://your-webxterm-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 
 ### Agent Registration
 
-Use your **API key** (from the `api_key` field in the signup/login response, or from the Profile page) when configuring the agent on a Linux machine:
+Use your **API key** (from the `api_key` field in the signup/login response, or from the Profile page) when configuring the agent on a machine:
 
 ```bash
 sudo vsay-agent configure \

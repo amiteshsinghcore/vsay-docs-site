@@ -66,7 +66,7 @@ Register a new machine to your dashboard:
 
 1. Go to **Machines → Add Machine**
 2. Copy the displayed install command
-3. Run it on your Linux server to install and configure `vsay-agent`
+3. Run it on your server to install and configure `vsay-agent`
 4. The machine appears in your dashboard within seconds
 
 ### Profile

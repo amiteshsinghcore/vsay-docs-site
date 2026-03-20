@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Secure SSH Access
 
-WebXTerm provides secure remote terminal access to your Linux machines through an **agent-based WebSocket tunneling** architecture — no open inbound ports, no SSH key management, no bastion hosts required.
+WebXTerm provides secure remote terminal access to your machines through an **agent-based WebSocket tunneling** architecture — no open inbound ports, no SSH key management, no bastion hosts required.
 
 ## How It Works
 
@@ -20,12 +20,12 @@ You (Browser / CLI / VSCode)
         │
         │  gRPC bidirectional stream (:50051)
         ▼
-  vsay-agent (on your Linux machine)
+  vsay-agent (on your machine)
         │
         │  PTY (pseudo-terminal)
         ▼
   Shell process (bash / sh)
-  running as configured Linux user
+  running as configured system user
 ```
 
 All connections are:
@@ -43,7 +43,7 @@ All connections are:
    ```
 3. The backend validates your token, confirms you own the machine, and looks up the agent's live gRPC stream
 4. The backend forwards your keystrokes to the agent over gRPC
-5. The agent writes input to a PTY running a shell as the configured Linux user
+5. The agent writes input to a PTY running a shell as the configured system user
 6. Shell output flows back: agent → gRPC → backend → WebSocket → your terminal emulator
 
 ## Machine Registration
@@ -90,7 +90,7 @@ Your API key authenticates all agents registered to your account. Regenerate it 
 |:------|:---------|
 | Browser / CLI / VSCode → Backend | WebSocket over TLS (WSS / HTTPS) |
 | Backend → Agent | gRPC over TLS (configurable) |
-| Agent process isolation | Runs as a specified Linux user (not root) |
+| Agent process isolation | Runs as a specified system user (not root) |
 
 ### Session Security
 
@@ -122,7 +122,7 @@ The backend can also push `ConfigUpdate` messages to the agent to update allowed
 
 ## Best Practices
 
-1. **Run the agent as a least-privilege user** — use a dedicated Linux user with only necessary permissions
+1. **Run the agent as a least-privilege user** — use a dedicated system user with only necessary permissions
 2. **Enable TLS on the backend** — use HTTPS/WSS in production
 3. **Regenerate API keys periodically** — rotate agent credentials regularly
 4. **Review audit logs** — monitor command history for unexpected activity

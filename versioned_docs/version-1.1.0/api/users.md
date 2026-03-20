@@ -119,7 +119,7 @@ Update your profile avatar URL.
 
 ## API Key Usage
 
-Your API key is used when configuring the WebXTerm Agent on your Linux machines:
+Your API key is used when configuring the WebXTerm Agent on your machines:
 
 ```bash
 sudo vsay-agent configure \
