@@ -1,11 +1,12 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
+sidebar_label: Documentation
 ---
 
 # Webxterm Documentation
 
-:::info You are viewing Enterprise Edition - Version 1.2.0
-This documentation covers all WebXTerm features including **OIDC/SSO Integration** (Keycloak) and **Multi-tenancy**.
+:::info Enterprise Edition
+This documentation covers all WebXTerm features including **OIDC/OAuth2 Login** (Microsoft, GitHub), **Keycloak Authentication**, and **Multi-tenancy**.
 For the free Community Edition, [switch to version 1.0.0](/docs/intro).
 :::
 
@@ -23,27 +24,27 @@ Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** 
 | **WebXTerm VSCode Extension** | Manage and connect to machines directly from your IDE |
 | **WebXTerm Shell CLI** | Command-line tool for terminal access and machine management |
 
-## Feature Comparison
+## Features
 
-| Feature | Community | Enterprise |
-|:--------|:---------:|:----------:|
-| Secure Remote Access (Agent-Based) | ✅ | ✅ |
-| Web Terminal | ✅ | ✅ |
-| Team Collaboration (RBAC) | ✅ | ✅ |
-| Real-time Monitoring | ✅ | ✅ |
-| Session & Command Recording | ✅ | ✅ |
-| Audit Logs | ✅ | ✅ |
-| Community (Issue Tracker) | ✅ | ✅ |
-| TLS Encryption | ✅ | ✅ |
-| WebXTerm Shell CLI | ✅ | ✅ |
-| WebXTerm VSCode Extension | ✅ | ✅ |
-| API Access | ✅ | ✅ |
-| Keycloak Authentication | ✅ | ✅ |
-| MTLS (Mutual TLS) | ❌ | ✅ |
-| External SSO (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
-| Multi-tenancy (Organizations) | ❌ | ✅ |
-| Organization API | ❌ | ✅ |
-| Priority Support | ❌ | ✅ |
+| Feature | Status | Description |
+|:--------|:------:|:------------|
+| Secure Remote Access (Agent-Based) | ✅ | Connect via vsay-agent — no inbound ports needed |
+| Web Terminal | ✅ | Browser-based terminal access powered by xterm.js |
+| Team Collaboration (RBAC) | ✅ | Role-based access management with per-machine user lists |
+| Real-time Monitoring | ✅ | CPU/memory/disk stats from agent heartbeats every 30s |
+| Session & Command Recording | ✅ | All commands logged with user, timestamp, and exit code |
+| Audit Logs | ✅ | Complete activity history across all machines |
+| Community (Issue Tracker) | ✅ | Collaborative issue tracking for your team |
+| TLS Encryption | ✅ | Secure data in transit between agent and backend |
+| WebXTerm Shell CLI | ✅ | Command-line tool for terminal access and machine management |
+| WebXTerm VSCode Extension | ✅ | Integrated IDE terminal, file browser, and port forwarding |
+| API Access | ✅ | REST API for integrations and automation |
+| MTLS (Mutual TLS) | ✅ | Certificate-based mutual authentication between agents and backend |
+| Keycloak Authentication | ✅ | Email/password verified via Keycloak; vsay-auth issues the JWT |
+| OIDC/OAuth2 Login (Microsoft, GitHub, Okta, Azure AD…) | ✅ | Handled directly by vsay-auth — no Keycloak involvement |
+| Multi-tenancy (Organizations) | ✅ | Organization-based access control with isolated workspaces |
+| Organization API | ✅ | Multi-tenancy API endpoints for organization management |
+| Priority Support | ✅ | Dedicated enterprise support |
 
 ## PAM & RBAC Capabilities
 
@@ -71,17 +72,17 @@ Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** 
 - **Audit Logs:** Complete activity history across all machines — who ran what, when, and from which client.
 - **Community:** Built-in issue tracker for your team — create tickets, post solutions, and track infrastructure problems collaboratively.
 
-### Authentication — Keycloak in Both Editions
+### Authentication — Keycloak + vsay-auth
 
-WebXTerm uses **Keycloak** as its identity platform in **both editions**:
+WebXTerm Enterprise uses **Keycloak** as the credential store and **vsay-auth** as the dedicated authentication service:
 
-- **Community**: Keycloak manages email/password users directly — all signups and logins go through Keycloak
-- **Enterprise**: Keycloak additionally acts as an **identity broker** — users can sign in with Microsoft, GitHub, Okta, Azure AD, and any OIDC provider, and Keycloak issues the final token to WebXTerm regardless of which provider was used
+- **Email/Password**: vsay-auth verifies credentials against Keycloak, then issues its own signed JWT (HS256). All API calls use this vsay-auth JWT — not a Keycloak OIDC token.
+- **OIDC/OAuth2 Login (Enterprise)**: vsay-auth handles OAuth2 directly with Microsoft and GitHub — no Keycloak brokering involved. After the user authenticates with the provider, vsay-auth matches the returned email to an existing account and issues a JWT.
 
-The WebXTerm backend always validates **Keycloak-issued tokens** — the auth flow is the same whether a user logged in with a password or with their Microsoft account.
+The WebXTerm backend always validates **vsay-auth JWTs** (issuer: `vsay-auth`). The token format is the same regardless of how the user logged in.
 
 ### Enterprise-Only Features
-- **External Identity Providers:** Sign in with Microsoft, GitHub, Okta, Azure AD, Google Workspace, Auth0 — all federated through Keycloak as an identity broker.
+- **OIDC/OAuth2 Login (Microsoft, GitHub):** Users can sign in with their Microsoft or GitHub account — handled directly by the vsay-auth service via OAuth2. The user's email is matched to their existing account and a vsay-auth JWT is issued.
 - **MTLS Security:** Mutual TLS for certificate-based authentication between agents and backend.
 - **Multi-tenancy:** Organization-based access control where each organization has its own admin to manage machines and users.
 
@@ -95,7 +96,7 @@ The WebXTerm backend always validates **Keycloak-issued tokens** — the auth fl
 - [Real-time Monitoring](/docs/next/features/monitoring) - Track machine health and activity
 
 ### Enterprise Features
-- [OIDC Integration](/docs/next/authentication/oidc-integration) - Set up Single Sign-On with Keycloak
+- [OIDC/OAuth2 Login](/docs/next/authentication/oidc-integration) - Set up Microsoft and GitHub login
 - [Organization Management](/docs/next/authentication/multi-tenancy) - Configure multi-tenancy
 
 ### API Reference
@@ -103,6 +104,14 @@ The WebXTerm backend always validates **Keycloak-issued tokens** — the auth fl
 
 ### What's Coming
 - [Roadmap](/docs/next/roadmap) - Planned and in-progress features
+
+## External Links
+
+| Resource | URL |
+|:---------|:----|
+| **Website** | [webxterm.me](https://webxterm.me/) |
+| **Community & Support** | [community.webxterm.me](https://community.webxterm.me/) |
+| **Documentation** | [docs.webxterm.me](https://docs.webxterm.me/) |
 
 ## Products & Clients
 
@@ -120,6 +129,6 @@ WebXTerm Enterprise is designed for organizations that need:
 2. **Enterprise RBAC** - Granular role-based access control for teams
 3. **Zero-Trust Security** - Every connection verified with TLS/MTLS encryption
 4. **Complete Visibility** - Know who accessed what and when with audit logs
-5. **SSO/OIDC Support** - Integrate with Keycloak and your existing identity provider
+5. **OIDC/OAuth2 Login** - Sign in with Microsoft or GitHub via OAuth2; Keycloak for email/password authentication
 6. **Multi-Organization** - Manage multiple teams and projects with isolated access
 7. **Multi-Channel Access** - Web Terminal, Shell CLI, and VSCode Extension

@@ -4,233 +4,159 @@ sidebar_position: 1
 
 # Authentication & OIDC Integration
 
-:::note Keycloak is used in ALL versions
-**Keycloak is the authentication layer in every edition** — v1.0.0 Community, v1.1.0 Enterprise, and v1.2.0 Enterprise. The WebXTerm backend only ever validates **Keycloak-issued tokens**, regardless of how the user logged in.
+:::note Keycloak is the credential store — vsay-auth is the auth service
+**Keycloak stores users and verifies passwords** in Enterprise editions. vsay-auth calls Keycloak to verify credentials, then issues its own signed JWT (HS256). All clients use **vsay-auth's JWT** — not a Keycloak OIDC token.
 
-**What's new in v1.2.0:** Keycloak can now be configured as an **identity broker** — so users can sign in with Microsoft, GitHub, Okta, or Azure AD. Even then, the login data flows **through Keycloak** before reaching WebXTerm. The backend never talks to Microsoft or Okta directly.
+**Community Edition** uses its own bcrypt + JWT auth — no Keycloak.
+
+**For OIDC/OAuth2 login (Enterprise):** vsay-auth talks directly to Microsoft or GitHub via OAuth2. Keycloak is **not** involved in the OIDC/OAuth2 login path.
 :::
 
-## Keycloak Is the Auth Layer in All Versions
+## The Two Auth Paths
 
-WebXTerm uses **Keycloak** as its authentication platform in **every edition**. The version determines what Keycloak authenticates *against*, not whether Keycloak is used.
+### Path 1 — Email + Password (All Editions)
 
-| Version | Keycloak Used? | What Keycloak Authenticates |
-|:--------|:--------------:|:----------------------------|
-| v1.0.0 Community | ✅ | Email + password (Keycloak manages users directly) |
-| v1.1.0 Enterprise | ✅ | Email + password (Keycloak manages users directly) |
-| v1.2.0 Enterprise | ✅ | Email + password **AND** external providers (Microsoft, GitHub, Okta, Azure AD) via Keycloak broker |
-
-**The rule:** No matter how a user signs in, the token WebXTerm validates is **always issued by Keycloak**. The backend only ever talks to Keycloak.
-
-## How Authentication Flows — All Versions
+Used in all Enterprise editions. Community Edition uses its own bcrypt-based auth without Keycloak.
 
 ```
-ALL VERSIONS (v1.0.0 / v1.1.0 / v1.2.0)
-─────────────────────────────────────────
-
-  User login
-      │
-      ▼
-  Keycloak Realm
-  (WebXTerm's identity layer)
-      │
-      ├── Email/Password? → Keycloak verifies directly
-      │
-      └── External Provider? (v1.2.0 only)
-              │
-              ▼
-          Microsoft / GitHub / Okta / Azure AD
-          (user authenticates with external provider)
-              │
-              ▼
-          Back to Keycloak → Keycloak issues its own token
-          (external provider identity is wrapped in a Keycloak token)
-      │
-      ▼
-  Keycloak OIDC Token issued
-      │
-      ▼
-  WebXTerm Machine Backend
-  (validates Keycloak token — always the same validation logic)
+User submits email + password
+        │
+        ▼
+vsay-auth service
+        │
+        ├─ Looks up user in MongoDB (finds their Keycloak realm/tenant)
+        │
+        ▼
+Keycloak realm (password verification)
+        │
+        └─ Credentials valid? ──► vsay-auth issues its own JWT (HS256, issuer: vsay-auth)
+                                        │
+                                        ▼
+                              Client uses JWT for all API calls
 ```
 
-**Key point for v1.2.0 OIDC:** When a user clicks "Sign in with GitHub", GitHub authenticates the user and sends their identity back to **Keycloak**. Keycloak then issues its own OIDC token to WebXTerm. The WebXTerm backend never sees the GitHub token — it only sees the Keycloak token, identical in format to an email/password login token.
+Keycloak stores the hashed password and verifies it. vsay-auth never sees or stores the Keycloak OIDC token — it only uses Keycloak as a credential verifier and user store, then issues its own JWT.
+
+### Path 2 — OIDC/OAuth2 Login (Enterprise)
+
+Used when a user clicks "Sign in with Microsoft" or "Sign in with GitHub":
+
+```
+User clicks "Sign in with Microsoft"
+        │
+        ▼
+GET /api/auth/oidc/microsoft  (vsay-auth)
+        │
+        ▼
+Microsoft OAuth2 authorization page
+(user authenticates with their Microsoft account)
+        │
+        ▼
+GET /api/auth/oidc/microsoft/callback  (vsay-auth)
+        │
+        ├─ Exchanges authorization code for id_token (server-side, over TLS)
+        ├─ Extracts email from id_token
+        │
+        ▼
+vsay-auth looks up email in MongoDB
+        │
+        ├─ Account found → vsay-auth issues its own JWT
+        └─ Account not found → error ("No account found for this email")
+```
+
+**Key point:** vsay-auth talks directly to Microsoft/GitHub — Keycloak is **not** involved in OIDC/OAuth2 login. The result is the same vsay-auth JWT as email/password login.
+
+:::warning OIDC/OAuth2 login requires an existing account
+OIDC/OAuth2 login does **not** auto-register new users. The user's email must already exist in the system (registered via signup or invited by an admin) before they can log in via OIDC/OAuth2 with Microsoft or GitHub.
+:::
 
 ---
 
-## v1.0.0 & v1.1.0 — Email/Password via Keycloak
+## Version Summary
 
-In Community (v1.0.0) and Enterprise v1.1.0, Keycloak stores and manages users directly:
+| Edition | Email/Password | OIDC/OAuth2 Login (Microsoft, GitHub) |
+|:--------|:-------------:|:--------------------------------:|
+| Community | ✅ via bcrypt + own JWT | ❌ |
+| Enterprise (without OIDC) | ✅ via Keycloak + vsay-auth JWT | ❌ |
+| Enterprise (with OIDC) | ✅ via Keycloak + vsay-auth JWT | ✅ direct OAuth2 via vsay-auth |
 
-1. User submits email + password to Keycloak
-2. Keycloak verifies credentials against its own user store
-3. Keycloak issues an OIDC access token
-4. WebXTerm uses that token for all API calls (Web Terminal, Shell CLI, VSCode Extension)
-
-Users and passwords live in the **Keycloak realm** — not in the WebXTerm application database. Password policies, hashing, and account management are all handled by Keycloak.
-
----
-
-## v1.2.0 Enterprise — External Providers via Keycloak Broker
-
-In Enterprise v1.2.0, Keycloak is configured as an **identity broker**. When a user clicks "Sign in with Microsoft" (or GitHub, Okta, etc.):
-
-1. WebXTerm redirects to Keycloak
-2. Keycloak redirects to the configured external provider (e.g., Microsoft Azure AD)
-3. User authenticates with their external provider account
-4. The external provider sends the user's identity back to **Keycloak** (not to WebXTerm)
-5. Keycloak creates or links the local user account in the Keycloak realm
-6. **Keycloak issues its own OIDC token** — containing the user's name, email, and groups from the external provider
-7. WebXTerm receives the **Keycloak token** — same format as email/password login
-
-The WebXTerm backend **never communicates with Microsoft, GitHub, or Okta directly**. It only validates Keycloak-issued tokens. This is what makes Keycloak the universal auth layer across all editions.
+In all cases, the token the client receives is **vsay-auth's own JWT** (HS256, signed with `JWT_SECRET`). The backend validates this token — not a Keycloak OIDC token.
 
 ---
 
-## Supported Identity Providers (Enterprise)
+## Multi-Tenancy and OIDC/OAuth2 Login
 
-| Provider | Protocol | Notes |
-|:---------|:---------|:------|
-| **Microsoft Azure AD / Entra ID** | OIDC / OAuth 2.0 | Sign in with Microsoft work accounts |
-| **GitHub** | OAuth 2.0 | Sign in with GitHub accounts |
-| **Okta** | OIDC | Full SSO with Okta workforce identity |
-| **Google Workspace** | OIDC | Sign in with Google organizational accounts |
-| **Auth0** | OIDC | Auth0 as upstream IdP |
-| **OneLogin** | OIDC / SAML | Enterprise SSO |
-| **PingIdentity** | OIDC / SAML | Enterprise identity management |
-| **Any OIDC-compliant provider** | OIDC | Custom provider configuration |
+If a user's email is registered in **multiple organizations**, OIDC/OAuth2 login works the same as email/password login:
+
+1. vsay-auth finds all organizations for that email
+2. Returns a `session_token` and a `tenants` list to the frontend (same `requires_tenant_selection` response)
+3. User picks their organization in the workspace picker
+4. Frontend calls `POST /api/auth/select-tenant` with the `session_token` and chosen `tenant_id`
+5. vsay-auth issues the full JWT for the selected tenant
 
 ---
 
-## Setting Up External Providers in Keycloak (Enterprise)
+## Setting Up Microsoft Login (Enterprise)
 
-### Prerequisites
-
-- A running Keycloak instance connected to your WebXTerm deployment
-- Admin access to the Keycloak admin console
-- Admin access to your external identity provider
-
-### Step 1: Create an Application in Your Identity Provider
-
-#### Microsoft Azure AD / Entra ID
+### Step 1: Register an Azure App
 
 1. Go to **Azure Portal → Azure Active Directory → App registrations**
 2. Click **New registration**
 3. Set:
    - **Name**: WebXTerm
-   - **Redirect URI**: `https://your-keycloak.com/realms/vsay/broker/microsoft/endpoint`
-4. After creation, go to **Certificates & secrets → New client secret**
-5. Note the **Application (client) ID** and **Client secret**
-6. Go to **API permissions → Add permission → Microsoft Graph → openid, email, profile**
+   - **Supported account types**: Choose based on your needs (single tenant or multi-tenant)
+   - **Redirect URI**: `https://your-webxterm-instance.com/api/auth/oidc/microsoft/callback`
+4. After creation go to **Certificates & secrets → New client secret** — note the value
+5. Note the **Application (client) ID** from the Overview page
 
-#### GitHub
+### Step 2: Configure vsay-auth
+
+Add to your vsay-auth environment:
+
+```env
+MICROSOFT_CLIENT_ID=your-azure-application-client-id
+MICROSOFT_CLIENT_SECRET=your-azure-client-secret-value
+MICROSOFT_TENANT_ID=your-azure-tenant-id   # omit to allow any Microsoft account ("common")
+OIDC_REDIRECT_BASE_URL=https://your-webxterm-instance.com
+FRONTEND_URL=https://your-webxterm-instance.com
+```
+
+vsay-auth requests only `openid profile email` scopes — no Microsoft Graph API or admin consent required.
+
+### How the Microsoft Callback Works
+
+vsay-auth exchanges the authorization code for an `id_token` entirely server-side (no browser sees the token). It decodes the JWT payload of the `id_token` to extract the user's email — no Graph API call is made. The email is matched against existing accounts in MongoDB.
+
+---
+
+## Setting Up GitHub Login (Enterprise)
+
+### Step 1: Create a GitHub OAuth App
 
 1. Go to **GitHub → Settings → Developer settings → OAuth Apps**
 2. Click **New OAuth App**
 3. Set:
    - **Application name**: WebXTerm
    - **Homepage URL**: `https://your-webxterm-instance.com`
-   - **Authorization callback URL**: `https://your-keycloak.com/realms/vsay/broker/github/endpoint`
-4. Note the **Client ID** and **Client Secret**
+   - **Authorization callback URL**: `https://your-webxterm-instance.com/api/auth/oidc/github/callback`
+4. Note the **Client ID** and generate a **Client Secret**
 
-#### Okta
+### Step 2: Configure vsay-auth
 
-1. Log into your **Okta admin console**
-2. Go to **Applications → Create App Integration**
-3. Select **OIDC - OpenID Connect → Web Application**
-4. Set:
-   - **Sign-in redirect URI**: `https://your-keycloak.com/realms/vsay/broker/okta/endpoint`
-   - **Sign-out redirect URI**: `https://your-webxterm-instance.com`
-5. Note the **Client ID** and **Client Secret**
-6. Note your **Okta domain** (e.g., `your-org.okta.com`)
-
-#### Google Workspace
-
-1. Go to **Google Cloud Console → APIs & Services → Credentials**
-2. Click **Create Credentials → OAuth client ID**
-3. Set:
-   - **Application type**: Web application
-   - **Authorized redirect URIs**: `https://your-keycloak.com/realms/vsay/broker/google/endpoint`
-4. Note the **Client ID** and **Client Secret**
-
----
-
-### Step 2: Configure the Identity Provider in Keycloak
-
-1. Log into your **Keycloak Admin Console**
-2. Select your WebXTerm realm
-3. Go to **Identity Providers → Add provider**
-4. Select the provider type (Microsoft, GitHub, OIDC, etc.)
-5. Enter the credentials from Step 1:
-
-```
-Client ID:     [from your provider]
-Client Secret: [from your provider]
-Display Name:  Sign in with Microsoft   (or GitHub, Okta, etc.)
+```env
+GITHUB_CLIENT_ID=your-github-oauth-app-client-id
+GITHUB_CLIENT_SECRET=your-github-oauth-app-client-secret
+OIDC_REDIRECT_BASE_URL=https://your-webxterm-instance.com
+FRONTEND_URL=https://your-webxterm-instance.com
 ```
 
-6. For **OIDC providers**, also set the **Discovery URL** (issuer):
-   - Azure AD: `https://login.microsoftonline.com/{tenant-id}/v2.0`
-   - Okta: `https://your-org.okta.com/oauth2/default`
-   - Google: `https://accounts.google.com`
-
-7. Under **Mappers**, configure how provider claims map to Keycloak user attributes:
-
-| Provider Attribute | Keycloak Attribute |
-|:------------------|:------------------|
-| `email` | `email` |
-| `name` / `displayName` | `firstName`, `lastName` |
-| `groups` / `roles` | Keycloak roles (optional) |
-
-8. Click **Save**
+vsay-auth requests `user:email read:user` scopes. If the user's GitHub email is set to private, vsay-auth automatically fetches it from `/user/emails` using the access token.
 
 ---
 
-### Step 3: Enable the Provider on the WebXTerm Login Page
+## Keycloak Configuration Reference
 
-1. In Keycloak Admin Console → **Realm Settings → Login**
-2. The configured identity providers automatically appear as login buttons
-3. Users will see **"Sign in with Microsoft"** (or GitHub, Okta) on the WebXTerm login page
-
-:::warning
-Before disabling email/password login, make sure all users can authenticate via the external provider. Keep password login enabled as a fallback during initial rollout.
-:::
-
----
-
-## User Provisioning
-
-### First Login — Automatic Account Creation
-
-When a user logs in via an external provider for the first time:
-
-1. Keycloak checks if a local account with that email already exists
-2. If not, Keycloak **automatically creates** a linked user account (Just-in-Time provisioning)
-3. User details (name, email) are populated from the provider's claims
-4. The user is assigned the **default role** configured in Keycloak
-5. The user gains access to machines based on their role and machine-level permissions
-
-### Group-Based Role Mapping
-
-Map groups from your identity provider to WebXTerm roles:
-
-1. In Keycloak → **Identity Providers → [Your Provider] → Mappers**
-2. Add a **Role Importer** or **Hardcoded Role** mapper
-3. Example mappings:
-
-| Provider Group | WebXTerm Role |
-|:--------------|:----------|
-| `vsay-admins` | `admin` |
-| `engineering` | `user` |
-| `devops-team` | `user` |
-
-Users will automatically receive roles based on their group membership in the external provider.
-
----
-
-## Keycloak Realm Configuration Reference
-
-When deploying WebXTerm, your Keycloak realm should be configured with:
+Keycloak is used for **email/password authentication** and **user storage**. Each organization that signs up gets its own Keycloak realm. When deploying, configure your Keycloak instance with:
 
 | Setting | Recommended Value |
 |:--------|:-----------------|
@@ -240,22 +166,75 @@ When deploying WebXTerm, your Keycloak realm should be configured with:
 | **PKCE** | Required (S256) |
 | **Token Endpoint Auth Method** | `client_secret_post` or `client_secret_basic` |
 
+vsay-auth connects to Keycloak using these environment variables:
+
+```env
+KEYCLOAK_URL=https://your-keycloak-instance.com
+KEYCLOAK_REALM=master            # admin realm for vsay-auth's admin API access
+KEYCLOAK_CLIENT_ID=vsay-auth
+KEYCLOAK_CLIENT_SECRET=your-client-secret
+KEYCLOAK_ADMIN_USERNAME=admin
+KEYCLOAK_ADMIN_PASSWORD=your-admin-password
+```
+
+---
+
+## Supported Social Providers
+
+Currently built-in:
+
+| Provider | Protocol | Notes |
+|:---------|:---------|:------|
+| **Microsoft Azure AD / Entra ID** | OAuth2 / OIDC | Personal, work, or school accounts |
+| **GitHub** | OAuth2 | Personal accounts; handles private email via `/user/emails` |
+
+Additional providers (Okta, Google, Auth0, etc.) can be configured by extending vsay-auth's OIDC handler — the pattern is identical to the Microsoft/GitHub implementations.
+
+---
+
+## User Provisioning
+
+### Adding Users for OIDC/OAuth2 Login
+
+Since OIDC/OAuth2 login does not auto-register accounts, users must be added first:
+
+1. **Self-signup**: User registers with email/password at `/api/auth/signup` — afterwards they can also sign in with Microsoft/GitHub using the same email
+2. **Admin invitation**: Company admin creates the user in the admin panel — the user can then log in via OIDC/OAuth2 without ever setting a password
+
+### Role Assignment
+
+User roles are set at registration (or by the admin) and stored in both MongoDB and Keycloak:
+
+| Role | Description |
+|:-----|:------------|
+| `super_admin` | Platform-level admin; can manage all organizations |
+| `company_admin` | Organization admin; can manage users and machines in their org |
+| `user` | Standard user; access to machines based on per-machine permissions |
+
 ---
 
 ## Troubleshooting
 
-### "Invalid redirect URI"
-- Ensure the callback URL in your provider matches exactly: `https://your-keycloak.com/realms/vsay/broker/{provider-alias}/endpoint`
-- Check for trailing slashes or http vs https mismatches
+### "No account found for this email" on OIDC/OAuth2 login
+- The user's email from Microsoft/GitHub does not match any registered account
+- Have the user register first via `/api/auth/signup` using the same email address
 
-### "User not found after login"
-- Verify the `email` claim is included in the token from your provider
-- Check claim mapper configuration in Keycloak
+### "Could not retrieve email from GitHub"
+- The user's GitHub primary email is private and not accessible
+- Ask the user to make their GitHub email public, or grant email access in the OAuth app's requested scopes (`user:email` is already requested — the user may need to re-authorize)
 
-### "Sign in with [Provider] button not showing"
-- Confirm the identity provider is enabled in Keycloak realm settings
-- Check that the provider's client ID and secret are saved correctly
+### "Microsoft login is not configured"
+- `MICROSOFT_CLIENT_ID` is not set on the vsay-auth service
+- Add the environment variable and restart the service
 
-### "Groups not syncing"
-- Ensure your provider sends group claims in the token (not just userinfo endpoint)
-- Add a Group mapper in Keycloak → Identity Providers → [Provider] → Mappers
+### "Invalid redirect URI" (Microsoft)
+- The redirect URI in Azure App Registration must exactly match: `https://your-webxterm-instance.com/api/auth/oidc/microsoft/callback`
+- Check for trailing slashes, http vs https, or typos
+
+### OIDC/OAuth2 login button not appearing
+- The OIDC/OAuth2 login buttons are shown only when the corresponding `MICROSOFT_CLIENT_ID` or `GITHUB_CLIENT_ID` env vars are set on vsay-auth
+- Restart vsay-auth after adding environment variables
+
+### Login works but wrong organization selected
+- If the user belongs to multiple organizations, they should see a workspace picker after OIDC/OAuth2 login
+- If the picker is not showing, check that the frontend handles the `requires_selection=true` parameter in the OAuth callback redirect

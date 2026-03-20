@@ -1,11 +1,12 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
+sidebar_label: Documentation
 ---
 
 # Webxterm Documentation
 
-:::info You are viewing Community Edition - Version 1.0.0
-This is the free Community Edition. For **OIDC/SSO**, **Mutual TLS**, and **Multi-tenancy**, [switch to the Enterprise Edition](/docs/next/intro).
+:::info Community Edition
+This is the free Community Edition. For **OIDC/OAuth2 Login** (Microsoft, GitHub), **Mutual TLS**, and **Multi-tenancy**, [switch to the Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
 :::
 
 WebXTerm is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your Linux machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
@@ -22,27 +23,22 @@ Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** 
 | **WebXTerm VSCode Extension** | Manage and connect to machines directly from your IDE |
 | **WebXTerm Shell CLI** | Command-line tool for terminal access and machine management |
 
-## Feature Comparison
+## Features
 
-| Feature | Community | Enterprise |
-|:--------|:---------:|:----------:|
-| Secure Remote Access (Agent-Based) | ✅ | ✅ |
-| Web Terminal | ✅ | ✅ |
-| Team Collaboration (RBAC) | ✅ | ✅ |
-| Real-time Monitoring | ✅ | ✅ |
-| Session & Command Recording | ✅ | ✅ |
-| Audit Logs | ✅ | ✅ |
-| Community (Issue Tracker) | ✅ | ✅ |
-| TLS Encryption | ✅ | ✅ |
-| WebXTerm Shell CLI | ✅ | ✅ |
-| WebXTerm VSCode Extension | ✅ | ✅ |
-| API Access | ✅ | ✅ |
-| Keycloak Authentication | ✅ | ✅ |
-| MTLS (Mutual TLS) | ❌ | ✅ |
-| External SSO (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
-| Multi-tenancy (Organizations) | ❌ | ✅ |
-| Organization API | ❌ | ✅ |
-| Priority Support | ❌ | ✅ |
+| Feature | Status | Description |
+|:--------|:------:|:------------|
+| Secure Remote Access (Agent-Based) | ✅ | Connect via vsay-agent — no inbound ports needed |
+| Web Terminal | ✅ | Browser-based terminal access powered by xterm.js |
+| Team Collaboration (RBAC) | ✅ | Role-based access management with per-machine user lists |
+| Real-time Monitoring | ✅ | CPU/memory/disk stats from agent heartbeats every 30s |
+| Session & Command Recording | ✅ | All commands logged with user, timestamp, and exit code |
+| Audit Logs | ✅ | Complete activity history across all machines |
+| Community (Issue Tracker) | ✅ | Collaborative issue tracking for your team |
+| TLS Encryption | ✅ | Secure data in transit between agent and backend |
+| WebXTerm Shell CLI | ✅ | Command-line tool for terminal access and machine management |
+| WebXTerm VSCode Extension | ✅ | Integrated IDE terminal, file browser, and port forwarding |
+| API Access | ✅ | REST API for integrations and automation |
+| MTLS (Mutual TLS) | ✅ | Certificate-based mutual authentication between agents and backend |
 
 ## PAM & RBAC Capabilities
 
@@ -70,14 +66,13 @@ Unlike traditional PAM solutions, WebXTerm uses an **agent-based architecture** 
 - **Audit Logs:** Complete activity history across all machines — who ran what, when, and from which client.
 - **Community:** Built-in issue tracker for your team — create tickets, post solutions, and track infrastructure problems collaboratively.
 
-### Authentication — Powered by Keycloak
+### Authentication — Built-in JWT
 
-WebXTerm Community Edition uses **Keycloak** to manage all user authentication. When you sign up or log in with email and password, those credentials are stored and verified by Keycloak. Keycloak then issues an OIDC token that WebXTerm uses for all API calls.
-
-This means your passwords, session policies, and user management are handled by Keycloak — a battle-tested, open-source identity platform.
+WebXTerm Community Edition v1.0.0 uses its own **JWT-based authentication**. When you sign up or log in with email and password, credentials are hashed with bcrypt and stored in MongoDB. The backend issues a signed JWT (HS256) that is used for all API calls — no external identity provider required.
 
 ### Enterprise-Only Features
-- **External Identity Providers:** Sign in with Microsoft, GitHub, Okta, Azure AD, Google Workspace, and more — all federated through Keycloak (see [Enterprise Edition](/docs/next/intro)).
+- **Keycloak Authentication:** Enterprise editions use Keycloak for credential storage and verification, enabling centralized user management.
+- **External Identity Providers:** Sign in with Microsoft or GitHub — handled directly by the vsay-auth service (see [Enterprise Edition](/docs/next/intro)).
 - **MTLS Security:** Mutual TLS for certificate-based authentication between agents and backend.
 - **Multi-tenancy:** Organization-based access control with isolated workspaces per organization.
 
@@ -90,12 +85,20 @@ This means your passwords, session policies, and user management are handled by 
 - [Session & Command Recording](/docs/next/features/audit-logs) - Audit logs and command history
 - [Real-time Monitoring](/docs/next/features/monitoring) - Track machine health and activity
 
-### Enterprise Features
-- [OIDC Integration](/docs/next/authentication/oidc-integration) - Set up Single Sign-On with Keycloak
-- [Organization Management](/docs/next/authentication/multi-tenancy) - Configure multi-tenancy
+### Upgrade to Enterprise
+- [OIDC/OAuth2 Login](https://docs.webxterm.me/docs/next/authentication/oidc-integration) - Set up Microsoft and GitHub login
+- [Organization Management](https://docs.webxterm.me/docs/next/authentication/multi-tenancy) - Configure multi-tenancy
 
 ### API Reference
-- [API Overview](/docs/next/api/overview) - Complete API documentation
+- [API Overview](/docs/api/overview) - Complete API documentation
+
+## External Links
+
+| Resource | URL |
+|:---------|:----|
+| **Website** | [webxterm.me](https://webxterm.me/) |
+| **Community & Support** | [community.webxterm.me](https://community.webxterm.me/) |
+| **Documentation** | [docs.webxterm.me](https://docs.webxterm.me/) |
 
 ## Products & Clients
 

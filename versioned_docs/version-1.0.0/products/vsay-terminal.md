@@ -27,10 +27,10 @@ http://your-webxterm-instance.com
 
 ### Login
 
-Enter your email and password on the login page. Your credentials are authenticated via **Keycloak** — the same identity layer used across all WebXTerm editions.
+Enter your email and password on the login page. Community Edition uses its own built-in authentication — credentials are hashed with bcrypt and stored securely.
 
 :::info Enterprise Feature
-Sign in with external providers (Microsoft, GitHub, Okta, Azure AD) is available in [Enterprise v1.2.0](/docs/next/authentication/oidc-integration).
+Sign in with external providers (Microsoft, GitHub, Okta, Azure AD) is available in [Enterprise Edition](/docs/next/authentication/oidc-integration).
 :::
 
 ## Dashboard Pages
@@ -90,6 +90,14 @@ The Community page is the built-in issue tracker for your team — create ticket
 | Safari | ✅ |
 | Edge | ✅ |
 
+## External Links
+
+| Resource | URL |
+|:---------|:----|
+| **Website** | [webxterm.me](https://webxterm.me/) |
+| **Community & Support** | [community.webxterm.me](https://community.webxterm.me/) |
+| **Documentation** | [docs.webxterm.me](https://docs.webxterm.me/) |
+
 ## Community vs Enterprise
 
 | Feature | Community | Enterprise |
@@ -100,5 +108,5 @@ The Community page is the built-in issue tracker for your team — create ticket
 | Audit logs | ✅ | ✅ |
 | Community (Issue Tracker) | ✅ | ✅ |
 | Real-time monitoring | ✅ | ✅ |
-| OIDC/SSO login | ❌ | ✅ (v1.2.0) |
+| OIDC/OAuth2 Login | ❌ | ✅ |
 | Multi-tenancy (Organizations) | ❌ | ✅ |

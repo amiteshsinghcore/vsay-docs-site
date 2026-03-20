@@ -126,5 +126,5 @@ When you run `vsay-shell-cli connect <name>`, the CLI:
 | List machines | ✅ | ✅ |
 | Interactive terminal sessions | ✅ | ✅ |
 | Delete machines | ✅ | ✅ |
-| OIDC/SSO authentication | ❌ | ✅ |
+| OIDC/OAuth2 authentication | ❌ | ✅ |
 | Multi-org support | ❌ | ✅ |

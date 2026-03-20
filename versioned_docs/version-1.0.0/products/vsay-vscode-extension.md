@@ -168,5 +168,5 @@ Open Command Palette (`Ctrl+Shift+P`) and type **"WebXTerm"**:
 | Remote file browser | ✅ | ✅ |
 | Port forwarding | ✅ | ✅ |
 | SSH connection mode | ✅ | ✅ |
-| OIDC/SSO authentication | ❌ | ✅ |
+| OIDC/OAuth2 authentication | ❌ | ✅ |
 | Multi-org support | ❌ | ✅ |

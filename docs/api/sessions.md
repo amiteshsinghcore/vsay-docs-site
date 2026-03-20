@@ -73,6 +73,48 @@ curl -X DELETE \
 
 ---
 
+## Get Session Details
+
+### GET /api/sessions/:session_id
+
+Get full details and command log for a specific session. The requesting user must own the session or have access to the machine.
+
+**Response:**
+
+```json
+{
+  "session": {
+    "session_id": "sess_123456",
+    "agent_id": "abc123",
+    "machine_name": "production-server",
+    "user_id": "user_456",
+    "username": "johndoe",
+    "source": "ui",
+    "status": "closed",
+    "started_at": "2026-02-06T12:00:00Z",
+    "ended_at": "2026-02-06T12:30:00Z",
+    "browser": "Chrome",
+    "os": "macOS"
+  },
+  "logs": [
+    {
+      "command": "ls -la",
+      "timestamp": "2026-02-06T12:05:00Z",
+      "success": true
+    }
+  ]
+}
+```
+
+**Example:**
+
+```bash
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  https://your-webxterm-instance.com/api/sessions/sess_123456
+```
+
+---
+
 ## Dashboard Statistics
 
 ### GET /api/dashboard/stats

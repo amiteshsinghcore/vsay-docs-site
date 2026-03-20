@@ -56,15 +56,15 @@ const config: Config = {
           includeCurrentVersion: true,
           versions: {
             current: {
-              label: '1.2.0',
+              label: 'Enterprise (1.2.0)',
               banner: 'none',
             },
             '1.1.0': {
-              label: '1.1.0',
+              label: 'Enterprise (1.1.0)',
               banner: 'none',
             },
             '1.0.0': {
-              label: '1.0.0',
+              label: 'Community (1.0.0)',
               banner: 'none',
             },
           },
@@ -91,7 +91,8 @@ const config: Config = {
     image: 'img/social-card.png',
     colorMode: {
       defaultMode: 'dark',
-      respectPrefersColorScheme: false,
+      disableSwitch: false,
+      respectPrefersColorScheme: false, // handled by custom 3-state toggle
     },
     navbar: {
       title: 'WebXTerm',
@@ -130,25 +131,7 @@ const config: Config = {
           type: 'docsVersionDropdown',
           position: 'right',
           dropdownActiveClassDisabled: true,
-        },
-        {
-          type: 'dropdown',
-          label: 'Edition',
-          position: 'right',
-          items: [
-            {
-              label: 'Community (v1.0.0)',
-              href: '/docs/intro',
-            },
-            {
-              label: 'Enterprise (v1.2.0)',
-              href: '/docs/next/intro',
-            },
-            {
-              label: 'Enterprise (v1.1.0)',
-              href: '/docs/1.1.0/intro',
-            },
-          ],
+          className: 'navbar-version-dropdown',
         },
       ],
     },
@@ -189,15 +172,15 @@ const config: Config = {
           title: 'Editions',
           items: [
             {
-              label: 'Community v1.0.0 (Free)',
+              label: 'Community (1.0.0) — Free',
               to: '/docs/intro',
             },
             {
-              label: 'Enterprise v1.2.0',
+              label: 'Enterprise (1.2.0)',
               to: '/docs/next/intro',
             },
             {
-              label: 'Enterprise v1.1.0',
+              label: 'Enterprise (1.1.0)',
               to: '/docs/1.1.0/intro',
             },
           ],

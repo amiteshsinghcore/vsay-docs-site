@@ -6,11 +6,25 @@ sidebar_position: 2
 
 Endpoints for user authentication and token management.
 
+## How Authentication Works
+
+WebXTerm Community Edition v1.0.0 uses its own **JWT-based authentication** — no external identity provider is required. Passwords are hashed with bcrypt and stored in MongoDB. The backend issues a signed JWT (HS256) on login, which is used for all subsequent API calls.
+
+```
+User (email + password) → POST /api/login → bcrypt verify → JWT issued by WebXTerm → API calls
+```
+
+:::info Upgrading?
+For **Keycloak-based authentication**, **Multi-tenancy**, **Mutual TLS**, and **OIDC/OAuth2 Login (Microsoft, GitHub)**, see [Enterprise Edition](/docs/next/intro).
+:::
+
+---
+
 ## Signup
 
 ### POST /api/signup
 
-Create a new user account.
+Create a new user account. Returns a JWT token immediately upon successful registration.
 
 **Request Body:**
 
@@ -22,21 +36,22 @@ Create a new user account.
 }
 ```
 
-| Field | Type | Required | Description |
-|:------|:-----|:--------:|:------------|
-| username | string | Yes | Unique username |
-| email | string | Yes | Valid email address |
-| password | string | Yes | Minimum 6 characters |
+| Field | Type | Required | Notes |
+|:------|:-----|:--------:|:------|
+| `username` | string | Yes | Unique display name |
+| `email` | string | Yes | Valid email address, must be unique |
+| `password` | string | Yes | Minimum 6 characters |
 
-**Response:**
+**Response `201 Created`:**
 
 ```json
 {
-  "message": "User registered successfully",
+  "token": "eyJhbGciOiJIUzI1NiIs...",
   "user": {
-    "id": "user_id",
+    "id": "64f1a2b3c4d5e6f7a8b9c0d1",
     "username": "johndoe",
-    "email": "john@example.com"
+    "email": "john@example.com",
+    "api_key": "your_api_key_for_agents"
   }
 }
 ```
@@ -55,7 +70,7 @@ curl -X POST https://your-webxterm-instance.com/api/signup \
 
 ### POST /api/login
 
-Authenticate and receive a JWT token.
+Authenticate with email and password to receive a JWT token.
 
 **Request Body:**
 
@@ -66,14 +81,13 @@ Authenticate and receive a JWT token.
 }
 ```
 
-**Response:**
+**Response `200 OK`:**
 
 ```json
 {
-  "message": "Login successful",
   "token": "eyJhbGciOiJIUzI1NiIs...",
   "user": {
-    "id": "user_id",
+    "id": "64f1a2b3c4d5e6f7a8b9c0d1",
     "username": "johndoe",
     "email": "john@example.com",
     "api_key": "your_api_key_for_agents"
@@ -90,7 +104,7 @@ curl -X POST https://your-webxterm-instance.com/api/login \
 ```
 
 :::note Token Expiration
-JWT tokens expire after 24 hours. Use the refresh endpoint to get a new token.
+JWT tokens expire after 24 hours. Use the refresh endpoint to get a new token without logging in again.
 :::
 
 ---
@@ -99,15 +113,17 @@ JWT tokens expire after 24 hours. Use the refresh endpoint to get a new token.
 
 ### POST /api/auth/refresh
 
-Get a new JWT token using your current valid token.
+Get a new JWT token from a still-valid existing token.
 
-**Headers:**
+**Request Body:**
 
+```json
+{
+  "token": "YOUR_CURRENT_JWT_TOKEN"
+}
 ```
-Authorization: Bearer YOUR_CURRENT_TOKEN
-```
 
-**Response:**
+**Response `200 OK`:**
 
 ```json
 {
@@ -119,7 +135,8 @@ Authorization: Bearer YOUR_CURRENT_TOKEN
 
 ```bash
 curl -X POST https://your-webxterm-instance.com/api/auth/refresh \
-  -H "Authorization: Bearer YOUR_CURRENT_TOKEN"
+  -H "Content-Type: application/json" \
+  -d '{"token": "YOUR_CURRENT_JWT_TOKEN"}'
 ```
 
 ---
@@ -128,14 +145,14 @@ curl -X POST https://your-webxterm-instance.com/api/auth/refresh \
 
 ### HTTP Requests
 
-Include the JWT token in Authorization header:
+Include the JWT token in the `Authorization` header:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   https://your-webxterm-instance.com/api/machines
 ```
 
-### WebSocket Connections
+### WebSocket Terminal Connections
 
 Pass the token as a query parameter:
 
@@ -145,13 +162,13 @@ wss://your-webxterm-instance.com/api/terminal/:agent_id/ws?token=YOUR_JWT_TOKEN
 
 ### Agent Registration
 
-Use your API key (from the Profile page) when configuring the agent on your machine:
+Use your **API key** (from the `api_key` field in the signup/login response, or from the Profile page) when configuring the agent on a Linux machine:
 
 ```bash
 sudo vsay-agent configure \
   --token YOUR_API_KEY \
-  --host http://your-webxterm-instance.com:8080 \
+  --host https://your-webxterm-instance.com \
   --linux-user ubuntu
 ```
 
-The agent connects to the backend over gRPC (port 50051) and authenticates using your API key. See [Getting Started](/docs/next/getting-started) for full installation details.
+The agent communicates with the backend over gRPC and authenticates using the API key — it does not use the JWT token. See [Getting Started](/docs/getting-started) for full agent installation details.

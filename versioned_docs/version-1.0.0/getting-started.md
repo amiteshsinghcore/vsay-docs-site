@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Getting Started
@@ -22,12 +22,12 @@ Before you begin, ensure you have:
 2. Enter your email and password
 3. Click **"Sign In"**
 
-:::note Powered by Keycloak
-WebXTerm uses **Keycloak** as its identity platform. When you sign up or log in with email and password, your credentials are managed by Keycloak. This gives you enterprise-grade password security, session management, and account control — even in the Community Edition.
+:::note Built-in Authentication
+WebXTerm Community Edition uses its own built-in JWT authentication. Your email and password are hashed with bcrypt and stored securely — no external identity provider required.
 :::
 
 :::info Enterprise Feature
-Signing in with **Microsoft, GitHub, Okta, Azure AD**, or any other external provider is available in the **Enterprise Edition** — also powered by Keycloak as an identity broker. [Learn more](/docs/next/authentication/oidc-integration).
+OIDC/OAuth2 login with **Microsoft, GitHub, Okta, Azure AD**, and Keycloak-based authentication are available in the **Enterprise Edition**. [Learn more](/docs/next/authentication/oidc-integration).
 :::
 
 ## Step 2: Get Your API Key
@@ -114,27 +114,28 @@ Now that you're connected, explore more features:
 - [Audit Logs](/docs/features/audit-logs) - Review command history and session activity
 - [Community](/docs/features/community) - Use the built-in issue tracker to report and track infrastructure problems
 
-## Community Edition Features
+## Community vs Enterprise
 
-| Feature | Status | Description |
-|:--------|:------:|:------------|
-| Secure Remote Access (Agent-Based) | ✅ | Connect via vsay-agent — no inbound ports needed |
-| Web Terminal | ✅ | Browser-based terminal access |
-| Team Collaboration (RBAC) | ✅ | Role-based access management |
-| Real-time Monitoring | ✅ | CPU/memory/disk stats from agent heartbeats |
-| Session & Command Recording | ✅ | All commands logged with user, timestamp, and exit code |
-| Audit Logs | ✅ | Complete command and activity history |
-| Community (Issue Tracker) | ✅ | Collaborative issue tracking for your team |
-| TLS Encryption | ✅ | Secure data in transit |
-| WebXTerm Shell CLI | ✅ | Command-line tool for terminal access |
-| WebXTerm VSCode Extension | ✅ | IDE integration |
-| API Access | ✅ | REST API for integrations |
-| Keycloak Authentication | ✅ | Email/password login managed by Keycloak |
-| MTLS (Mutual TLS) | ❌ | Enterprise only |
-| External SSO (Microsoft, GitHub, Okta, Azure AD…) | ❌ | Enterprise only — federated via Keycloak |
-| Multi-tenancy (Organizations) | ❌ | Enterprise only |
-| Priority Support | ❌ | Enterprise only |
+| Feature | Community | Enterprise |
+|:--------|:---------:|:----------:|
+| Secure Remote Access (Agent-Based) | ✅ | ✅ |
+| Web Terminal | ✅ | ✅ |
+| Team Collaboration (RBAC) | ✅ | ✅ |
+| Real-time Monitoring | ✅ | ✅ |
+| Session & Command Recording | ✅ | ✅ |
+| Audit Logs | ✅ | ✅ |
+| Community (Issue Tracker) | ✅ | ✅ |
+| TLS Encryption | ✅ | ✅ |
+| WebXTerm Shell CLI | ✅ | ✅ |
+| WebXTerm VSCode Extension | ✅ | ✅ |
+| API Access | ✅ | ✅ |
+| MTLS (Mutual TLS) | ✅ | ✅ |
+| Keycloak Authentication | ❌ | ✅ |
+| OIDC/OAuth2 Login (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
+| Multi-tenancy (Organizations) | ❌ | ✅ |
+| Organization API | ❌ | ✅ |
+| Priority Support | ❌ | ✅ |
 
 :::tip Upgrade to Enterprise
-Need SSO with Keycloak, Okta, or Azure AD? Need Mutual TLS or multi-organization support? [See the Enterprise Edition](/docs/next/intro).
+Need OIDC/OAuth2 login (Microsoft, GitHub, Okta, Azure AD), Keycloak authentication, or multi-organization support? [See the Enterprise Edition](/docs/next/intro).
 :::

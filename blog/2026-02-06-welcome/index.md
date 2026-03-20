@@ -37,7 +37,7 @@ Unlike traditional PAM solutions, WebXTerm is built with developer experience at
 
 ### Enterprise-Grade Security
 
-- **External Authentication** — Integrate with your existing identity provider using Keycloak for OIDC/SSO
+- **External Authentication** — Integrate with your existing identity provider via OIDC/OAuth2
 - **MTLS (Mutual TLS)** — Certificate-based authentication for maximum security
 - **Complete Audit Trail** — Every session, every command, fully logged and traceable
 
@@ -66,7 +66,7 @@ After months of designing, coding, and refining, WebXTerm is ready to transform 
 - **Team Collaboration** — Full RBAC for your entire organization
 - **Real-time Monitoring** — Track server health and active sessions
 - **Audit Logs** — Complete visibility into who accessed what and when
-- **External Auth** — Keycloak integration for OIDC/SSO authentication
+- **External Auth** — OIDC/OAuth2 login (Microsoft, GitHub, Okta, Azure AD) — handled by vsay-auth
 
 ## Two Editions, One Mission
 
@@ -75,7 +75,7 @@ We believe secure privileged access management should be accessible to everyone:
 | Edition | For |
 |:--------|:----|
 | **Community** | Individual developers and small teams who need core PAM features with TLS security |
-| **Enterprise** | Organizations requiring OIDC/SSO (Keycloak), MTLS, and multi-tenancy support |
+| **Enterprise** | Organizations requiring OIDC/OAuth2 login, MTLS, and multi-tenancy support |
 
 ## Join Us on This Journey
 
