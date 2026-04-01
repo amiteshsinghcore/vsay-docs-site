@@ -1,35 +1,32 @@
-amiteshsingh:
-  name: Amitesh Singh
-  title: Software Engineer
-  url: https://www.linkedin.com/in/amitesh-singh-7bba04204 
-  image_url: https://github.com/amiteshsinghcore.png
-  page: true
-  socials:
-    # x: amiteshhsingh
-    linkedin: amitesh-singh-7bba04204
-    github: amiteshsinghcore
-    # newsletter: https://www.greatfrontend.com
+# amitesh:
+#   name: Amitesh Singh
+#   page: true
+#   socials:
+#     # x: amiteshhsingh
+#     # linkedin: amitesh-singh-7bba04204
+#     # github: amiteshsinghcore
+#     # newsletter: https://www.greatfrontend.com
 
-yesveer:
-  name: Yesveer Singh
-  title: Software Engineer
-  url: https://www.linkedin.com/in/kaal-bhairav/
-  image_url: https://github.com/Yesveer.png
-  page: true
-  socials:
-    # x: yesveersingh
-    linkedin: kaal-bhairav
-    github: Yesveer
-  #   newsletter: https://thisweekinreact.com
+# yesveer:
+#   name: Yesveer Singh
+#   title: Software Engineer
+#   url: https://www.linkedin.com/in/kaal-bhairav/
+#   image_url: https://github.com/Yesveer.png
+#   page: true
+#   socials:
+#     # x: yesveersingh
+#     linkedin: kaal-bhairav
+#     github: Yesveer
+#   #   newsletter: https://thisweekinreact.com
 
-rishabh:
-  name: Rishabh Aggarwal
-  title: Software Engineer
-  # url: https://www.linkedin.com/in/kaal-bhairav/
-  image_url: https://github.com/rishi97.png
-  page: true
-  socials:
-  #   x: yesveersingh
-    linkedin: rishabh-aggarwal-r2000
-    github: rishi97
-  #   newsletter: https://thisweekinreact.com
+# rishabh:
+#   name: Rishabh Aggarwal
+#   title: Software Engineer
+#   # url: https://www.linkedin.com/in/kaal-bhairav/
+#   image_url: https://github.com/rishi97.png
+#   page: true
+#   socials:
+#   #   x: yesveersingh
+#     linkedin: rishabh-aggarwal-r2000
+#     github: rishi97
+#   #   newsletter: https://thisweekinreact.com
