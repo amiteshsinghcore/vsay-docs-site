@@ -83,6 +83,6 @@ This is just the beginning. We have an exciting roadmap ahead with new features,
 
 Thank you for believing in our vision. Here's to secure, simple, and seamless privileged access management!
 
-— Amitesh, Yesveer  
+— Yesveer, Amitesh
 
 *The WebXTerm Team*
