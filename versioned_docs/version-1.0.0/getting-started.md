@@ -158,5 +158,5 @@ Now that you're connected, explore more features:
 - [Community](/docs/features/community) - Use the built-in issue tracker to report and track infrastructure problems
 
 :::
-See the full feature comparison on the [How We Are Different](/docs/1.0.0/how-we-are-different) page.
+See the full feature comparison on the [How We Are Different](/docs/how-we-are-different) page.
 :::
