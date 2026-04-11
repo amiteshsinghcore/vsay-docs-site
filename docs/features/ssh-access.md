@@ -13,12 +13,12 @@ WebXTerm uses a lightweight agent (`vsay-agent`) installed on each machine. The 
 ```
 You (Browser / CLI / VSCode)
         │
-        │  WebSocket (wss://)
+        │  HTTPS / WSS
         ▼
   WebXTerm Backend
-  (HTTP :8080 / HTTPS :8443)
+  (HTTP :8080)
         │
-        │  gRPC bidirectional stream (:50051)
+        │  gRPC + mTLS (:8081)  ← outbound from agent, mutual certificate auth
         ▼
   vsay-agent (on your machine)
         │
@@ -29,10 +29,10 @@ You (Browser / CLI / VSCode)
 ```
 
 All connections are:
-- **Authenticated** — WebSocket sessions require a valid JWT token; agents authenticate with your API key
-- **Encrypted** — WebSocket traffic is secured over TLS/WSS; gRPC communication uses TLS when configured
-- **Authorized** — the backend verifies you own the machine before establishing a session
-- **Logged** — all commands typed in a terminal session are recorded to the audit log
+- **Mutually Authenticated** — agents connect via mTLS (both sides verify certificates); users authenticate with JWT tokens
+- **Encrypted** — WebSocket traffic secured over TLS/WSS; agent gRPC tunnel uses mutual TLS
+- **Authorized** — backend verifies the user has explicit access to the machine before opening a session
+- **Logged** — all commands typed in a terminal session are recorded to the audit log with user, timestamp, and exit code
 
 ## Connection Flow
 
@@ -74,30 +74,59 @@ Users authenticate with email/password at login and receive a **JWT token** (24-
 - As an `Authorization: Bearer` header for all REST API calls
 - As a `?token=` query parameter for WebSocket terminal connections
 
-### Agent Authentication (API Key)
+### Agent Authentication (mTLS)
 
-The `vsay-agent` authenticates using your personal **API Key** (found in your Profile). The agent sends this key when registering with the backend via gRPC. The backend looks up the user by API key to associate the machine with your account.
+The `vsay-agent` uses **mutual TLS (mTLS)** to authenticate with the backend — the gold standard for machine-to-machine security.
 
-:::warning Keep your API key secure
-Your API key authenticates all agents registered to your account. Regenerate it from your Profile page if it is ever exposed. This will disconnect any agents using the old key — they will need to be reconfigured.
+**How it works:**
+
+1. During `vsay-agent configure`, the agent receives a **bootstrap token** (one-time registration token tied to the machine you created in the dashboard)
+2. The agent fetches the backend's **CA certificate** and gets a **signed client certificate** from the backend
+3. On every connection after that, the agent presents its **client certificate** — no token needed
+4. The backend verifies the client cert was signed by its CA → connection established
+
+This means:
+- No long-lived secrets on disk after initial setup
+- If a machine is compromised, you revoke its cert from the dashboard
+- Backend upgrades automatically re-issue certs to all agents on reconnect
+
+:::tip
+The bootstrap token is only used once during `configure`. All subsequent reconnects use mTLS certificates — your 1500 machines come back online automatically after any backend restart or upgrade.
 :::
 
 ## Security Features
 
 ### Transport Security
 
-| Layer | Protocol |
-|:------|:---------|
-| Browser / CLI / VSCode → Backend | WebSocket over TLS (WSS / HTTPS) |
-| Backend → Agent | gRPC over TLS (configurable) |
-| Agent process isolation | Runs as a specified system user (not root) |
+| Layer | Protocol | Details |
+|:------|:---------|:--------|
+| Browser / CLI / VSCode → Backend | HTTPS / WSS | TLS encrypted |
+| Agent → Backend (gRPC) | mTLS on port 8081 | Both sides present certificates — mutual verification |
+| Agent process isolation | Linux user | Runs as a specified non-root system user |
+
+### mTLS Deep Dive
+
+WebXTerm runs a **Private Certificate Authority (CA)** inside the backend. This CA:
+- Issues signed client certificates to every agent during `configure`
+- Verifies every inbound gRPC connection — only agents with valid certs can connect
+- Auto-regenerates server cert on startup — stable across container restarts and upgrades
+
+```
+Backend CA
+    ├── signs → server-cert.pem  (backend's identity)
+    └── signs → client-cert.pem  (each agent's identity)
+
+On every gRPC connection:
+  Agent  → presents client-cert  → Backend verifies against CA ✅
+  Backend → presents server-cert → Agent   verifies against CA ✅
+```
 
 ### Session Security
 
 - **JWT validation** on every WebSocket connection
-- **Ownership check** — users can only access machines they registered
-- **Command logging** — every command entered in a terminal session is recorded
-- **Machine status** — machines that stop sending heartbeats are automatically marked offline
+- **RBAC check** — users can only access machines they have been explicitly granted access to
+- **Command logging** — every command entered in a terminal session is recorded with user, timestamp, and exit code
+- **Machine status** — machines that stop sending heartbeats are automatically marked offline by the reconciler
 
 ### Agent Hardening
 

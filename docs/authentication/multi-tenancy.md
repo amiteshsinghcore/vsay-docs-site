@@ -80,10 +80,11 @@ Access organization settings:
 
 | Setting | Description |
 |---------|-------------|
-| **Session Timeout** | Auto-logout after inactivity |
-| **IP Allowlist** | Restrict access to specific IPs |
-| **MFA Requirement** | Require MFA for all users |
 | **Password Policy** | Minimum requirements for passwords |
+
+:::
+**Session Timeout**, **IP Allowlist**, and **MFA Requirement** per-org settings are on the roadmap and not yet available.
+:::
 
 ## Organization Admins
 
@@ -149,15 +150,9 @@ Temporarily disable access without removing:
 2. Click **"Suspend"**
 3. User cannot access until reactivated
 
-### Bulk User Management
-
-For large teams:
-
-1. Go to **Team → Bulk Actions**
-2. Choose action:
-   - **Import Users**: Upload CSV of users to invite
-   - **Export Users**: Download user list
-   - **Bulk Role Change**: Change roles for multiple users
+:::
+**Bulk User Management** (CSV import, bulk role change) is on the roadmap and not yet available.
+:::
 
 ## Machine Management
 
@@ -231,23 +226,18 @@ To delete an organization:
 
 ## Enterprise Features
 
-### Multiple Organizations
+### Multiple Organizations (Superadmin)
 
-Enterprise plans support managing multiple organizations:
+The Superadmin can manage all organizations from a single WebXTerm deployment:
 
-- **Parent-Child Structure**: Create sub-organizations
-- **Centralized Billing**: Single invoice for all organizations
-- **Cross-Org Visibility**: Admins can view across organizations
-- **Shared Resources**: Share machines between organizations
+- **Create Organizations**: Provision new company workspaces from the admin panel
+- **Assign Company Admins**: Promote users to Organization Admin for their company
+- **Full Isolation**: Each organization's data, machines, and users are completely isolated
+- **Single Deployment**: No need for separate instances per company — unlike Teleport
 
-### Organization Policies
-
-Set policies that apply across organizations:
-
-- Security requirements
-- Compliance settings
-- Approved integrations
-- User provisioning rules
+:::
+Teleport has no native multi-tenancy. Running multiple companies requires separate Teleport instances. WebXTerm handles this natively — Superadmin → Company Admin → User — all in one deployment.
+:::
 
 ## Best Practices
 

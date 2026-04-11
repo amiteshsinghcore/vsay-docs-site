@@ -22,11 +22,11 @@ Before you begin, ensure you have:
 2. Enter your email and password
 3. Click **"Sign In"**
 
-:::note Powered by Keycloak
+:::
 WebXTerm uses **Keycloak** as its identity platform. Your email and password are managed securely by Keycloak — not stored directly in WebXTerm.
 :::
 
-:::info OIDC/OAuth2 Login (Next Enterprise)
+:::
 Sign in with **Microsoft, GitHub, Okta, Azure AD**, or other external providers is available in the [next Enterprise Edition](/docs/next/authentication/oidc-integration).
 :::
 
@@ -158,29 +158,7 @@ Now that you're connected, explore more features:
 - [Community](/docs/1.1.0/features/community) - Use the built-in issue tracker to report and track infrastructure problems
 - [Organization Management](/docs/1.1.0/authentication/multi-tenancy) - Set up multi-tenancy for your organization
 
-## Community vs Enterprise
-
-| Feature | Community | Enterprise |
-|:--------|:---------:|:----------:|
-| Secure Remote Access (Agent-Based) | ✅ | ✅ |
-| Web Terminal | ✅ | ✅ |
-| Team Collaboration (RBAC) | ✅ | ✅ |
-| Real-time Monitoring | ✅ | ✅ |
-| Session & Command Recording | ✅ | ✅ |
-| Audit Logs | ✅ | ✅ |
-| Community (Issue Tracker) | ✅ | ✅ |
-| TLS Encryption | ✅ | ✅ |
-| WebXTerm Shell CLI | ✅ | ✅ |
-| WebXTerm VSCode Extension | ✅ | ✅ |
-| API Access | ✅ | ✅ |
-| MTLS (Mutual TLS) | ✅ | ✅ |
-| Keycloak Authentication | ❌ | ✅ |
-| OIDC/OAuth2 Login (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
-| Multi-tenancy (Organizations) | ❌ | ✅ |
-| Organization API | ❌ | ✅ |
-| Priority Support | ❌ | ✅ |
-
-:::tip Upgrade to Latest Enterprise
-Need OIDC/OAuth2 login with Microsoft, GitHub, or Okta? [See the latest Enterprise documentation](/docs/next/intro).
+:::
+See the full feature comparison on the [How We Are Different](/docs/1.1.0/how-we-are-different) page.
 :::
 

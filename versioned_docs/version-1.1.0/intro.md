@@ -5,9 +5,11 @@ sidebar_label: Documentation
 
 # Webxterm Documentation
 
-:::info Enterprise Edition
-This documentation covers WebXTerm Enterprise features including **Multi-tenancy** and **Mutual TLS**.
-For the free Community Edition, [switch to version 1.0.0](https://docs.webxterm.me/docs/intro). For **OIDC/OAuth2 Login** (Microsoft, GitHub), [see the latest Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
+:::info[Enterprise Edition v1.1.0]
+This documentation covers WebXTerm Enterprise v1.1.0, which adds **Multi-tenancy** (Organizations) and **Keycloak Authentication**.
+
+For the free Community Edition, [switch to version 1.0.0](https://docs.webxterm.me/docs/intro).
+For **OIDC/OAuth2 Login** (Microsoft, GitHub, Okta, Azure AD), [see the latest Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
 :::
 
 WebXTerm is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring.
@@ -77,7 +79,7 @@ WebXTerm Enterprise uses **Keycloak** as the credential store and **vsay-auth** 
 
 - **Email/Password**: vsay-auth verifies credentials against Keycloak, then issues its own signed JWT (HS256). All API calls use this vsay-auth JWT — not a Keycloak token.
 
-:::tip OIDC/OAuth2 Login Available in Next Enterprise
+:::info[Coming Soon]
 External identity providers (Microsoft, GitHub, Okta, Azure AD) are available in the [next Enterprise Edition](/docs/next/intro).
 :::
 

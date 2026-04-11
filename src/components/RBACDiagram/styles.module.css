@@ -1,0 +1,371 @@
+/* ============================================================
+   RBAC Flow Diagram — 3D card style + animated signal flow
+   ============================================================ */
+
+.wrapper {
+  background: #05080d;
+  border-radius: 20px;
+  padding: 48px 16px 36px;
+  margin: 32px 0;
+  border: 1px solid #1a2535;
+  box-shadow:
+    0 0 0 1px #0f1923,
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(139, 92, 246, 0.04);
+  font-family: inherit;
+}
+
+/* ── Badge ─────────────────────────────────────────────────── */
+.badge::before {
+  content: 'Access Control';
+  display: block;
+  text-align: center;
+  margin-bottom: 16px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f0f0f0;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.brand {
+  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #7a8a9a;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* ── Diagram scroll wrapper ─────────────────────────────────── */
+.diagramScroller {
+  overflow-x: auto;
+  padding: 8px 0 12px;
+}
+
+/* ── Diagram row ────────────────────────────────────────────── */
+.diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: 100%;
+  padding: 8px 8px 4px;
+}
+
+/* ── Role card ──────────────────────────────────────────────── */
+.card {
+  position: relative;
+  background: linear-gradient(145deg, #0d1a26, #0a1520);
+  border: 1px solid #1e2d40;
+  border-radius: 16px;
+  padding: 18px 12px 14px;
+  width: 140px;
+  cursor: default;
+  flex-shrink: 0;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.25s;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 0 1px #111d2a;
+  transform-style: preserve-3d;
+}
+
+/* 3-D tilt on hover — each colour variant */
+.cardPurple:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.2),
+    0 12px 40px rgba(139, 92, 246, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: perspective(600px) rotateY(-4deg) translateY(-3px);
+}
+
+.cardBlue:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.2),
+    0 12px 40px rgba(59, 130, 246, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: perspective(600px) rotateY(-4deg) translateY(-3px);
+}
+
+.cardGreen:hover {
+  border-color: rgba(0, 230, 118, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.2),
+    0 12px 40px rgba(0, 230, 118, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: perspective(600px) rotateY(-4deg) translateY(-3px);
+}
+
+.cardOrange:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.2),
+    0 12px 40px rgba(245, 158, 11, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: perspective(600px) rotateY(-4deg) translateY(-3px);
+}
+
+/* active state (triggered by hover of upstream card) */
+.cardPurple.cardActive { border-color: rgba(139,92,246,0.45); box-shadow: 0 0 0 1px rgba(139,92,246,0.18), 0 10px 36px rgba(139,92,246,0.14); }
+.cardBlue.cardActive   { border-color: rgba(59,130,246,0.45);  box-shadow: 0 0 0 1px rgba(59,130,246,0.18),  0 10px 36px rgba(59,130,246,0.14); }
+.cardGreen.cardActive  { border-color: rgba(0,230,118,0.45);   box-shadow: 0 0 0 1px rgba(0,230,118,0.18),   0 10px 36px rgba(0,230,118,0.12); }
+.cardOrange.cardActive { border-color: rgba(245,158,11,0.45);  box-shadow: 0 0 0 1px rgba(245,158,11,0.18),  0 10px 36px rgba(245,158,11,0.12); }
+
+/* top indicator dot */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.cardPurple::before { background: #a78bfa; box-shadow: 0 0 10px rgba(167,139,250,0.9); }
+.cardBlue::before   { background: #60a5fa; box-shadow: 0 0 10px rgba(96,165,250,0.9); }
+.cardGreen::before  { background: #00e676; box-shadow: 0 0 10px rgba(0,230,118,0.9); }
+.cardOrange::before { background: #fbbf24; box-shadow: 0 0 10px rgba(251,191,36,0.9); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  50%       { opacity: 1;   transform: translateX(-50%) scale(1.35); }
+}
+
+.roleIcon { font-size: 1.4rem; margin-bottom: 6px; }
+.roleName { font-size: 0.82rem; font-weight: 700; color: #d0d8e0; margin-bottom: 6px; }
+
+.roleTag {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: monospace;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  margin-bottom: 10px;
+}
+
+.perms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.permTag {
+  background: #0f1e2e;
+  border: 1px solid #1e3040;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  font-family: monospace;
+  color: #4a6a80;
+  padding: 1px 4px;
+}
+
+.cardNote {
+  font-size: 0.6rem;
+  color: #4a6070;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.cardNoteWarn { color: #d97706; }
+
+/* ── Machine roles ──────────────────────────────────────────── */
+.machineRoles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.machineRole {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.machineRoleDot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-top: 3px;
+  flex-shrink: 0;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.machineRoleTitle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: monospace;
+  color: #c0ccd6;
+}
+
+.machineRoleSub {
+  font-size: 0.58rem;
+  color: #4a6070;
+  line-height: 1.4;
+}
+
+/* ── Arrow with animated signal dots ───────────────────────── */
+.flowArrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 2px;
+  min-width: 88px;
+  flex-shrink: 0;
+}
+
+.arrowTrack {
+  position: relative;
+  width: 78px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.arrowLine {
+  position: absolute;
+  left: 0; right: 8px;
+  height: 2px;
+  background: #1e2d40;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+
+.arrowActive .arrowLine { background: linear-gradient(90deg, #a78bfa, #60a5fa); }
+.arrowWarn   .arrowLine { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+
+.arrowHead {
+  position: absolute;
+  right: 0;
+  width: 0; height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #1e2d40;
+  transition: border-left-color 0.3s;
+}
+
+.arrowHeadActive { border-left-color: #60a5fa; }
+.arrowHeadWarn   { border-left-color: #ef4444; }
+
+/* Travelling signal dots */
+.signalDot {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  top: 50%; transform: translateY(-50%);
+  background: #a78bfa;
+  box-shadow: 0 0 6px 2px rgba(167, 139, 250, 0.8);
+  opacity: 0;
+}
+
+.dot1 { animation: signalFlow 1.8s linear infinite; }
+.dot2 { animation: signalFlow 1.8s linear infinite 0.6s; }
+.dot3 { animation: signalFlow 1.8s linear infinite 1.2s; }
+
+@keyframes signalFlow {
+  0%   { left: 0%;  opacity: 0; }
+  5%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 85%; opacity: 0; }
+}
+
+.arrowLabel {
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #3a4a5a;
+  text-align: center;
+  white-space: normal;
+  max-width: 88px;
+  line-height: 1.35;
+  transition: color 0.3s;
+}
+
+.arrowLabelActive { color: #8a9aba; }
+.arrowLabelWarn   { color: #d97706; }
+
+/* ── Legend ─────────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 28px;
+  font-size: 0.72rem;
+  color: #4a6070;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ldot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Light mode ─────────────────────────────────────────────── */
+[data-theme='light'] .wrapper {
+  background: #f0f4f8;
+  border-color: #dde3ea;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+[data-theme='light'] .card {
+  background: #ffffff;
+  border-color: #dde3ea;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+[data-theme='light'] .cardPurple:hover { border-color: #7c3aed; box-shadow: 0 0 0 1px rgba(124,58,237,0.2), 0 8px 24px rgba(124,58,237,0.1); }
+[data-theme='light'] .cardBlue:hover   { border-color: #2563eb; box-shadow: 0 0 0 1px rgba(37,99,235,0.2),  0 8px 24px rgba(37,99,235,0.1); }
+[data-theme='light'] .cardGreen:hover  { border-color: #059669; box-shadow: 0 0 0 1px rgba(5,150,105,0.2),  0 8px 24px rgba(5,150,105,0.1); }
+[data-theme='light'] .cardOrange:hover { border-color: #d97706; box-shadow: 0 0 0 1px rgba(217,119,6,0.2),  0 8px 24px rgba(217,119,6,0.1); }
+
+[data-theme='light'] .roleName         { color: #111; }
+[data-theme='light'] .permTag          { background: #f0f4f8; border-color: #dde3ea; color: #556; }
+[data-theme='light'] .machineRoleTitle { color: #223; }
+[data-theme='light'] .machineRoleSub   { color: #778; }
+[data-theme='light'] .arrowLine        { background: #dde3ea; }
+[data-theme='light'] .arrowHead        { border-left-color: #dde3ea; }
+[data-theme='light'] .arrowLabel       { color: #aaa; }
+[data-theme='light'] .arrowLabelActive { color: #667; }
+[data-theme='light'] .subtitle         { color: #555; }
+[data-theme='light'] .title            { color: #111; }
+[data-theme='light'] .legend           { color: #888; }
+[data-theme='light'] .cardNote         { color: #888; }
+[data-theme='light'] .cardNoteWarn     { color: #b45309; }

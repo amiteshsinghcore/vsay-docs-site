@@ -18,7 +18,7 @@ You (Browser / CLI / VSCode)
   WebXTerm Backend
   (HTTP :8080 / HTTPS :8443)
         │
-        │  gRPC bidirectional stream (:50051)
+        │  gRPC + mTLS (:8081)  ← outbound from agent, mutual certificate auth
         ▼
   vsay-agent (on your machine)
         │
@@ -29,9 +29,9 @@ You (Browser / CLI / VSCode)
 ```
 
 All connections are:
-- **Authenticated** — WebSocket sessions require a valid JWT token; agents authenticate with your API key
-- **Encrypted** — WebSocket traffic is secured over TLS/WSS; gRPC communication uses TLS when configured
-- **Authorized** — the backend verifies you own the machine before establishing a session
+- **Mutually Authenticated** — agents connect via mTLS (both sides verify certificates); users authenticate with JWT tokens
+- **Encrypted** — WebSocket traffic secured over TLS/WSS; agent gRPC tunnel uses mutual TLS
+- **Authorized** — backend verifies the user has explicit access to the machine before opening a session
 - **Logged** — all commands typed in a terminal session are recorded to the audit log
 
 ## Connection Flow
@@ -74,12 +74,14 @@ Users authenticate with email/password at login and receive a **JWT token** (24-
 - As an `Authorization: Bearer` header for all REST API calls
 - As a `?token=` query parameter for WebSocket terminal connections
 
-### Agent Authentication (API Key)
+### Agent Authentication (mTLS)
 
-The `vsay-agent` authenticates using your personal **API Key** (found in your Profile). The agent sends this key when registering with the backend via gRPC. The backend looks up the user by API key to associate the machine with your account.
+The `vsay-agent` authenticates to the backend using **mutual TLS (mTLS)**. During initial registration (`vsay-agent configure`), a one-time bootstrap token is used to obtain a signed client certificate from the backend's private CA. All subsequent connections use this certificate — the bootstrap token is never sent again.
 
-:::warning Keep your API key secure
-Your API key authenticates all agents registered to your account. Regenerate it from your Profile page if it is ever exposed. This will disconnect any agents using the old key — they will need to be reconfigured.
+The backend verifies the agent's certificate against the CA on every gRPC connection. Agents without a valid certificate cannot connect.
+
+:::warning Keep your bootstrap token secure
+The bootstrap token is used only once during `vsay-agent configure` to obtain a signed certificate. After configuration, the agent uses its certificate for authentication. If the backend CA is rotated, agents will need to re-register.
 :::
 
 ## Security Features
@@ -89,7 +91,7 @@ Your API key authenticates all agents registered to your account. Regenerate it 
 | Layer | Protocol |
 |:------|:---------|
 | Browser / CLI / VSCode → Backend | WebSocket over TLS (WSS / HTTPS) |
-| Backend → Agent | gRPC over TLS (configurable) |
+| Backend ↔ Agent | gRPC over mutual TLS (mTLS) — agent presents signed client cert |
 | Agent process isolation | Runs as a specified system user (not root) |
 
 ### Session Security

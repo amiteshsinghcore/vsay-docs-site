@@ -80,10 +80,11 @@ Access organization settings:
 
 | Setting | Description |
 |---------|-------------|
-| **Session Timeout** | Auto-logout after inactivity |
-| **IP Allowlist** | Restrict access to specific IPs |
-| **MFA Requirement** | Require MFA for all users |
 | **Password Policy** | Minimum requirements for passwords |
+
+:::
+**Session Timeout**, **IP Allowlist**, and **MFA Requirement** per-org settings are on the roadmap and not yet available.
+:::
 
 ## Organization Admins
 
@@ -149,15 +150,9 @@ Temporarily disable access without removing:
 2. Click **"Suspend"**
 3. User cannot access until reactivated
 
-### Bulk User Management
-
-For large teams:
-
-1. Go to **Team → Bulk Actions**
-2. Choose action:
-   - **Import Users**: Upload CSV of users to invite
-   - **Export Users**: Download user list
-   - **Bulk Role Change**: Change roles for multiple users
+:::
+**Bulk User Management** (CSV import, bulk role change) is on the roadmap and not yet available.
+:::
 
 ## Machine Management
 

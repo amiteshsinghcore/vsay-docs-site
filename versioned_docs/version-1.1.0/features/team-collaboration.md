@@ -2,128 +2,118 @@
 sidebar_position: 3
 ---
 
+import RBACDiagram from '@site/src/components/RBACDiagram';
+
 # Team Collaboration
 
-WebXTerm makes it easy to share access with team members safely through Role-Based Access Control (RBAC). Define exactly what permissions each team member should have when accessing machines.
+WebXTerm uses a **hierarchical Role-Based Access Control (RBAC)** model. A Superadmin manages the entire platform, Company Admins manage their own organizations, and Users can only access machines explicitly granted to them.
+
+<RBACDiagram />
 
 ## Role-Based Access Control
 
-Every user in WebXTerm is assigned a role that determines what they can do across the platform.
+### The Three-Tier Hierarchy
 
-### Built-in Roles
+```
+Super Administrator  (super_admin)
+    └── Full platform control — manages all organizations, users, groups, machines
+Company Admin  (company_admin)
+    └── Manages their own organization — users, groups, machines, access
+User  (user)
+    └── Accesses only machines they have been explicitly granted access to
+```
 
-| Role | Description | Permissions |
-|------|-------------|-------------|
-| **Admin** | Full control — manage users, machines, and organization settings | All permissions |
-| **User** | Standard access to machines they are explicitly granted access to | Connect to allowed machines, view own activity |
+### Portal Roles
 
-### Custom Roles
+These roles control access to the WebXTerm web portal and admin functions.
 
-Create custom roles tailored to your organization's needs:
+| Role | Internal Name | Scope | Capabilities |
+|------|--------------|-------|-------------|
+| **Super Administrator** | `super_admin` | Platform-wide | Create/manage all organizations, manage all users & groups & machines, system configuration |
+| **Company Admin** | `company_admin` | Organization | Manage users, groups, and machines within their organization; grant machine access to users |
+| **User** | `user` | Machine-level | View and connect to machines they have been explicitly assigned |
 
-1. Go to **Organization Settings → Roles**
-2. Click **"Create Role"**
-3. Name the role and add a description
-4. Select permissions from the available list
-5. Save the role
+**Super Administrator permissions:** `manage_organizations`, `manage_all_users`, `manage_all_groups`, `manage_all_machines`, `view_all_resources`, `system_configuration`
+
+**Company Admin permissions:** `manage_users`, `manage_groups`, `manage_machines`, `view_org_resources`
+
+**User permissions:** `view_assigned_machines`, `use_assigned_machines`, `view_own_profile`
+
+### Machine Roles
+
+When a user is granted access to a machine, they also receive a **machine role** that controls what they can do in a terminal session on that machine:
+
+| Machine Role | Internal Name | What They Can Do |
+|-------------|--------------|-----------------|
+| **Sudo Access** | `sudo` | Full admin access — execute privileged commands, modify system files, install packages, manage services |
+| **Non-Sudo Access** | `non-sudo` | Standard user access — run regular commands only, cannot execute privileged commands |
+
+**Sudo permissions:** `execute_sudo_commands`, `modify_system_files`, `install_packages`, `manage_services`
+
+**Non-Sudo permissions:** `execute_user_commands`, `read_system_info`
+
+## RBAC Flow
+
+1. **Superadmin** creates organizations (companies) via **User Management → Organizations**
+2. **Superadmin** creates a Company Admin user and assigns them the `company_admin` role for their organization
+3. **Company Admin** adds machines to their organization by registering `vsay-agent`
+4. **Company Admin** invites users and grants them access to specific machines with a machine role (`sudo` or `non-sudo`)
+5. **Users** connect only to machines they have been explicitly granted access to
+6. If a user has **not logged in for 30 days**, their access is automatically revoked
 
 ## Managing Team Members
 
 ### Inviting New Members
 
-1. Navigate to **Team → Members**
-2. Click **"Invite Member"**
-3. Enter the email address
-4. Select the role(s) to assign
-5. Optionally, select specific machines they can access
-6. Click **"Send Invitation"**
+1. Navigate to **User Management → Users**
+2. Click **"Add User"**
+3. Enter the email address and assign a portal role (`company_admin` or `user`)
+4. Save — the user can now log in
 
-The invited user will receive an email with instructions to join your organization.
+### Granting Machine Access
 
-### Assigning Roles
-
-To change a user's role:
-
-1. Go to **Team → Members**
-2. Find the user and click **"Edit"**
-3. Modify their assigned roles
-4. Save changes
-
-:::info
-Role changes take effect immediately. The user may need to refresh their session to see updated permissions.
-:::
-
-### Removing Members
-
-To remove a team member:
-
-1. Go to **Team → Members**
-2. Find the user and click **"Remove"**
-3. Confirm the removal
-
-The user will immediately lose access to all organization resources.
-
-## Machine Access Control
-
-### Allowed Users per Machine
-
-Each machine has an `allowed_users` list that controls exactly which team members can connect to it. This gives you fine-grained control beyond role-level permissions.
+Only a **Company Admin** can grant users access to machines:
 
 1. Go to **Machines → [Select Machine] → Access**
 2. Click **"Add User"**
-3. Select the user to grant access
+3. Select the user and choose their machine role (`sudo` or `non-sudo`)
+4. Save
 
 To revoke access, remove the user from the machine's allowed list.
 
+### Removing Members
+
+1. Go to **User Management → Users**
+2. Find the user and remove them
+
+The user immediately loses access to all organization resources.
+
+:::info Automatic Access Revocation
+Users who have not logged in for **30 days** are automatically deprovisioned. Their access is revoked until re-enabled by a Company Admin.
+:::
+
+## Machine Management
+
+Only **Company Admins** (and Superadmin) can add or delete machines:
+
+- **Add machine**: Install and configure `vsay-agent` on the machine — it appears in the dashboard automatically
+- **Delete machine**: Go to **Machines → [Machine] → Delete** — removes the machine from the organization
+
 ### Command Restrictions
 
-When installing the `vsay-agent` on a machine, you can restrict what commands are allowed in terminal sessions:
+When registering the agent, you can allow or restrict sudo in terminal sessions:
 
 ```bash
 sudo vsay-agent configure \
-  --token YOUR_API_KEY \
+  --token YOUR_BOOTSTRAP_TOKEN \
   --host http://your-webxterm-instance.com:8080 \
   --linux-user ubuntu \
   --allow-sudo    # Grant sudo access in sessions
 ```
 
-The backend can also push configuration updates to the agent to update allowed/blocked commands without restarting the agent.
-
-## Permission Reference
-
-### Organization Permissions
-
-| Permission | Description |
-|------------|-------------|
-| `org:admin` | Full organization admin access |
-| `org:settings` | Modify organization settings |
-| `org:billing` | Access billing and subscription |
-| `org:audit` | View audit logs |
-
-### User Permissions
-
-| Permission | Description |
-|------------|-------------|
-| `users:view` | View team member list |
-| `users:invite` | Invite new members |
-| `users:edit` | Edit member details and roles |
-| `users:remove` | Remove members from organization |
-
-### Machine Permissions
-
-| Permission | Description |
-|------------|-------------|
-| `machines:view` | View machine list |
-| `machines:add` | Add new machines |
-| `machines:edit` | Edit machine configuration |
-| `machines:delete` | Remove machines |
-| `machines:connect` | Connect to machines (also requires machine-level access) |
-
 ## Best Practices
 
-1. **Principle of Least Privilege**: Give users only the access they need
-2. **Use Groups**: Manage access through groups rather than individual assignments
-3. **Regular Audits**: Periodically review who has access to what
-4. **Offboarding Process**: Immediately remove access when team members leave
-5. **Document Roles**: Keep documentation of what each custom role is for
-6. **Separate Environments**: Use different roles for production vs development access
+1. **Principle of Least Privilege** — assign `non-sudo` by default; only grant `sudo` where needed
+2. **Regular Audits** — periodically review who has access to which machines
+3. **Offboarding** — remove users immediately when they leave; auto-revocation at 30 days is a safety net, not a substitute
+4. **Separate Production Access** — keep production machine access restricted to a small set of users

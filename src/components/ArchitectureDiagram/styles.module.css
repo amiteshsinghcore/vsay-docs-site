@@ -1,0 +1,408 @@
+/* ============================================================
+   Architecture Diagram — 3D card style + animated signal flow
+   ============================================================ */
+
+.wrapper {
+  background: #05080d;
+  border-radius: 20px;
+  padding: 48px 32px 36px;
+  margin: 32px 0;
+  border: 1px solid #1a2535;
+  box-shadow:
+    0 0 0 1px #0f1923,
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(0, 230, 118, 0.04);
+  font-family: inherit;
+}
+
+.badge {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.badge::before {
+  content: 'Architecture';
+  display: inline-block;
+  background: rgba(0, 230, 118, 0.1);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  color: #00e676;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f0f0f0;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.brand {
+  background: linear-gradient(90deg, #00e676 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #7a8a9a;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.subtitle strong { color: #a0b0c0; }
+
+/* ============================================================
+   Main diagram row
+   ============================================================ */
+.diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+/* ============================================================
+   Layer wrapper
+   ============================================================ */
+.layer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.layerLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3a4a5a;
+}
+
+.nodeGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ============================================================
+   Node card
+   ============================================================ */
+.node {
+  position: relative;
+  background: #0d1520;
+  border: 1px solid #1e2d40;
+  border-radius: 12px;
+  padding: 12px 16px;
+  width: 130px;
+  cursor: default;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.node:hover {
+  border-color: #00e676;
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.2),
+    0 8px 24px rgba(0, 230, 118, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: perspective(600px) rotateY(-4deg) translateY(-2px);
+}
+
+.nodeIcon  { font-size: 1.2rem; margin-bottom: 4px; }
+.nodeLabel { font-size: 0.78rem; font-weight: 700; color: #d0d8e0; }
+.nodeSub   { font-size: 0.65rem; color: #4a6070; margin-top: 2px; }
+
+.dot {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+
+.dotBlue   { background: #3b82f6; box-shadow: 0 0 6px rgba(59,130,246,0.8); }
+.dotGreen  { background: #00e676; box-shadow: 0 0 6px rgba(0,230,118,0.8); }
+.dotOrange { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.7); }
+
+/* ============================================================
+   Arrow with animated signal dots
+   ============================================================ */
+.arrowBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  min-width: 80px;
+}
+
+/* Track — the horizontal rail */
+.arrowTrack {
+  position: relative;
+  width: 72px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+
+/* Base line */
+.arrowLine {
+  position: absolute;
+  left: 0; right: 10px;
+  height: 2px;
+  background: #1e2d40;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+
+/* Arrowhead triangle */
+.arrowHead {
+  position: absolute;
+  right: 0;
+  width: 0; height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.arrowHeadBlue  { border-left: 8px solid #1e2d40; transition: border-left-color 0.3s; }
+.arrowHeadGreen { border-left: 8px solid #1e2d40; transition: border-left-color 0.3s; }
+
+/* Active states — line & head light up */
+.arrowTrackBlue.arrowTrackActive .arrowLine  { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.arrowTrackBlue.arrowTrackActive .arrowHeadBlue { border-left-color: #60a5fa; }
+
+.arrowTrackGreen.arrowTrackActive .arrowLine  { background: linear-gradient(90deg, #00e676, #22d3ee); }
+.arrowTrackGreen.arrowTrackActive .arrowHeadGreen { border-left-color: #22d3ee; }
+
+/* Signal dot — the travelling particle */
+.signalDot {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  top: 50%; transform: translateY(-50%);
+  opacity: 0;
+}
+
+.signalBlue  { background: #60a5fa; box-shadow: 0 0 6px 2px rgba(96,165,250,0.8); }
+.signalGreen { background: #00e676; box-shadow: 0 0 6px 2px rgba(0,230,118,0.8); }
+
+/* Three staggered dots travel left → right */
+.signalDot1 { animation: signalFlow 2s linear infinite; }
+.signalDot2 { animation: signalFlow 2s linear infinite 0.65s; }
+.signalDot3 { animation: signalFlow 2s linear infinite 1.3s; }
+
+@keyframes signalFlow {
+  0%   { left: 0%;  opacity: 0; }
+  5%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 85%; opacity: 0; }
+}
+
+.arrowLabel {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #3a4a5a;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Portal card
+   ============================================================ */
+.portalWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.portal {
+  position: relative;
+  background: linear-gradient(145deg, #0d1a26, #0a1520);
+  border: 1px solid #1e3248;
+  border-radius: 16px;
+  padding: 20px 20px 16px;
+  width: 160px;
+  cursor: default;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 0 1px #111d2a;
+}
+
+.portalGlow {
+  border-color: rgba(0, 230, 118, 0.4);
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.15),
+    0 12px 40px rgba(0, 230, 118, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.portalDot {
+  position: absolute;
+  top: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #00e676;
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.9);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(0, 230, 118, 0.7); }
+  50%       { box-shadow: 0 0 14px rgba(0, 230, 118, 1), 0 0 24px rgba(0, 230, 118, 0.4); }
+}
+
+.portalIcon  { font-size: 1.6rem; text-align: center; margin-bottom: 6px; color: #00e676; }
+.portalTitle { font-size: 0.82rem; font-weight: 700; color: #d0d8e0; text-align: center; }
+.portalSub   { font-size: 0.62rem; color: #4a6070; text-align: center; margin-bottom: 10px; }
+
+.portalTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+
+.portalTags span {
+  background: #0f1e2e;
+  border: 1px solid #1e3040;
+  border-radius: 4px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: #5a7a90;
+  padding: 2px 6px;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   Agent card
+   ============================================================ */
+.agentWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.agent {
+  position: relative;
+  background: linear-gradient(145deg, #0d1a26, #0a1520);
+  border: 1px solid #1e3248;
+  border-radius: 16px;
+  padding: 20px 20px 16px;
+  width: 150px;
+  cursor: default;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.agentGlow {
+  border-color: rgba(0, 230, 118, 0.4);
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.15),
+    0 12px 40px rgba(0, 230, 118, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================================
+   Legend
+   ============================================================ */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 28px;
+  font-size: 0.72rem;
+  color: #4a6070;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendDotBlue, .legendDotGreen, .legendDotOrange {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendDotBlue   { background: #3b82f6; box-shadow: 0 0 5px rgba(59,130,246,0.8); }
+.legendDotGreen  { background: #00e676; box-shadow: 0 0 5px rgba(0,230,118,0.8); }
+.legendDotOrange { background: #f59e0b; box-shadow: 0 0 5px rgba(245,158,11,0.7); }
+
+/* ============================================================
+   Light mode overrides
+   ============================================================ */
+[data-theme='light'] .wrapper {
+  background: #f0f4f8;
+  border-color: #dde3ea;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+[data-theme='light'] .badge::before {
+  background: rgba(37,99,235,0.08);
+  border-color: rgba(37,99,235,0.3);
+  color: #2563eb;
+}
+
+[data-theme='light'] .node,
+[data-theme='light'] .portal,
+[data-theme='light'] .agent {
+  background: #ffffff;
+  border-color: #dde3ea;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+[data-theme='light'] .node:hover {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.2), 0 8px 24px rgba(37,99,235,0.1);
+}
+
+[data-theme='light'] .portalGlow,
+[data-theme='light'] .agentGlow {
+  border-color: rgba(37,99,235,0.4);
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.15), 0 12px 40px rgba(37,99,235,0.1);
+}
+
+[data-theme='light'] .nodeLabel,
+[data-theme='light'] .portalTitle { color: #111; }
+[data-theme='light'] .nodeSub,
+[data-theme='light'] .portalSub   { color: #888; }
+[data-theme='light'] .portalTags span { background: #f0f4f8; border-color: #dde3ea; color: #556; }
+[data-theme='light'] .layerLabel,
+[data-theme='light'] .arrowLabel  { color: #aaa; }
+[data-theme='light'] .brand {
+  background: linear-gradient(90deg,#059669,#0284c7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme='light'] .title   { color: #111; }
+[data-theme='light'] .subtitle { color: #555; }
+[data-theme='light'] .legend  { color: #888; }
+[data-theme='light'] .portalDot { background: #2563eb; box-shadow: 0 0 10px rgba(37,99,235,0.8); }
+[data-theme='light'] .portalIcon { color: #2563eb; }
+[data-theme='light'] .arrowLine  { background: #dde3ea; }
+[data-theme='light'] .arrowHeadBlue,
+[data-theme='light'] .arrowHeadGreen { border-left-color: #dde3ea; }

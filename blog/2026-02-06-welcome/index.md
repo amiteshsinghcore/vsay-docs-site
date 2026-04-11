@@ -10,7 +10,7 @@ tags: [announcement, launch]
 
 We are thrilled to introduce **WebXTerm** — a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution.
 
-<!-- truncate -->
+{/* truncate */}
 
 ## Our Story
 

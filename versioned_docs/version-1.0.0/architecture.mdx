@@ -1,0 +1,184 @@
+---
+sidebar_position: 3
+---
+
+import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
+
+# Architecture
+
+<ArchitectureDiagram />
+
+## How WebXTerm Works
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                          CLIENT LAYER                               │
+│                                                                     │
+│   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐          │
+│   │   Browser    │   │   VS Code    │   │   VSAY CLI   │          │
+│   │ Web Terminal │   │  Extension   │   │  Shell Tool  │          │
+│   └──────┬───────┘   └──────┬───────┘   └──────┬───────┘          │
+│          └─────────────────┬┘──────────────────┘                   │
+└────────────────────────────┼────────────────────────────────────────┘
+                             │  HTTPS / WSS
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       WEBXTERM PORTAL                               │
+│                     (Control Hub :8080)                             │
+│                                                                     │
+│    ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐    │
+│    │   Auth   │  │  Router  │  │  Audit   │  │   Registry   │    │
+│    │ JWT/OIDC │  │ Terminal │  │   Logs   │  │  CA / Certs  │    │
+│    └──────────┘  └──────────┘  └──────────┘  └──────────────┘    │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │  gRPC + mTLS (:8081)
+                             │  Outbound only — agent initiates
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                        MACHINE LAYER                                │
+│                                                                     │
+│   ┌──────────────────────────────────────────────────────────┐     │
+│   │                      vsay-agent                          │     │
+│   │                   (On your machine)                      │     │
+│   │                                                          │     │
+│   │   Outbound only  │  Systemd service  │  Heartbeat 30s   │     │
+│   └──────────────────────────────────────────────────────────┘     │
+│                                                                     │
+│   ┌───────────────┐  ┌───────────────┐  ┌───────────────┐         │
+│   │ prod-server   │  │  dev-laptop   │  │ bare-metal-02 │         │
+│   │  Linux / x86  │  │  macOS / M1   │  │  Linux / ARM  │         │
+│   └───────────────┘  └───────────────┘  └───────────────┘         │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Legend:**
+- 🔵 Client connection (HTTPS/WSS)
+- 🟢 Agent tunnel (gRPC/mTLS) — outbound only
+- 🟠 Active session
+
+---
+
+## Key Design Principles
+
+### 1. Outbound-Only Agent Tunnel
+The `vsay-agent` always initiates the connection **outbound** to the backend over gRPC. This means:
+- **No open inbound ports** on your machines
+- **No firewall rule changes** required
+- Works behind NAT, behind corporate firewalls, on any network
+- The agent auto-reconnects on network interruptions or backend restarts
+
+### 2. Mutual TLS (mTLS) — Both Sides Verified
+Every agent connection uses **mutual TLS**. This is not just "TLS" (one-way) — both sides present certificates:
+
+```
+Agent  → presents client certificate → Backend verifies ✅
+Backend → presents server certificate → Agent   verifies ✅
+```
+
+WebXTerm runs its own **Private CA** inside the backend:
+- Issues a **signed client certificate** to every agent during `configure`
+- All 1500 agents automatically re-fetch certs and reconnect after a backend upgrade
+- No shared secrets, no SSH keys to rotate
+
+### 3. Three-Tier RBAC (Our Core USP)
+
+```
+Superadmin
+│  Full platform control
+│  Manages all companies in one deployment
+│
+└── Company Admin (per organization)
+    │  Manages their org — users, machines, access policies
+    │  Cannot see other companies' data
+    │
+    └── User
+        Accesses only machines explicitly granted to them
+```
+
+Unlike Teleport (flat role assignments, no org isolation), WebXTerm gives you a **true multi-tenant hierarchy** — one deployment, multiple isolated companies, each with their own admin.
+
+### 4. Zero-Trust Access Flow
+
+Every terminal session goes through this verification chain:
+
+```
+User clicks Connect
+        │
+        ▼
+1. JWT validated        → is this a real logged-in user?
+        │
+        ▼
+2. RBAC checked         → does this user have access to this machine?
+        │
+        ▼
+3. Agent located        → is this machine online with active gRPC stream?
+        │
+        ▼
+4. Session bridged      → WebSocket ↔ gRPC stream connected
+        │
+        ▼
+5. Commands logged      → every keystroke recorded to audit log
+```
+
+No step can be skipped. A user with no explicit machine grant cannot connect even if they know the machine ID.
+
+---
+
+## Component Overview
+
+| Component | Role | Port |
+|:----------|:-----|:-----|
+| **WebXTerm Backend** | Control plane — auth, routing, audit, CA | 8080 (HTTP) |
+| **vsay-auth** | Authentication service — JWT, OIDC, Keycloak | 8082 |
+| **vsay-agent** | Lightweight daemon on each machine | outbound to 8081 |
+| **gRPC server** | Agent tunnel endpoint with mTLS | 8081 |
+
+---
+
+## mTLS Certificate Lifecycle
+
+```
+1. vsay-agent configure --token <bootstrap_token>
+        │
+        ▼
+   Agent fetches CA cert from backend         GET /agent/ca-cert
+   Agent generates RSA key pair locally
+   Agent submits CSR                          POST /agent/sign-cert
+   Backend signs cert with Private CA
+   Agent saves:
+     /etc/vsay/certs/ca.pem       ← verify backend
+     /etc/vsay/certs/client.crt   ← agent identity
+     /etc/vsay/certs/client.key   ← private key
+
+2. Every reconnect (restarts, network blips):
+        Agent loads certs from disk → mTLS connect → online ✅
+        No re-registration needed
+
+3. Backend upgrade (new CA):
+        mTLS fails → agent detects cert mismatch
+        Agent falls back → re-fetches CA → re-signs cert → reconnects ✅
+        All 1500 machines self-heal automatically
+```
+
+---
+
+## Multi-Tenancy Architecture
+
+```
+WebXTerm Platform (single deployment)
+│
+├── Company A (isolated workspace)
+│   ├── Machines: prod-01, prod-02, dev-01
+│   ├── Users: alice@a.com (admin), bob@a.com (user)
+│   └── Audit logs: Company A only
+│
+├── Company B (isolated workspace)
+│   ├── Machines: web-01, db-01
+│   ├── Users: carol@b.com (admin), dave@b.com (user)
+│   └── Audit logs: Company B only
+│
+└── Superadmin
+    └── Can manage all companies, cannot be accessed by company admins
+```
+
+Company A cannot see Company B's machines, users, or logs — full isolation at the database level.

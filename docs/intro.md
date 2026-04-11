@@ -5,7 +5,7 @@ sidebar_label: Documentation
 
 # Webxterm Documentation
 
-:::info Enterprise Edition
+:::info[Enterprise Edition]
 This documentation covers all WebXTerm features including **OIDC/OAuth2 Login** (Microsoft, GitHub), **Keycloak Authentication**, and **Multi-tenancy**.
 For the free Community Edition, [switch to version 1.0.0](/docs/intro).
 :::

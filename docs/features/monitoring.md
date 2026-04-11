@@ -92,66 +92,15 @@ Organization admins can:
 
 ## Alerts and Notifications
 
-### Setting Up Alerts
+:::
+Alerts and notification channels (Email, Slack, Webhook, PagerDuty) are on the [roadmap](/docs/next/roadmap). Currently, machine offline detection happens automatically via the reconciler — machines are marked offline if no heartbeat is received within 2 minutes.
+:::
 
-Configure alerts for important events:
+## Reports and Export
 
-1. Go to **Organization Settings → Alerts**
-2. Click **"Create Alert"**
-3. Configure the alert:
-   - **Trigger**: What event triggers the alert
-   - **Conditions**: Any filters or thresholds
-   - **Recipients**: Who should be notified
-   - **Channels**: Email, Slack, webhook, etc.
-
-### Alert Types
-
-| Alert Type | Description |
-|------------|-------------|
-| **Machine Offline** | A machine becomes unreachable |
-| **High Resource Usage** | CPU/Memory/Disk exceeds threshold |
-| **Failed Login** | Unsuccessful authentication attempts |
-| **Sensitive Command** | Specific commands are executed |
-| **New Session** | User starts a new connection |
-| **After Hours Access** | Connections outside business hours |
-
-### Notification Channels
-
-WebXTerm can send alerts through:
-
-- **Email**: Direct to inbox
-- **Slack**: Post to a channel or DM
-- **Webhook**: Send to any HTTP endpoint
-- **PagerDuty**: Integrate with incident management
-
-## Reports
-
-### Built-in Reports
-
-Generate reports for analysis and compliance:
-
-- **Usage Report**: Session counts and durations by user/machine
-- **Command Report**: Most common commands, failed commands
-- **Access Report**: Who accessed what and when
-- **Security Report**: Failed attempts, unusual activity
-
-### Custom Reports
-
-Create custom reports:
-
-1. Go to **Monitoring → Reports**
-2. Click **"Create Report"**
-3. Select metrics and filters
-4. Set the time range
-5. Generate or schedule the report
-
-### Exporting Data
-
-Export monitoring data for external analysis:
-
-- **CSV**: For spreadsheet analysis
-- **JSON**: For programmatic processing
-- **PDF**: For sharing and archiving
+:::
+Log export (CSV/JSON/PDF), custom reports, and SIEM integrations are on the [roadmap](/docs/next/roadmap). Currently, all command history and session data is available via the Audit Logs page and the REST API.
+:::
 
 ## Best Practices
 

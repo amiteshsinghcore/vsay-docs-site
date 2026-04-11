@@ -1,0 +1,202 @@
+/* ============================================================
+   Comparison Table — WebXTerm vs Teleport
+   ============================================================ */
+
+.wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #1a2535;
+  margin: 32px 0;
+  font-family: inherit;
+  background: #05080d;
+  box-shadow:
+    0 0 0 1px #0f1923,
+    0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Column headers ─────────────────────────────────────────── */
+.colHeaders {
+  display: grid;
+  grid-template-columns: 1fr 170px 170px;
+  background: #0d1520;
+  border-bottom: 2px solid #1a2535;
+}
+
+.colFeature {
+  padding: 14px 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3a5060;
+}
+
+.colProduct {
+  padding: 14px 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-left: 1px solid #1a2535;
+  letter-spacing: 0.02em;
+}
+
+.colWebXTerm { color: #00e676; }
+.colTeleport { color: #818cf8; }
+
+.productPip {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* ── Group ──────────────────────────────────────────────────── */
+.group { border-bottom: 1px solid #111d2a; }
+.group:last-of-type { border-bottom: none; }
+
+.groupBtn {
+  width: 100%;
+  background: #090e14;
+  border: none;
+  border-bottom: 1px solid #111d2a;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.groupBtn:hover { background: #0d1520; }
+
+.groupIcon  { font-size: 1rem; }
+.groupLabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8a9ab0;
+  letter-spacing: 0.04em;
+  flex: 1;
+}
+.groupCount {
+  font-size: 0.62rem;
+  color: #2a3a4a;
+  font-weight: 600;
+}
+.groupChevron {
+  font-size: 1rem;
+  color: #2a3a4a;
+  transition: transform 0.2s;
+  display: inline-block;
+  transform: rotate(90deg);
+}
+.chevronOpen { transform: rotate(270deg); }
+
+/* ── Table ──────────────────────────────────────────────────── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.row {
+  border-bottom: 1px solid #0a1018;
+  transition: background 0.12s;
+}
+.row:last-child { border-bottom: none; }
+.row:hover { background: #0d1825; }
+
+/* Rows where WebXTerm wins — subtle green tint */
+.rowHighlight { background: rgba(0, 230, 118, 0.03); }
+.rowHighlight:hover { background: rgba(0, 230, 118, 0.06); }
+
+.featureCell {
+  padding: 11px 20px;
+  color: #b0bcc8;
+  font-size: 0.83rem;
+  line-height: 1.4;
+  position: relative;
+}
+
+.winBadge {
+  color: #00e676;
+  font-size: 0.6rem;
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: 0.7;
+}
+
+/* ── Status cells ───────────────────────────────────────────── */
+.cell {
+  padding: 11px 14px;
+  text-align: center;
+  vertical-align: middle;
+  border-left: 1px solid #0a1018;
+  width: 170px;
+}
+
+.statusIcon {
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.note {
+  display: block;
+  font-size: 0.63rem;
+  margin-top: 3px;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.yes     { color: #00e676; }
+.no      { color: #f87171; }
+.partial { color: #fbbf24; }
+.paid    { color: #a78bfa; }
+
+/* ── Legend ─────────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 12px 20px;
+  background: #080c11;
+  border-top: 1px solid #111d2a;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.legend span { opacity: 0.75; }
+.winLegend { color: #00e676; opacity: 1 !important; }
+
+/* ── Light mode ─────────────────────────────────────────────── */
+[data-theme='light'] .wrapper     { background: #fff; border-color: #e2e8f0; box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+[data-theme='light'] .colHeaders  { background: #f8fafc; border-color: #e2e8f0; }
+[data-theme='light'] .colFeature  { color: #94a3b8; }
+[data-theme='light'] .colProduct  { border-color: #e2e8f0; }
+[data-theme='light'] .colWebXTerm { color: #059669; }
+[data-theme='light'] .colTeleport { color: #6366f1; }
+[data-theme='light'] .groupBtn    { background: #f1f5f9; border-color: #e2e8f0; }
+[data-theme='light'] .groupBtn:hover { background: #e8f0fe; }
+[data-theme='light'] .groupLabel  { color: #475569; }
+[data-theme='light'] .groupCount  { color: #cbd5e1; }
+[data-theme='light'] .groupChevron { color: #cbd5e1; }
+[data-theme='light'] .featureCell { color: #334155; }
+[data-theme='light'] .cell        { border-color: #f1f5f9; }
+[data-theme='light'] .row         { border-color: #f1f5f9; }
+[data-theme='light'] .row:hover   { background: #f8fafc; }
+[data-theme='light'] .rowHighlight { background: rgba(5,150,105,0.04); }
+[data-theme='light'] .rowHighlight:hover { background: rgba(5,150,105,0.08); }
+[data-theme='light'] .yes         { color: #059669; }
+[data-theme='light'] .no          { color: #dc2626; }
+[data-theme='light'] .partial     { color: #d97706; }
+[data-theme='light'] .paid        { color: #7c3aed; }
+[data-theme='light'] .winBadge    { color: #059669; }
+[data-theme='light'] .legend      { background: #f8fafc; border-color: #e2e8f0; }
+[data-theme='light'] .group       { border-color: #e2e8f0; }
+[data-theme='light'] .winLegend   { color: #059669; }

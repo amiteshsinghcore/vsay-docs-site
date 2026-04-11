@@ -5,8 +5,8 @@ sidebar_label: Documentation
 
 # Webxterm Documentation
 
-:::info Community Edition
-This is the free Community Edition. For **OIDC/OAuth2 Login** (Microsoft, GitHub), **Mutual TLS**, and **Multi-tenancy**, [switch to the Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
+:::info[Community Edition]
+This is the free Community Edition. For **OIDC/OAuth2 Login** (Microsoft, GitHub, Okta, Azure AD), **Keycloak Authentication**, and **Multi-tenancy**, [switch to the Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
 :::
 
 WebXTerm is a full-fledged **Privileged Access Management (PAM)** and **Role-Based Access Control (RBAC)** solution that allows you to securely connect to your machines from anywhere. Install the lightweight `vsay-agent` on any machine and get instant access through the web, CLI, or your IDE — with complete audit trails, role-based access control, and real-time infrastructure monitoring. This documentation will guide you through all the features and help you get the most out of the platform.
