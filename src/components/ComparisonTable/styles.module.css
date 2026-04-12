@@ -96,14 +96,10 @@
 }
 .chevronOpen { transform: rotate(270deg); }
 
-/* ── Table ──────────────────────────────────────────────────── */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
+/* ── Rows ───────────────────────────────────────────────────── */
 .row {
+  display: grid;
+  grid-template-columns: 1fr 170px 170px;
   border-bottom: 1px solid #0a1018;
   transition: background 0.12s;
 }
@@ -134,9 +130,11 @@
 .cell {
   padding: 11px 14px;
   text-align: center;
-  vertical-align: middle;
   border-left: 1px solid #0a1018;
-  width: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .statusIcon {

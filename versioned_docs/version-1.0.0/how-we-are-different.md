@@ -12,7 +12,7 @@ WebXTerm was built to solve problems that existing tools like Teleport don't add
 
 <ComparisonTable />
 
-:::tip
+:::tip[Reading the Table]
 Rows marked with **✦** are areas where WebXTerm has a clear advantage over Teleport.
 :::
 
@@ -93,30 +93,3 @@ With WebXTerm you can connect from:
 
 Teleport requires installing and authenticating with `tsh` (their proprietary client) before you can do anything.
 
----
-
-## Community vs Enterprise
-
-| Feature | Community | Enterprise |
-|:--------|:---------:|:----------:|
-| Secure Remote Access (Agent-Based) | ✅ | ✅ |
-| Web Terminal | ✅ | ✅ |
-| Team Collaboration (RBAC) | ✅ | ✅ |
-| Real-time Monitoring | ✅ | ✅ |
-| Session & Command Recording | ✅ | ✅ |
-| Audit Logs | ✅ | ✅ |
-| Community (Issue Tracker) | ✅ | ✅ |
-| TLS Encryption | ✅ | ✅ |
-| WebXTerm Shell CLI | ✅ | ✅ |
-| WebXTerm VSCode Extension | ✅ | ✅ |
-| API Access | ✅ | ✅ |
-| mTLS (Mutual TLS) | ✅ | ✅ |
-| Keycloak Authentication | ❌ | ✅ |
-| OIDC/OAuth2 Login (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
-| Multi-tenancy (Organizations) | ❌ | ✅ |
-| Organization API | ❌ | ✅ |
-| Priority Support | ❌ | ✅ |
-
-:::
-Need OIDC/OAuth2 login, Keycloak authentication, or multi-organization support? [See the Enterprise Edition](/docs/next/intro).
-:::

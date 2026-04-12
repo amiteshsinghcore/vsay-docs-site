@@ -82,7 +82,7 @@ Access organization settings:
 |---------|-------------|
 | **Password Policy** | Minimum requirements for passwords |
 
-:::
+:::info[Coming Soon]
 **Session Timeout**, **IP Allowlist**, and **MFA Requirement** per-org settings are on the roadmap and not yet available.
 :::
 
@@ -150,7 +150,7 @@ Temporarily disable access without removing:
 2. Click **"Suspend"**
 3. User cannot access until reactivated
 
-:::
+:::info[Coming Soon]
 **Bulk User Management** (CSV import, bulk role change) is on the roadmap and not yet available.
 :::
 
@@ -235,7 +235,7 @@ The Superadmin can manage all organizations from a single WebXTerm deployment:
 - **Full Isolation**: Each organization's data, machines, and users are completely isolated
 - **Single Deployment**: No need for separate instances per company — unlike Teleport
 
-:::
+:::info[WebXTerm Advantage]
 Teleport has no native multi-tenancy. Running multiple companies requires separate Teleport instances. WebXTerm handles this natively — Superadmin → Company Admin → User — all in one deployment.
 :::
 

@@ -80,7 +80,7 @@ Error responses:
 | POST | `/api/auth/logout` | Logout current session |
 | POST | `/api/auth/refresh` | Refresh JWT token |
 
-:::tip OIDC/OAuth2 Login
+:::tip[OIDC/OAuth2 Login]
 Microsoft and GitHub OIDC/OAuth2 login is available in the [next Enterprise Edition](/docs/next/authentication/oidc-integration).
 :::
 

@@ -40,7 +40,7 @@ code --install-extension vsay.vsay-terminal
 3. Enter your WebXTerm backend API URL (e.g. `https://your-webxterm-instance.com`)
 4. Enter your email and password
 
-:::note Token storage
+:::note[Token storage]
 Your JWT token is kept **in memory only** for the current VS Code session. You will be asked to sign in again after reloading VS Code.
 :::
 

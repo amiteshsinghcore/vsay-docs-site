@@ -21,7 +21,7 @@ User (email + password) → POST /api/auth/login
     → Client uses JWT for all API calls
 ```
 
-:::tip OIDC/OAuth2 Login (Next Enterprise)
+:::tip[OIDC/OAuth2 Login (Next Enterprise)]
 For **Microsoft** and **GitHub** OIDC/OAuth2 login, see the [next Enterprise Edition](/docs/next/authentication/oidc-integration).
 :::
 
@@ -84,7 +84,7 @@ curl -X POST https://your-webxterm-instance.com/api/auth/signup \
   }'
 ```
 
-:::note First user is company_admin
+:::note[First user is company_admin]
 The user who signs up becomes the `company_admin` for that organization. They can invite additional users via the admin panel.
 :::
 
@@ -108,7 +108,7 @@ Authenticate with email and password. The response varies depending on:
 }
 ```
 
-:::info Source Detection
+:::info[Source Detection]
 vsay-auth detects the calling client from the `User-Agent` header. CLI and VSCode clients skip OTP — OTP is only triggered for `ui` (browser) logins when enabled by the admin.
 :::
 

@@ -82,7 +82,7 @@ Access organization settings:
 |---------|-------------|
 | **Password Policy** | Minimum requirements for passwords |
 
-:::
+:::info[Coming Soon]
 **Session Timeout**, **IP Allowlist**, and **MFA Requirement** per-org settings are on the roadmap and not yet available.
 :::
 
@@ -150,7 +150,7 @@ Temporarily disable access without removing:
 2. Click **"Suspend"**
 3. User cannot access until reactivated
 
-:::
+:::info[Coming Soon]
 **Bulk User Management** (CSV import, bulk role change) is on the roadmap and not yet available.
 :::
 

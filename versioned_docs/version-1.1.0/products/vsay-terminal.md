@@ -29,7 +29,7 @@ http://your-webxterm-instance.com
 
 Enter your email and password on the login page. Enterprise editions use **Keycloak** for credential management — vsay-auth verifies credentials and issues a signed JWT for all API calls.
 
-:::info Next Enterprise
+:::info[Next Enterprise]
 OIDC/OAuth2 login with external providers (Microsoft, GitHub, Okta, Azure AD) is available in the [next Enterprise Edition](/docs/next/authentication/oidc-integration) — handled directly by vsay-auth.
 :::
 

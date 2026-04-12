@@ -127,7 +127,7 @@ const groups: Group[] = [
   },
 ];
 
-function StatusCell({ status, note }: { status: Status; note?: string }) {
+function StatusCellDiv({ status, note }: { status: Status; note?: string }) {
   const map = {
     yes:     { symbol: '✓', cls: styles.yes },
     no:      { symbol: '✕', cls: styles.no },
@@ -137,10 +137,10 @@ function StatusCell({ status, note }: { status: Status; note?: string }) {
   const { symbol, cls } = map[status];
 
   return (
-    <td className={`${styles.cell} ${cls}`}>
+    <div className={`${styles.cell} ${cls}`}>
       <span className={styles.statusIcon}>{symbol}</span>
       {note && <span className={styles.note}>{note}</span>}
-    </td>
+    </div>
   );
 }
 
@@ -184,27 +184,25 @@ export default function ComparisonTable() {
 
             {/* Rows */}
             {isOpen && (
-              <table className={styles.table}>
-                <tbody>
-                  {g.rows.map((row, i) => {
-                    const webxtermWins =
-                      row.webxterm.status === 'yes' && row.teleport.status !== 'yes';
-                    return (
-                      <tr
-                        key={i}
-                        className={`${styles.row} ${webxtermWins ? styles.rowHighlight : ''}`}
-                      >
-                        <td className={styles.featureCell}>
-                          {webxtermWins && <span className={styles.winBadge}>✦</span>}
-                          {row.feature}
-                        </td>
-                        <StatusCell {...row.webxterm} />
-                        <StatusCell {...row.teleport} />
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div>
+                {g.rows.map((row, i) => {
+                  const webxtermWins =
+                    row.webxterm.status === 'yes' && row.teleport.status !== 'yes';
+                  return (
+                    <div
+                      key={i}
+                      className={`${styles.row} ${webxtermWins ? styles.rowHighlight : ''}`}
+                    >
+                      <div className={styles.featureCell}>
+                        {webxtermWins && <span className={styles.winBadge}>✦</span>}
+                        {row.feature}
+                      </div>
+                      <StatusCellDiv {...row.webxterm} />
+                      <StatusCellDiv {...row.teleport} />
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         );

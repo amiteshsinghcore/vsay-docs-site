@@ -14,7 +14,7 @@ WebXTerm Community Edition v1.0.0 uses its own **JWT-based authentication** — 
 User (email + password) → POST /api/login → bcrypt verify → JWT issued by WebXTerm → API calls
 ```
 
-:::info Upgrading?
+:::info[Upgrading?]
 For **Keycloak-based authentication**, **Multi-tenancy**, **Mutual TLS**, and **OIDC/OAuth2 Login (Microsoft, GitHub)**, see [Enterprise Edition](/docs/next/intro).
 :::
 
@@ -103,7 +103,7 @@ curl -X POST https://your-webxterm-instance.com/api/login \
   -d '{"email": "john@example.com", "password": "yourpassword"}'
 ```
 
-:::note Token Expiration
+:::note[Token Expiration]
 JWT tokens expire after 24 hours. Use the refresh endpoint to get a new token without logging in again.
 :::
 

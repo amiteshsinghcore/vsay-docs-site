@@ -94,7 +94,7 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 
 See the [Machines API](/docs/next/api/machines) for the full response format.
 
-:::
+:::info[Coming Soon]
 **Log retention policies**, **automated exports** (S3/GCS), **SIEM integrations** (Splunk, Datadog, Elastic), and **alert rules** are on the roadmap and not yet available.
 :::
 

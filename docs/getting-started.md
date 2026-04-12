@@ -167,6 +167,32 @@ Now that you're connected, explore more features:
 - [Community](/docs/next/features/community) - Use the built-in issue tracker to report and track infrastructure problems
 - [Set up OIDC/OAuth2](/docs/next/authentication/oidc-integration) - Enable OIDC/OAuth2 login with Microsoft, GitHub, Okta, or Azure AD (Enterprise)
 
+## Community vs Enterprise
+
+| Feature | Community | Enterprise |
+|:--------|:---------:|:----------:|
+| Secure Remote Access (Agent-Based) | ✅ | ✅ |
+| Web Terminal | ✅ | ✅ |
+| Team Collaboration (RBAC) | ✅ | ✅ |
+| Real-time Monitoring | ✅ | ✅ |
+| Session & Command Recording | ✅ | ✅ |
+| Audit Logs | ✅ | ✅ |
+| Community (Issue Tracker) | ✅ | ✅ |
+| TLS Encryption | ✅ | ✅ |
+| WebXTerm Shell CLI | ✅ | ✅ |
+| WebXTerm VSCode Extension | ✅ | ✅ |
+| API Access | ✅ | ✅ |
+| mTLS (Mutual TLS) | ✅ | ✅ |
+| Keycloak Authentication | ❌ | ✅ |
+| OIDC/OAuth2 Login (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
+| Multi-tenancy (Organizations) | ❌ | ✅ |
+| Organization API | ❌ | ✅ |
+| Priority Support | ❌ | ✅ |
+
+:::info[Enterprise Edition]
+Need OIDC/OAuth2 login, Keycloak authentication, or multi-organization support? [See the Enterprise Edition](/docs/next/intro).
 :::
+
+:::tip[Learn More]
 See the full feature comparison on the [How We Are Different](/docs/next/how-we-are-different) page.
 :::

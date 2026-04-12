@@ -22,11 +22,11 @@ Before you begin, ensure you have:
 2. Enter your email and password
 3. Click **"Sign In"**
 
-:::
+:::info[Community Edition Auth]
 WebXTerm Community Edition uses its own built-in JWT authentication. Your email and password are hashed with bcrypt and stored securely — no external identity provider required.
 :::
 
-:::
+:::info[Enterprise Edition]
 OIDC/OAuth2 login with **Microsoft, GitHub, Okta, Azure AD**, and Keycloak-based authentication are available in the **Enterprise Edition**. [Learn more](/docs/next/authentication/oidc-integration).
 :::
 
@@ -157,6 +157,32 @@ Now that you're connected, explore more features:
 - [Audit Logs](/docs/features/audit-logs) - Review command history and session activity
 - [Community](/docs/features/community) - Use the built-in issue tracker to report and track infrastructure problems
 
+## Community vs Enterprise
+
+| Feature | Community | Enterprise |
+|:--------|:---------:|:----------:|
+| Secure Remote Access (Agent-Based) | ✅ | ✅ |
+| Web Terminal | ✅ | ✅ |
+| Team Collaboration (RBAC) | ✅ | ✅ |
+| Real-time Monitoring | ✅ | ✅ |
+| Session & Command Recording | ✅ | ✅ |
+| Audit Logs | ✅ | ✅ |
+| Community (Issue Tracker) | ✅ | ✅ |
+| TLS Encryption | ✅ | ✅ |
+| WebXTerm Shell CLI | ✅ | ✅ |
+| WebXTerm VSCode Extension | ✅ | ✅ |
+| API Access | ✅ | ✅ |
+| mTLS (Mutual TLS) | ✅ | ✅ |
+| Keycloak Authentication | ❌ | ✅ |
+| OIDC/OAuth2 Login (Microsoft, GitHub, Okta, Azure AD…) | ❌ | ✅ |
+| Multi-tenancy (Organizations) | ❌ | ✅ |
+| Organization API | ❌ | ✅ |
+| Priority Support | ❌ | ✅ |
+
+:::info[Enterprise Edition]
+Need OIDC/OAuth2 login, Keycloak authentication, or multi-organization support? [See the Enterprise Edition](https://docs.webxterm.me/docs/next/intro).
 :::
+
+:::tip[Learn More]
 See the full feature comparison on the [How We Are Different](/docs/how-we-are-different) page.
 :::

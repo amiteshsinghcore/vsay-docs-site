@@ -56,7 +56,7 @@ Authorization: Bearer YOUR_JWT_TOKEN
 }
 ```
 
-:::warning Important
+:::warning[Important]
 Regenerating your API key will disconnect all agents using the old key. You'll need to re-register your agents with the new key.
 :::
 

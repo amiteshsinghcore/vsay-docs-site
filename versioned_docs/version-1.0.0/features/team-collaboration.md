@@ -88,7 +88,7 @@ To revoke access, remove the user from the machine's allowed list.
 
 The user immediately loses access to all organization resources.
 
-:::info Automatic Access Revocation
+:::info[Automatic Access Revocation]
 Users who have not logged in for **30 days** are automatically deprovisioned. Their access is revoked until re-enabled by a Company Admin.
 :::
 

@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Authentication & OIDC Integration
 
-:::note Keycloak is the credential store — vsay-auth is the auth service
+:::note[Keycloak is the credential store — vsay-auth is the auth service]
 **Keycloak stores users and verifies passwords** in Enterprise editions. vsay-auth calls Keycloak to verify credentials, then issues its own signed JWT (HS256). All clients use **vsay-auth's JWT** — not a Keycloak OIDC token.
 
 **Community Edition** uses its own bcrypt + JWT auth — no Keycloak.
@@ -66,7 +66,7 @@ vsay-auth looks up email in MongoDB
 
 **Key point:** vsay-auth talks directly to Microsoft/GitHub — Keycloak is **not** involved in OIDC/OAuth2 login. The result is the same vsay-auth JWT as email/password login.
 
-:::warning OIDC/OAuth2 login requires an existing account
+:::warning[OIDC/OAuth2 login requires an existing account]
 OIDC/OAuth2 login does **not** auto-register new users. The user's email must already exist in the system (registered via signup or invited by an admin) before they can log in via OIDC/OAuth2 with Microsoft or GitHub.
 :::
 

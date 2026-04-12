@@ -29,7 +29,7 @@ http://your-webxterm-instance.com
 
 Enter your email and password on the login page. Community Edition uses its own built-in authentication — credentials are hashed with bcrypt and stored securely.
 
-:::
+:::info[Enterprise Edition]
 Sign in with external providers (Microsoft, GitHub, Okta, Azure AD) is available in [Enterprise Edition](/docs/next/authentication/oidc-integration).
 :::
 

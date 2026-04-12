@@ -6,7 +6,7 @@ sidebar_position: 7
 
 Endpoints for user management, role assignment, and listing. These endpoints are served by the **vsay-auth** service. Most write operations require `company_admin` or `super_admin` role.
 
-:::info Enterprise Only
+:::info[Enterprise Only]
 These endpoints are available in Enterprise editions. Community edition exposes only `GET /api/users` (admin list) and `GET /api/profile/*` via the machine backend.
 :::
 
@@ -133,7 +133,7 @@ Create a new user in the organization. Requires `company_admin` role. Creates th
 }
 ```
 
-:::tip OIDC/OAuth2 users without a password
+:::tip[OIDC/OAuth2 users without a password]
 If the user will log in exclusively via Microsoft or GitHub OIDC/OAuth2, you can create the account here without a password — just register with a placeholder and have them use the OIDC/OAuth2 login flow.
 :::
 

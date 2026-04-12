@@ -92,13 +92,13 @@ Organization admins can:
 
 ## Alerts and Notifications
 
-:::
+:::info[Coming Soon]
 Alerts and notification channels (Email, Slack, Webhook, PagerDuty) are on the [roadmap](/docs/next/roadmap). Currently, machine offline detection happens automatically via the reconciler — machines are marked offline if no heartbeat is received within 2 minutes.
 :::
 
 ## Reports and Export
 
-:::
+:::info[Coming Soon]
 Log export (CSV/JSON/PDF), custom reports, and SIEM integrations are on the [roadmap](/docs/next/roadmap). Currently, all command history and session data is available via the Audit Logs page and the REST API.
 :::
 

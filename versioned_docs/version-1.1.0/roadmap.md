@@ -76,6 +76,6 @@ Current implemented features are documented throughout the rest of this document
 
 ---
 
-:::tip Suggest a Feature
+:::tip[Suggest a Feature]
 Have a feature request? Open an issue in the Community section of your WebXTerm dashboard to submit and vote on ideas.
 :::

@@ -80,7 +80,7 @@ The `vsay-agent` authenticates to the backend using **mutual TLS (mTLS)**. Durin
 
 The backend verifies the agent's certificate against the CA on every gRPC connection. Agents without a valid certificate cannot connect.
 
-:::warning Keep your bootstrap token secure
+:::warning[Keep your bootstrap token secure]
 The bootstrap token is used only once during `vsay-agent configure` to obtain a signed certificate. After configuration, the agent uses its certificate for authentication. If the backend CA is rotated, agents will need to re-register.
 :::
 

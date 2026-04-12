@@ -86,7 +86,7 @@ curl -X POST https://your-webxterm-instance.com/api/auth/signup \
   }'
 ```
 
-:::note First user is company_admin
+:::note[First user is company_admin]
 The user who signs up becomes the `company_admin` for the organization. They can invite additional users via the admin panel.
 :::
 
@@ -110,7 +110,7 @@ Authenticate with email and password. The response varies depending on:
 }
 ```
 
-:::info Source Detection
+:::info[Source Detection]
 vsay-auth detects the calling client from the `User-Agent` header. CLI and VSCode clients skip OTP — OTP is only triggered for `ui` (browser) logins when enabled.
 :::
 
@@ -344,7 +344,7 @@ curl -X POST https://your-webxterm-instance.com/api/auth/logout \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
-:::note Token invalidation
+:::note[Token invalidation]
 WebXTerm uses short-lived JWTs (default 24 hours). Logout is logged server-side for audit purposes. To force expiry, rotate the JWT secret or reduce the `JWT_EXPIRY_HOURS` setting.
 :::
 
@@ -381,7 +381,7 @@ curl -X POST https://your-webxterm-instance.com/api/auth/refresh \
   -d '{"token": "YOUR_CURRENT_JWT_TOKEN"}'
 ```
 
-:::note Refresh window
+:::note[Refresh window]
 The current token must still be valid (not expired) to refresh. If it has already expired, the user must log in again.
 :::
 
@@ -411,7 +411,7 @@ OIDC/OAuth2 login is handled via standard OAuth2 redirect flows. These are brows
    - If no account found → error (user must be registered first)
 8. If user belongs to **multiple organizations**, browser is redirected to the workspace picker with a `session_token`; call [`POST /api/auth/select-tenant`](#select-tenant) to complete login
 
-:::important Account must exist first
+:::caution[Account must exist first]
 OIDC/OAuth2 login does not auto-create new accounts. The user's email must already be registered (via signup or admin invitation) before they can use OIDC/OAuth2 login.
 :::
 

@@ -6,7 +6,7 @@ sidebar_position: 9
 
 Endpoints for platform-level administration. All endpoints in this section require the `super_admin` role. They are served by the **vsay-auth** service under the `/api/admin/` prefix.
 
-:::warning Super Admin Only
+:::warning[Super Admin Only]
 These endpoints are restricted to `super_admin` users only. Organization-level admins (`company_admin`) do not have access to this API.
 :::
 
@@ -103,7 +103,7 @@ Update an organization's details or enabled status.
 }
 ```
 
-:::warning Disabling an organization
+:::warning[Disabling an organization]
 Setting `enabled: false` prevents all users in that organization from logging in.
 :::
 

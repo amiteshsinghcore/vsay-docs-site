@@ -29,7 +29,7 @@ http://your-webxterm-instance.com
 
 Enter your email and password on the login page. Your credentials are authenticated via **Keycloak** — the same identity layer used across all WebXTerm editions.
 
-:::info Enterprise
+:::info[Enterprise]
 In Enterprise, you can also sign in with external providers (Microsoft, GitHub, Okta, Azure AD) via OIDC/OAuth2 — handled directly by vsay-auth. [See OIDC setup →](/docs/next/authentication/oidc-integration)
 :::
 
