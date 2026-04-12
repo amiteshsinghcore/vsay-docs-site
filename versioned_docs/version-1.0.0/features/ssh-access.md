@@ -64,7 +64,7 @@ The agent:
 - Sends periodic heartbeats (every 30 seconds) with CPU, memory, and disk stats
 - Appears in your dashboard as **Online**
 
-See [Getting Started](/docs/next/getting-started) for full installation steps.
+See [Getting Started](/docs/getting-started) for full installation steps.
 
 ## Authentication
 

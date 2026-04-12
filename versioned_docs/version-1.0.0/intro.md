@@ -72,18 +72,17 @@ WebXTerm Community Edition v1.0.0 uses its own **JWT-based authentication**. Whe
 
 ### Enterprise-Only Features
 - **Keycloak Authentication:** Enterprise editions use Keycloak for credential storage and verification, enabling centralized user management.
-- **External Identity Providers:** Sign in with Microsoft or GitHub — handled directly by the vsay-auth service (see [Enterprise Edition](/docs/next/intro)).
-- **MTLS Security:** Mutual TLS for certificate-based authentication between agents and backend.
+- **External Identity Providers:** Sign in with Microsoft, GitHub, Okta, Azure AD via OIDC/OAuth2 (see [Enterprise Edition](https://docs.webxterm.me/docs/next/intro)).
 - **Multi-tenancy:** Organization-based access control with isolated workspaces per organization.
 
 ## Quick Links
 
-- [Getting Started](/docs/next/getting-started) - Install the agent and connect to your first machine
-- [Secure Remote Access](/docs/next/features/ssh-access) - Learn how the agent-based architecture works
-- [Web Terminal](/docs/next/features/web-terminal) - Use the browser-based terminal
-- [Team Collaboration](/docs/next/features/team-collaboration) - Manage team access and roles
-- [Session & Command Recording](/docs/next/features/audit-logs) - Audit logs and command history
-- [Real-time Monitoring](/docs/next/features/monitoring) - Track machine health and activity
+- [Getting Started](/docs/getting-started) - Install the agent and connect to your first machine
+- [Secure Remote Access](/docs/features/ssh-access) - Learn how the agent-based architecture works
+- [Web Terminal](/docs/features/web-terminal) - Use the browser-based terminal
+- [Team Collaboration](/docs/features/team-collaboration) - Manage team access and roles
+- [Session & Command Recording](/docs/features/audit-logs) - Audit logs and command history
+- [Real-time Monitoring](/docs/features/monitoring) - Track machine health and activity
 
 ### Upgrade to Enterprise
 - [OIDC/OAuth2 Login](https://docs.webxterm.me/docs/next/authentication/oidc-integration) - Set up Microsoft and GitHub login
@@ -104,9 +103,9 @@ WebXTerm Community Edition v1.0.0 uses its own **JWT-based authentication**. Whe
 
 | Product | Description |
 |:--------|:------------|
-| [WebXTerm Shell CLI](/docs/next/products/vsay-shell-cli) | Go CLI tool — `vsay-shell-cli connect <machine>` |
-| [WebXTerm VSCode Extension](/docs/next/products/vsay-vscode-extension) | Integrated IDE terminal, file browser, and port forwarding |
-| [WebXTerm Agent](/docs/next/getting-started) | Lightweight daemon installed on machines — the core of the system |
+| [WebXTerm Shell CLI](/docs/products/vsay-shell-cli) | Go CLI tool — `vsay-shell-cli connect <machine>` |
+| [WebXTerm VSCode Extension](/docs/products/vsay-vscode-extension) | Integrated IDE terminal, file browser, and port forwarding |
+| [WebXTerm Agent](/docs/getting-started) | Lightweight daemon installed on machines — the core of the system |
 
 ## Why Webxterm Terminal Enterprise?
 

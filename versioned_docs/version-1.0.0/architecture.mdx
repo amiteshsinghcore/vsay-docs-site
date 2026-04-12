@@ -28,7 +28,7 @@ import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
 │                                                                     │
 │    ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐    │
 │    │   Auth   │  │  Router  │  │  Audit   │  │   Registry   │    │
-│    │ JWT/OIDC │  │ Terminal │  │   Logs   │  │  CA / Certs  │    │
+│    │   JWT    │  │ Terminal │  │   Logs   │  │  CA / Certs  │    │
 │    └──────────┘  └──────────┘  └──────────┘  └──────────────┘    │
 └────────────────────────────┬────────────────────────────────────────┘
                              │  gRPC + mTLS (:8081)
@@ -80,22 +80,17 @@ WebXTerm runs its own **Private CA** inside the backend:
 - All 1500 agents automatically re-fetch certs and reconnect after a backend upgrade
 - No shared secrets, no SSH keys to rotate
 
-### 3. Three-Tier RBAC (Our Core USP)
+### 3. Role-Based Access Control (RBAC)
 
 ```
-Superadmin
-│  Full platform control
-│  Manages all companies in one deployment
+Admin
+│  Full control — manage users, machines, settings
 │
-└── Company Admin (per organization)
-    │  Manages their org — users, machines, access policies
-    │  Cannot see other companies' data
-    │
-    └── User
+└── User
         Accesses only machines explicitly granted to them
 ```
 
-Unlike Teleport (flat role assignments, no org isolation), WebXTerm gives you a **true multi-tenant hierarchy** — one deployment, multiple isolated companies, each with their own admin.
+Every connection is checked against the user's machine access list. A user with no explicit grant cannot connect even if they know the machine ID.
 
 ### 4. Zero-Trust Access Flow
 
@@ -128,8 +123,7 @@ No step can be skipped. A user with no explicit machine grant cannot connect eve
 
 | Component | Role | Port |
 |:----------|:-----|:-----|
-| **WebXTerm Backend** | Control plane — auth, routing, audit, CA | 8080 (HTTP) |
-| **vsay-auth** | Authentication service — JWT, OIDC, Keycloak | 8082 |
+| **WebXTerm Backend** | Control plane — auth (bcrypt+JWT), routing, audit, CA | 8080 (HTTP) |
 | **vsay-agent** | Lightweight daemon on each machine | outbound to 8081 |
 | **gRPC server** | Agent tunnel endpoint with mTLS | 8081 |
 
@@ -160,25 +154,3 @@ No step can be skipped. A user with no explicit machine grant cannot connect eve
         All 1500 machines self-heal automatically
 ```
 
----
-
-## Multi-Tenancy Architecture
-
-```
-WebXTerm Platform (single deployment)
-│
-├── Company A (isolated workspace)
-│   ├── Machines: prod-01, prod-02, dev-01
-│   ├── Users: alice@a.com (admin), bob@a.com (user)
-│   └── Audit logs: Company A only
-│
-├── Company B (isolated workspace)
-│   ├── Machines: web-01, db-01
-│   ├── Users: carol@b.com (admin), dave@b.com (user)
-│   └── Audit logs: Company B only
-│
-└── Superadmin
-    └── Can manage all companies, cannot be accessed by company admins
-```
-
-Company A cannot see Company B's machines, users, or logs — full isolation at the database level.
