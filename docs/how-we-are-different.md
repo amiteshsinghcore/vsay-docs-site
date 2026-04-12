@@ -1,5 +1,5 @@
 ---
-sidebar_position: 99
+sidebar_position: 3
 ---
 
 import ComparisonTable from '@site/src/components/ComparisonTable';
