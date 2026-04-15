@@ -32,7 +32,7 @@ import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
 │    └──────────┘  └──────────┘  └──────────┘  └──────────────┘    │
 └────────────────────────────┬────────────────────────────────────────┘
                              │  gRPC + mTLS (:8081)
-                             │  Outbound only — agent initiates
+                             │  Outbound/Inbound on one port only (8081)  — agent initiates
                              ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        MACHINE LAYER                                │
@@ -53,7 +53,7 @@ import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
 
 **Legend:**
 - 🔵 Client connection (HTTPS/WSS)
-- 🟢 Agent tunnel (gRPC/mTLS) — outbound only
+- 🟢 Agent tunnel (gRPC/mTLS) — Outbound/Inbound on one port only (8081) 
 - 🟠 Active session
 
 ---

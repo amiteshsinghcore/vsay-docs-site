@@ -99,7 +99,7 @@ export default function ArchitectureDiagram() {
             <div className={styles.portalTitle}>vsay-agent</div>
             <div className={styles.portalSub}>On your machine</div>
             <div className={styles.portalTags}>
-              <span>Outbound only</span>
+              <span>Outbound/Inbound on one port only (8081) </span>
               <span>Systemd</span>
               <span>Heartbeat</span>
             </div>
