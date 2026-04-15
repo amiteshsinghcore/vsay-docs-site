@@ -41,8 +41,8 @@ export default function ArchitectureDiagram() {
         How <span className={styles.brand}>WebXTerm</span> Works
       </h2>
       <p className={styles.subtitle}>
-        Agent-based, zero-trust architecture. The agent connects outbound —{' '}
-        <strong>no open ports, no VPN, no firewall changes.</strong>
+        Agent-based, zero-trust architecture. The agent connects on one port that is 8081 outbound/inbound traffic —{' '}
+        <strong>no open ports, no VPN, no bastion hosts.</strong>
       </p>
 
       <div className={styles.diagram}>
